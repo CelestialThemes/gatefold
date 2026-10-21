@@ -1,0 +1,128 @@
+@use '../mixins/mixins' as mx;
+@use '../variables/variables' as *;
+
+/* =============== 5.0 SWIPER SLIDER =============== */
+.swiper {
+  width: 100%;
+
+  .swiper-slide {
+    img {
+      pointer-events: none;
+    }
+  }
+}
+
+
+/* =============== Carousel Swiper Slider =============== */
+.cel-carousel-slider,
+.cel-carousel-slider-no-gutter {
+  cursor: grab;
+
+  .swiper {
+    height: 100%;
+
+    .swiper-slide img {
+      object-fit: cover;
+      height: 100%;
+    }
+
+    // Heights stay percentages down to the image: the stage sets the height.
+    .swiper-slide .cel-info-over-wrapper {
+      height: 100%;
+      overflow: hidden;
+
+      img {
+        will-change: transform;
+      }
+
+      .cel-info-over {
+        &.io-v-bottom {
+          bottom: $base;
+        }
+
+        .cel-info-over-inner {
+          width: 88%;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+
+          // The 0.5rem is part of $io-panel-text-height — keep the two in step.
+          h2, h3, h4, h5, h6 {
+            margin: 0 0 $base * 0.5 0;
+          }
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Width cap for auto-width carousel (not needed on no-gutter which uses fixed slidesPerView)
+.cel-carousel-slider .swiper {
+  .swiper-slide {
+    max-width: 33.125rem;
+  }
+}
+
+/* =============== Colors =============== */
+.swiper {
+  .swiper-pagination-bullets {
+    .swiper-pagination-bullet {
+      &::before {
+        background-color: var(--cel-on-dark);
+      }
+
+      &.swiper-pagination-bullet-active {
+        border-color: color-mix(in srgb, transparent 65%, var(--cel-on-dark));
+      }
+    }
+  }
+
+  // Filled discs, legible over any photograph.
+  .swiper-button-prev,
+  .swiper-button-next {
+    background-color: var(--cel-media-control-bg);
+    color: var(--cel-media-control-color);
+
+    // The vendor rule gives these a 2px border; keep the geometry, drop the line.
+    border-color: transparent;
+
+    &:hover {
+      background-color: var(--cel-media-control-color);
+      color: var(--cel-media-control-bg);
+    }
+  }
+
+  // Smaller and closer to the edges below sm (one column), leaving more of the
+  // picture clear.
+  @include mx.media-breakpoint-down(sm) {
+    .swiper-button-prev,
+    .swiper-button-next {
+      width: $base * 2.25;
+      height: $base * 2.25;
+      margin-top: -#{$base * 1.125};
+
+      // ::after keeps the 44px touch target around the 36px disc.
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -#{$base * 0.25};
+      }
+    }
+
+    .swiper-button-prev { left: $base * 0.5; }
+    .swiper-button-next { right: $base * 0.5; }
+  }
+}
+
+// Swiper's black / white lazy-load spinners: the literal colour is the point.
+.swiper-lazy-preloader-white {
+  border-color: var(--cel-white);
+}
+
+.swiper-lazy-preloader-black {
+  border-color: var(--cel-black);
+}
+

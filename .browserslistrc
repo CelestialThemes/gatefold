@@ -1,0 +1,11 @@
+# Celestial Themes — browser support floor (single source of truth).
+#
+# Pinned by color-mix() usage throughout the skin/color system, whose baseline is
+# Chrome 111 / Safari 16.4 / Firefox 113 (~mid-2023). Supporting older would mean
+# removing color-mix() from the color engine. Autoprefixer + downstream tooling read
+# this file. Revisit when the engine drops/changes its modern-CSS dependencies.
+Chrome >= 111
+Edge >= 111
+Firefox >= 113
+Safari >= 16.4
+iOS >= 16.4

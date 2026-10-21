@@ -1,0 +1,32 @@
+# Dependencies — 14 MB, restored by `npm install`
+node_modules/
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# Build output
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local tool settings (the shared ones, if any, stay tracked)
+.claude/settings.local.json
+
+
+# -----------------------------------------------------------------------------
+# NOT ignored, on purpose
+# -----------------------------------------------------------------------------
+#
+# Template/style.css is a build artifact and would normally be ignored. Here it
+# is the deliverable: Gatefold must work from a double-click on index.html with
+# no build step, so a clone that arrives without it is a broken template. It
+# stays tracked, and it has to be rebuilt and committed whenever the Sass
+# changes.
+#
+# package-lock.json stays tracked too, so a clone gets the same dependency
+# versions this was built with.

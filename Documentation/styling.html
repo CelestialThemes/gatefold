@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Styling & Customisation — Gatefold Documentation</title>
+
+	<!-- Favicon. The Celestial Themes star, shared with the templates. favicon.svg
+	     carries a prefers-color-scheme rule so the mark lightens on a dark tab
+	     strip, where the brand blue measures 2.55:1 against the chrome. -->
+	<link rel="icon" href="./favicon.ico" sizes="32x32">
+	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+	<!-- Matches --c-dark, the header background, so the browser chrome runs
+	     straight into the page instead of stopping at a coloured seam. Not the
+	     accent: theme-color paints the bar ABOVE the header, and the header is
+	     what it has to continue. -->
+	<meta name="theme-color" content="#100E1A">
+
+	<!-- Styles (fonts are self-hosted via @font-face in docs.css) -->
+	<link rel="stylesheet" href="assets/css/prism.css">
+	<link rel="stylesheet" href="assets/css/docs.css">
+</head>
+
+<body>
+
+	<!-- =========================================================== Header -->
+	<header class="doc-header">
+
+		<div class="doc-container doc-header__bar">
+			<a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=logo&amp;utm_campaign=gatefold" class="doc-logo" aria-label="Celestial Themes home">
+				<img src="assets/images/logo.svg" alt="Celestial Themes" class="doc-logo__full">
+				<img src="assets/images/logo-mobile.svg" alt="Celestial Themes" class="doc-logo__mark">
+			</a>
+
+			<nav class="doc-nav" aria-label="Documentation">
+				<button type="button" class="doc-navbtn" aria-expanded="false" aria-controls="doc-globalnav" aria-label="Open menu">
+					<i data-lucide="menu" aria-hidden="true"></i>
+				</button>
+				<ul id="doc-globalnav" class="doc-nav__list">
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="changelog.html">Changelog</a></li>
+					<li><a href="https://gatefold.celestialthemes.com/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Live demo<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+					<!-- Every template points at this one URL, for the life of the product.
+					     Routing by where the licence was bought happens there, on the server,
+					     so the address baked into copies already sold never has to change. -->
+					<li><a href="https://celestialthemes.com/support/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Support<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="doc-container doc-hero">
+			<!-- Version placeholder: this line is the only place it appears. -->
+			<span class="doc-badge">Gatefold Documentation 1.0</span>
+			<h1 class="doc-hero__title">Styling &amp; Customisation</h1>
+		</div>
+
+	</header>
+
+
+	<!-- =========================================================== Main -->
+	<main class="doc-container doc-layout">
+
+		<!-- ---------- Sidebar ---------- -->
+		<aside class="doc-sidebar">
+			<button type="button" class="doc-sidebar__toggle" aria-expanded="false" aria-controls="doc-nav-list">
+					<span>Documentation pages</span>
+					<i data-lucide="chevron-down" class="doc-sidebar__toggle-icon" aria-hidden="true"></i>
+				</button>
+			<nav id="doc-nav-list" class="doc-sidebar__nav" aria-label="Documentation pages">
+				<ul>
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="carousel.html">Carousel</a></li>
+					<li><a href="overlay.html">Overlay</a></li>
+					<li><a href="overlay-nav.html">Overlay Navigation</a></li>
+					<li><a href="styling.html" class="is-active" aria-current="page">Styling &amp; Customisation</a></li>
+				</ul>
+			</nav>
+		</aside>
+
+		<!-- ---------- Content ---------- -->
+		<article class="doc-content cel-prose">
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="building">Building the Stylesheet</h2>
+
+					<p class="doc-intro">
+						<code>style.css</code> ships compiled, so nothing here is needed to <em>use</em>
+						the template. You need it to change the styling at source &mdash; which is what
+						the rest of this page describes.
+					</p>
+
+					<hr>
+
+					<h3>Setup</h3>
+
+					<p>Requires Node.js 18 or newer.</p>
+
+<pre class="language-markup"><code>npm install     # once
+npm run watch   # rebuilds Template/style.css as you edit</code></pre>
+
+					<p>For a single build:</p>
+
+<pre class="language-markup"><code>npm run build</code></pre>
+
+					<p>
+						Both run Sass over <code>Source/assets/sass/style.scss</code>, then Autoprefixer.
+						The browser targets live in <code>.browserslistrc</code> &mdash; one file, read by
+						every tool in the chain.
+					</p>
+
+					<h3>Where the decisions live</h3>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>File</th>
+								<th>Holds</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr><td><code>variables/_colors.scss</code></td><td>Every colour token, in four tiers</td></tr>
+							<tr><td><code>variables/_variables.scss</code></td><td>Type scale, line heights, radii, spacing</td></tr>
+							<tr><td><code>components/_core.scss</code></td><td>Base elements, buttons, the layout kit</td></tr>
+							<tr><td><code>components/_shell.scss</code></td><td>Page shell, hero, reading column</td></tr>
+							<tr><td><code>components/_overlay.scss</code></td><td>The overlay</td></tr>
+							<tr><td><code>components/_swiper-custom.scss</code></td><td>Carousel styling</td></tr>
+						</tbody>
+					</table>
+
+					<div class="doc-callout doc-callout--warning">
+						<i data-lucide="triangle-alert" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<strong>Commit the compiled CSS.</strong> It is the deliverable, not a build
+							artifact. The template has to work from a double-click on
+							<code>index.html</code>, so a copy that arrives without
+							<code>style.css</code> is a broken template.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="tokens">Colour Tokens</h2>
+
+					<p class="doc-intro">
+						Every colour in the template comes from a custom property on <code>:root</code>
+						&mdash; 51 of them, in <code>_colors.scss</code>. They are organised in four tiers, and the tiers are what make
+						the palette swappable rather than merely centralised.
+					</p>
+
+					<hr>
+
+					<h3>The four tiers</h3>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Tier</th>
+								<th>What it holds</th>
+								<th>Example</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><strong>1 &mdash; Brand</strong></td>
+								<td>The three colours that define the template's identity.</td>
+								<td><code>--cel-ink</code>, <code>--cel-primary</code>, <code>--cel-secondary</code></td>
+							</tr>
+							<tr>
+								<td><strong>2 &mdash; Palette</strong></td>
+								<td>Raw primitives with no meaning attached: the gray ramp, the named accents.</td>
+								<td><code>--cel-gray-40</code>, <code>--cel-blue</code></td>
+							</tr>
+							<tr>
+								<td><strong>3 &mdash; Semantic</strong></td>
+								<td>Meaning attached. References tier 1 or 2, never a literal.</td>
+								<td><code>--cel-body-bg</code>, <code>--cel-link-color</code></td>
+							</tr>
+							<tr>
+								<td><strong>4 &mdash; Component</strong></td>
+								<td>One component's private token. Only when tier 3 will not do.</td>
+								<td><code>--cel-overlay-bg</code></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="doc-callout doc-callout--warning">
+						<i data-lucide="triangle-alert" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<strong>Components consume tiers 3 and 4.</strong> Reaching straight for tier 1 or
+							2 from a component is how a palette stops being swappable &mdash; the value works,
+							and then re-theming misses it. Avoid it in new code.
+						</p>
+					</div>
+
+					<h3>Retheming</h3>
+
+					<p>
+						Edit tier 1 and the handful of tier 3 tokens that do not derive from it. Everything
+						else follows.
+					</p>
+
+<pre class="language-css"><code>:root {
+  --cel-ink:       #063ccb;   /* the page ground */
+  --cel-primary:   #e63946;   /* the accent */
+  --cel-secondary: #ffe292;   /* link hover */
+}</code></pre>
+
+					<div class="doc-callout doc-callout--info">
+						<i data-lucide="info" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							The gray ramp is complete on purpose, even though not every step is used. It is
+							the ladder tier 3 picks from, and a ramp with holes in it invites one-off hex
+							values &mdash; which is exactly what the tiers exist to prevent.
+						</p>
+					</div>
+
+					<h3>Contrast</h3>
+
+					<p>
+						The type sits on a saturated blue ground, which rules out several combinations that
+						look reasonable in a swatch. Two decisions worth knowing before you change them:
+					</p>
+
+					<ul>
+						<li><strong>Links are not the red accent.</strong> Red on the ink measures 2.0:1 &mdash; unreadable. They use the body colour, with the secondary on hover.</li>
+						<li><strong>Muted text is <code>--cel-gray-20</code>, not a darker step.</strong> Against the ink, gray-20 measures 6.3:1; gray-40 drops to 3.5:1 and gray-50 to 2.5:1.</li>
+					</ul>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="type">Type Scale</h2>
+
+					<p class="doc-intro">
+						One typeface, Inter, self-hosted as a variable font. Sizes are fluid: each one is a
+						<code>clamp()</code> that grows with the viewport instead of stepping at breakpoints.
+					</p>
+
+					<hr>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Element</th>
+								<th>Size (min &rarr; max)</th>
+								<th>Line height</th>
+								<th>Weight</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>h1</code></td>
+								<td>52 &rarr; 113px</td>
+								<td>1.05</td>
+								<td>900</td>
+							</tr>
+							<tr>
+								<td><code>h2</code></td>
+								<td>40 &rarr; 80px</td>
+								<td>1.1</td>
+								<td>900</td>
+							</tr>
+							<tr>
+								<td><code>h3</code></td>
+								<td>32 &rarr; 56px</td>
+								<td>1.15</td>
+								<td>700</td>
+							</tr>
+							<tr>
+								<td><code>h4</code></td>
+								<td>27 &rarr; 40px</td>
+								<td>1.2</td>
+								<td>700</td>
+							</tr>
+							<tr>
+								<td><code>h5</code></td>
+								<td>23 &rarr; 28px</td>
+								<td>1.3</td>
+								<td>700</td>
+							</tr>
+							<tr>
+								<td><code>h6</code></td>
+								<td>body size</td>
+								<td>1.5</td>
+								<td>700</td>
+							</tr>
+							<tr>
+								<td>body</td>
+								<td>18 &rarr; 20px</td>
+								<td>1.5</td>
+								<td>400</td>
+							</tr>
+							<tr>
+								<td><code>.cel-eyebrow</code></td>
+								<td>19 &rarr; 24px</td>
+								<td>1.3333</td>
+								<td>&mdash;</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3>Behavior</h3>
+
+					<ul>
+						<li><strong>Line heights fall as size rises</strong>, from 1.5 on body copy to 1.05 on <code>h1</code>. A ratio that reads well at 18px leaves a canyon between lines at 113px.</li>
+						<li><strong>They are tuned by the resulting gap, not by the ratio.</strong> Two elements at different sizes need <em>different</em> declared values to look equally spaced &mdash; matching the numbers is what produces the mismatch.</li>
+						<li><strong>Letter-spacing tightens with size too</strong>: −0.045em on <code>h1</code>, −0.035em on <code>h2</code> and <code>h3</code>, −0.02em on <code>h4</code>. Inter is drawn for text sizes, and its default fit is loose once it is set as display type.</li>
+						<li><strong>The eyebrow stops growing at 768px.</strong> Its clamp is capped early on purpose, so on a phone it stays small beside the shrinking wordmark.</li>
+					</ul>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="layout-kit">Layout Kit</h2>
+
+					<p class="doc-intro">
+						A small set of classes for building a page without writing CSS. The two pages that
+						ship do not use it &mdash; it is here so you can add a third. Everything except
+						<code>.cel-container</code> works only inside <code>.cel-main-wrapper</code>.
+					</p>
+
+					<hr>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Class</th>
+								<th>Purpose</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>.cel-main-wrapper</code></td>
+								<td>The page wrapper the kit lives in. Paints the page ground.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-content-wrapper</code></td>
+								<td>The breakout grid. Its children sit in a centred content column, up to 1320px wide.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-popout</code>, <code>.cel-feature</code>, <code>.cel-full</code></td>
+								<td>On a child of the breakout grid: reach 2rem, 7rem or all the way past the content column, to the window edge.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-2col</code> &hellip; <code>.cel-5col</code></td>
+								<td>Column grids that collapse to fewer columns on smaller screens.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-gap-xs</code> &hellip; <code>.cel-gap-xl</code></td>
+								<td>Fluid gaps for those grids.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-spacer-xs</code> &hellip; <code>.cel-spacer-xl</code></td>
+								<td>Fluid vertical spacers, from 4&ndash;8px up to 32&ndash;64px.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-container</code></td>
+								<td>Full width, centred. No gutters of its own.</td>
+							</tr>
+						</tbody>
+					</table>
+
+<pre class="language-markup"><code>&lt;div class="cel-main-wrapper"&gt;
+  &lt;div class="cel-content-wrapper"&gt;
+    &lt;h2&gt;In the content column&lt;/h2&gt;
+    &lt;figure class="cel-full"&gt;…&lt;/figure&gt;
+    &lt;div class="cel-3col cel-gap-md"&gt; … &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+					<h3>The breakout grid</h3>
+
+					<p>
+						<code>.cel-content-wrapper</code> lays out a centred content column with wider
+						tracks either side, so a section can span the viewport without leaving the flow or
+						needing negative margins.
+					</p>
+
+					<div class="doc-callout doc-callout--warning">
+						<i data-lucide="triangle-alert" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<strong>Floats do not apply to grid items.</strong> The pull-out figures on the
+							About page float, so text wraps around them &mdash; which is why that page uses
+							<code>.cel-prose</code> and its own width rather than this grid. If you need text
+							to wrap around something, the breakout grid is the wrong tool.
+						</p>
+					</div>
+
+					<h3>Page shell</h3>
+
+					<p>
+						The two shipped pages are built from <code>.cel-shell</code> (the page frame),
+						<code>.cel-site-header</code>, <code>.cel-hero</code>, <code>.cel-stage</code> and
+						<code>.cel-main-article</code> / <code>.cel-prose</code> for the reading column.
+					</p>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="buttons">Buttons</h2>
+
+					<p class="doc-intro">
+						The appearance lives on classes. The bare <code>&lt;button&gt;</code> tag carries only
+						a reset &mdash; it gets no colour, no padding and no border of its own.
+					</p>
+
+					<hr>
+
+					<h3>Classes</h3>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Class</th>
+								<th>Use</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>.cel-button</code></td>
+								<td>The default button.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-button-primary</code></td>
+								<td>Filled with the dark navy, <code>--cel-btn-primary</code>.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-button-accent</code></td>
+								<td>Filled with the accent.</td>
+							</tr>
+						</tbody>
+					</table>
+
+<pre class="language-markup"><code>&lt;button class="cel-button-primary"&gt;Send&lt;/button&gt;
+&lt;a href="#" class="cel-button"&gt;Read more&lt;/a&gt;</code></pre>
+
+					<p>
+						They are classes, not a tag rule, so an <code>&lt;a&gt;</code> that should look like a
+						button gets the same treatment without pretending to be one.
+					</p>
+
+					<h3>Why the tag carries nothing</h3>
+
+					<p>
+						Most buttons in the template are controls, not calls to action &mdash; a carousel
+						arrow, an overlay close, prev/next. Styled by tag, each of them would have to undo
+						the look first. So the tag keeps only the reset every button wants: inherited font
+						and colour, no border, no padding, a pointer cursor, and <code>not-allowed</code>
+						when disabled.
+					</p>
+
+					<div class="doc-callout doc-callout--success">
+						<i data-lucide="circle-check" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							If you add a button that should look like nothing &mdash; an icon control, a
+							toggle &mdash; write <code>&lt;button&gt;</code> and add no class. It will already
+							be invisible. That is the point of the arrangement.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+		</article>
+
+	</main>
+
+
+	<!-- =========================================================== Footer -->
+	<footer class="doc-footer">
+		<div class="doc-container">
+			<p>Crafted by <a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=footer&amp;utm_campaign=gatefold" class="cel-underline">Celestial Themes</a>. Released under the MIT License.</p>
+			<p><a href="credits.html" class="cel-underline">Credits &amp; Licences</a></p>
+		</div>
+	</footer>
+
+	<button type="button" class="doc-totop" aria-label="Back to top">
+		<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+	</button>
+
+
+	<!-- Scripts -->
+	<script src="assets/js/prism.js"></script>
+	<script src="assets/js/lucide.js"></script>
+	<script src="assets/js/lenis.min.js"></script>
+	<script src="assets/js/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="CelestialThemes">
+    <meta name="description" content="Gatefold — a free HTML portfolio carousel template with Swiper and GSAP hover reveals.">
+    <title>Gatefold — Free HTML Portfolio Carousel Template</title>
+
+    <!-- SVG for current browsers, .ico as the fallback (and for the automatic
+         /favicon.ico request), PNG for iOS home screens. -->
+    <link rel="icon" href="./favicon.ico" sizes="32x32">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+    <!-- The browser bar colour on Android; keep it in step with --cel-ink. -->
+    <meta name="theme-color" content="#063CCB">
+
+    <link rel="stylesheet" type="text/css" href="./style.css">
+  </head>
+  <body id="cel-body">
+
+    <div class="cel-shell">
+
+      <header class="cel-site-header">
+        <a class="cel-site-brand" href="https://celestialthemes.com/catalog/gatefold/?utm_source=demo&amp;utm_medium=header&amp;utm_campaign=gatefold">Celestial Themes</a>
+        <nav class="cel-site-nav">
+          <a class="cel-site-link" href="./index.html" aria-current="page">Home</a>
+          <a class="cel-site-link" href="./about.html">About</a>
+        </nav>
+      </header>
+
+      <main class="cel-main">
+
+        <section class="cel-hero">
+          <span class="cel-hero-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0Q13 11 24 12Q13 13 12 24Q11 13 0 12Q11 11 12 0Z"/>
+            </svg>
+          </span>
+          <p class="cel-hero-tagline cel-eyebrow">An editorial collection of image and type.</p>
+          <h1 class="cel-hero-title">Gatefold</h1>
+
+
+
+
+
+
+          
+
+
+
+        </section>
+
+        <div class="cel-stage">
+          <!-- data-cel-overlay-sync: the carousel follows the overlay's prev/next. -->
+          <div class="cel-carousel-slider-no-gutter" data-cel-carousel="portfolio"
+               data-cel-overlay-sync="portfolio" data-cel-pagination="false">
+              <div class="swiper">
+                <div class="swiper-wrapper">
+                  <!-- alt="": the card's title already names the picture. -->
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>The Last Great Canvas Was Twelve Inches</h5>
+                          <p>Art, alphabetised by surname.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-1-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-1-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-1-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-1-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-1">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>The Art of Keeping</h5>
+                          <p>Objects and Editions</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-2-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-2-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-2-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-2-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-2">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>Judged Entirely by the Cover</h5>
+                          <p>In defence of the first glance.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-3-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-3-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-3-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-3-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-3">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>Nobody Left It Like That</h5>
+                          <p>A still life with a deadline.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-4-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-4-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-4-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-4-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-4">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>Art That Also Does a Job</h5>
+                          <p>The only artwork with a switch.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-5-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-5-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-5-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-5-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                             loading="lazy"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-5">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>Dressed for the Sidewalk</h5>
+                          <p>The exhibition walks to work.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-6-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-6-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-6-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-6-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                             loading="lazy"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-6">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>The Poster Outlived the Film</h5>
+                          <p>Commercial art, later forgiven.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-7-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-7-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-7-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-7-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                             loading="lazy"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-7">View Project →</a>
+                    </div>
+                  </div>
+                  <div class="swiper-slide">
+                    <div class="cel-info-over-wrapper">
+                      <div class="cel-info-over io-h-center io-v-bottom cel-align-center">
+                        <div class="cel-info-over-inner io-inner-bg">
+                          <h5>The Wild, From an Armchair</h5>
+                          <p>Adventure, at table height.</p>
+                        </div>
+                      </div>
+                      <img src="assets/images/demo/portfolio/portfolio-8-1024w.webp"
+                           srcset="assets/images/demo/portfolio/portfolio-8-640w.webp 640w,
+                                   assets/images/demo/portfolio/portfolio-8-1024w.webp 1024w,
+                                   assets/images/demo/portfolio/portfolio-8-1600w.webp 1600w"
+                           sizes="(min-width: 3200px) 17vw,
+                                   (min-width: 2400px) 20vw,
+                                   (min-width: 1200px) 25vw,
+                                   (min-width: 992px) 33vw,
+                                   (min-width: 576px) 50vw,
+                                   100vw"
+                           width="1600" height="2000"
+                             loading="lazy"
+                           decoding="async" alt="">
+                      <a href="#" class="io-stretched-link cel-overlay-trigger" data-cel-overlay-id="portfolio" data-cel-overlay-item="portfolio-8">View Project →</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Dots: off here through data-cel-pagination="false" -->
+                <div class="swiper-pagination"></div>
+
+                <!-- Arrows -->
+                <div class="swiper-button-prev"><i data-lucide="arrow-left"></i></div>
+                <div class="swiper-button-next"><i data-lucide="arrow-right"></i></div>
+
+              </div>
+            </div>
+          </div><!-- End of cel-stage -->
+
+      </main>
+
+    </div><!-- End of cel-shell -->
+
+    <!-- Detail panels: one overlay holding eight items (see overlay-nav.js).
+         Keep it a direct child of <body>, outside any transformed element. -->
+    <div class="cel-overlay" data-cel-overlay-id="portfolio">
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-1" aria-labelledby="portfolio-1-title">
+
+        <!-- Set --cel-media-focus here to move the crop off centre when a subject
+             sits near an edge, e.g. style="--cel-media-focus: 50% 25%" -->
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-1-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-1-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-1-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-1-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">01 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-1-title">The Last Great Canvas Was Twelve Inches</h2>
+              <p class="cel-eyebrow">Art, alphabetised by surname.</p>
+
+              <p>Nobody set out to build a gallery, but that is what a record shop is. Several thousand pieces of commercial art, printed twelve inches square, filed by surname, and available to anyone prepared to stand in a narrow aisle for two hours with their back at an angle physiotherapists have written papers about.</p>
+              <p>The format did most of the work. Twelve inches is big enough for a photograph to hold a room and small enough to hold in two hands, which happens to be the size at which people actually look at things. Shrink the same image to a thumbnail and it becomes a button. Blow it up to a billboard and it becomes weather.</p>
+              <p>Some of these covers were made by people who later got retrospectives. Most were made in an afternoon by somebody on a deadline, out of whatever was in the studio — the band standing awkwardly against a wall, a colour chosen because the printer already had it loaded, a typeface picked because it was the one on the machine. Several of those are now considered masterpieces, which should tell you something useful about masterpieces.</p>
+              <p>They also had a job to do. A sleeve had to survive a shop, a bag, a bedroom floor and roughly forty years of being pulled in and out of a shelf. Ring wear is not damage. It is a record of somebody reaching for the same thing over and over again, which is a more honest review than anything printed on the back.</p>
+              <p>Digging is its own discipline. You develop a thumb rhythm. You learn to read a spine at forty-five degrees in bad light. You arrive looking for one specific pressing and leave with four you had never heard of, one of which you will play twice a year for the rest of your life. Nobody has ever satisfactorily explained how that selection process works.</p>
+              <p>The plastic outer sleeves are non-negotiable. Ask anyone in the aisle.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-2" aria-labelledby="portfolio-2-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-2-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-2-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-2-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-2-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">02 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-2-title">The Art of Keeping</h2>
+              <p class="cel-eyebrow">Objects and Editions</p>
+
+              <p>We collect things for perfectly rational reasons: the typography was interesting, the paper felt nice, the colour was impossible to ignore, or someone said "limited edition" and all financial discipline immediately disappeared.</p>
+              <p>Some objects are useful. The best ones make usefulness feel beside the point.</p>
+              <p>Before long, a single beautiful book becomes a shelf, the shelf becomes a collection, and the collection begins making increasingly unreasonable demands about where the furniture should go. They gather scratches, fingerprints, coffee rings and stories; they move from desk to shelf to another apartment, somehow surviving every attempt to declutter.</p>
+              <p>We may need another shelf.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-3" aria-labelledby="portfolio-3-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-3-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-3-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-3-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-3-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">03 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-3-title">Judged Entirely by the Cover</h2>
+              <p class="cel-eyebrow">In defence of the first glance.</p>
+
+              <p>The proverb is wrong and everyone in publishing knows it. You are supposed to judge a book by its cover, because the cover is the only part written specifically for you — the person walking past a table with four seconds to spare and no strong opinions yet.</p>
+              <p>A cover has to work at three sizes it does not control. Face out on a table, where it gets a whole second. Spine out on a shelf, where it gets a glance and eleven millimetres. And a postage stamp on a screen, where a careful hierarchy collapses into whichever single word was set largest.</p>
+              <p>Putting a face on the front is the oldest move there is and it still works, because a photograph of a person looking slightly past the camera does something no amount of typography can. It implies somebody is in there. The eye finds it before it finds the title, and designers know this and use it shamelessly.</p>
+              <p>The colour is doing more than you think. Red on a table of otherwise sober paperbacks is not a mood, it is a strategy. Somebody chose that exact red in a meeting, defended it against two other reds, and won — and it is the reason your hand moved before you had decided to pick anything up.</p>
+              <p>Then the book comes home and joins the stack, which is a different genre entirely: part library, part guilt, part furniture. The ones at the bottom have been there so long they have stopped being objects and become structure. Nobody is going to move them. Everybody knows it.</p>
+              <p>The one on top is always the one you mean to start tonight.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-4" aria-labelledby="portfolio-4-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-4-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-4-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-4-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-4-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">04 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-4-title">Nobody Left It Like That</h2>
+              <p class="cel-eyebrow">A still life with a deadline.</p>
+
+              <p>This is a still life, and still lifes have rules. Dutch painters spent a century arranging lemons, silverware and slightly overripe fruit into scenes pretending to be a table somebody had just walked away from. Nobody had walked away from anything.</p>
+              <p>The equipment changed and the trick did not. A cup at eleven o'clock, a plant leaning in from the edge, one object set at a confident angle so the frame does not read as a grid. The wood is round because a rectangle of it would have been furniture.</p>
+              <p>The book is doing the most work — pale ground, hand-drawn script, flowers that suggest calm without insisting on it. A cover designed to be photographed from directly above by somebody who has not read it yet.</p>
+              <p>It takes about forty minutes to make a surface look untouched.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-5" aria-labelledby="portfolio-5-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-5-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-5-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-5-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-5-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">05 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-5-title">Art That Also Does a Job</h2>
+              <p class="cel-eyebrow">The only artwork with a switch.</p>
+
+              <p>William Morris asked people to have nothing in their houses that they did not know to be useful or believe to be beautiful. He phrased it as a choice. A lamp like this one declines to choose, which is roughly why the Arts and Crafts lot kept making them long after the argument was supposedly settled.</p>
+              <p>Everything visible here is structure. The black lines are not drawn on. They are the lead holding several hundred separate pieces of glass in place, and the pattern exists because the glass has to be held at all. Take away the job and the picture goes with it. There is not one decorative line in the whole shade.</p>
+              <p>The colours were chosen for a state the object spends most of its life not being in. Unlit, the amber reads brown, the blue reads grey, and the thing looks like furniture nobody has dusted. Switch it on and the shade stops being an object at all and becomes the light.</p>
+              <p>This is the only category of art legally required to work. A painting is allowed to be difficult. A lamp that is difficult is a lamp going back to the shop. Somewhere inside that constraint is why these still look so certain a century later, and it is not craftsmanship. It is that nobody had room to be vague.</p>
+              <p>The room does half of it. A leaded shade in daylight is a hobby. The same shade at night, one wall lit, a picture frame you can only just make out behind it, is a composition. The photograph did not add the drama. The lamp has been staging it every evening since about 1910.</p>
+              <p>It also lights itself, which saves everyone a great deal of trouble.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-6" aria-labelledby="portfolio-6-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-6-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-6-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-6-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-6-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">06 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-6-title">Dressed for the Sidewalk</h2>
+              <p class="cel-eyebrow">The exhibition walks to work.</p>
+
+              <p>Street style is the only art form where the subject dressed themselves, chose the location by walking to it, and had no idea a photograph was about to happen. Three authors, none of them collaborating, and it still comes out composed.</p>
+              <p>Books collect it, which is a slightly strange thing to do: pinning a genre that only exists in motion onto a page that does not move. Four cities on the cover, listed in the order the fashion calendar visits them, so the thing doubles as a timetable.</p>
+              <p>The mug beside it is making the same argument in ceramic. Speckled, faintly off-round, thicker on one side, and built that way on purpose by somebody who could have made it perfect and decided perfect was boring.</p>
+              <p>Both are objects that look like accidents and are not.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-7" aria-labelledby="portfolio-7-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-7-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-7-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-7-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-7-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">07 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-7-title">The Poster Outlived the Film</h2>
+              <p class="cel-eyebrow">Commercial art, later forgiven.</p>
+
+              <p>Nobody involved thought they were making art. A poster had one job, which was to get somebody through a door on a Friday night, and it had about three seconds to do it: from across a street, at an angle, in the rain.</p>
+              <p>The constraints were brutal and they are exactly why the good ones are good. One image. One typeface doing all the shouting. A cast list at the bottom set so small it works as texture rather than information. Any poster that tried to explain the plot had already lost.</p>
+              <p>Then the films aged, several of them badly, and the posters did not. Half the images on this cover are now better known than the pictures they were selling. A designer outliving two hours of somebody else's work is not an outcome anybody put in the budget.</p>
+              <p>The book is by a design historian, which is its own quiet joke. The medium that was printed cheap, pasted up, rained on and scraped off is now a hardback with a spine, filed under reference, and priced accordingly.</p>
+              <p>Nobody called it art at the time. That was decided later, by people who were not asked.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cel-overlay-item" data-cel-overlay-item="portfolio-8" aria-labelledby="portfolio-8-title">
+
+        <div class="cel-overlay-media">
+          <img src="assets/images/demo/portfolio/portfolio-8-1024w.webp"
+               srcset="assets/images/demo/portfolio/portfolio-8-640w.webp 640w,
+                       assets/images/demo/portfolio/portfolio-8-1024w.webp 1024w,
+                       assets/images/demo/portfolio/portfolio-8-1600w.webp 1600w"
+               sizes="(min-width: 992px) 50vw, 100vw"
+               width="1600" height="2000" loading="lazy" decoding="async" alt="">
+        </div>
+
+        <div class="cel-overlay-meta">
+          <span class="cel-label">08 / 08</span>
+          <button class="cel-overlay-close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+        </div>
+
+        <div class="cel-overlay-body">
+          <div class="cel-overlay-scroll">
+            <div class="cel-overlay-content">
+              <h2 id="portfolio-8-title">The Wild, From an Armchair</h2>
+              <p class="cel-eyebrow">Adventure, at table height.</p>
+
+              <p>ELEMENTS, set in capitals with the letters pushed apart until the word stops being a word and starts being a texture. It is the oldest move in cover typography and it survives because it does something specific: wide tracking slows you down. You read it one letter at a time, which is precisely the pace the book is selling.</p>
+              <p>Everything else has been switched off. No colour worth the name, no second typeface, no list of contributors. One photograph that is mostly weather, one line of small capitals underneath it, and a publisher credit so quiet you have to go looking for it.</p>
+              <p>The scene it has ended up in is funnier than the book intends. In pursuit of the wild, photographed indoors, by candlelight, on a table, beside a cyclamen in a pot. The nearest thing to weather in this room is a draught.</p>
+              <p>Which is the honest version anyway. Most books about being outside are read inside, by people who fully intend to go, once the weather improves and the boots turn up. The book is not the trip. The book is the part of the trip you can do tonight.</p>
+              <p>The plant is doing its best.</p>
+            </div>
+          </div>
+
+          <div class="cel-overlay-nav">
+            <button class="cel-label cel-overlay-prev" type="button">Prev</button>
+            <button class="cel-label cel-overlay-next" type="button">Next</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="assets/js/gsap.js"></script>
+    <script src="assets/js/swiper.js"></script>
+    <script src="assets/js/lucide.js"></script>
+    <script src="assets/js/overlay.js"></script>
+    <script src="assets/js/overlay-nav.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+/*!
+==================================================
+Template Name: Gatefold
+Template URI: https://celestialthemes.com
+Description: Gatefold – Free HTML Portfolio Carousel Template
+Author: Celestial Themes
+Author URI: https://celestialthemes.com
+Version: 1.0
+==================================================
+
+Main stylesheet. Imports base, layout and component
+SCSS files and compiles them into a single CSS file.
+
+--------------------------------------------------
+IMPORTANT:
+- Do NOT write styles directly in this file.
+- All styles belong in their respective partials.
+
+==================================================
+*/
+
+
+/* =============== Table Of Contents =============== */
+/*
+
+	1.0 COLOR TOKENS                                  → _colors.scss
+
+	    Type scale, spacing, radii                    → _variables.scss
+	    fluid(), breakpoints                          → _mixins.scss
+
+	--------------------------------------------------
+
+	1.1 BROWSER RESETS                                → _reset.scss
+
+	--------------------------------------------------
+
+	2.0 MARKUP DEFAULTS                               → _core.scss
+
+	    Fonts                                         → _fonts.scss
+
+	--------------------------------------------------
+
+	3.0 CAROUSEL
+
+	    Swiper Defaults                               → _swiper.scss
+	    Carousel Swiper Slider                        → _swiper-custom.scss
+	    Info Over (overlay positioning)               → _info-over.scss
+
+	--------------------------------------------------
+
+	4.0 PAGE SHELL                                    → _shell.scss
+
+	    Site Header
+	    Hero
+	    Carousel Stage
+
+	--------------------------------------------------
+
+	5.0 OVERLAY                                       → _overlay.scss
+
+	--------------------------------------------------
+
+*/
+
+// ── 1.0 Color Tokens (:root custom properties — must come first) ──
+@use "variables/colors";
+
+// ── 1.1 Browser Resets ──
+@use "reset/reset";
+
+// ── Mixins ──
+@use "mixins/mixins" as mx;
+
+// ── 2.0 Markup Defaults ──
+@use "components/fonts";
+@use "components/core";
+
+// ── 3.0 Carousel ──
+@use "components/swiper";
+@use "components/swiper-custom";
+@use "components/info-over";
+
+// ── 4.0 Page Shell ──
+@use "components/shell";
+
+// ── 5.0 Overlay ──
+@use "components/overlay";

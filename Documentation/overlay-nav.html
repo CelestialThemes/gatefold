@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Overlay Navigation — Gatefold Documentation</title>
+
+	<!-- Favicon. The Celestial Themes star, shared with the templates. favicon.svg
+	     carries a prefers-color-scheme rule so the mark lightens on a dark tab
+	     strip, where the brand blue measures 2.55:1 against the chrome. -->
+	<link rel="icon" href="./favicon.ico" sizes="32x32">
+	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+	<!-- Matches --c-dark, the header background, so the browser chrome runs
+	     straight into the page instead of stopping at a coloured seam. Not the
+	     accent: theme-color paints the bar ABOVE the header, and the header is
+	     what it has to continue. -->
+	<meta name="theme-color" content="#100E1A">
+
+	<!-- Styles (fonts are self-hosted via @font-face in docs.css) -->
+	<link rel="stylesheet" href="assets/css/prism.css">
+	<link rel="stylesheet" href="assets/css/docs.css">
+</head>
+
+<body>
+
+	<!-- =========================================================== Header -->
+	<header class="doc-header">
+
+		<div class="doc-container doc-header__bar">
+			<a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=logo&amp;utm_campaign=gatefold" class="doc-logo" aria-label="Celestial Themes home">
+				<img src="assets/images/logo.svg" alt="Celestial Themes" class="doc-logo__full">
+				<img src="assets/images/logo-mobile.svg" alt="Celestial Themes" class="doc-logo__mark">
+			</a>
+
+			<nav class="doc-nav" aria-label="Documentation">
+				<button type="button" class="doc-navbtn" aria-expanded="false" aria-controls="doc-globalnav" aria-label="Open menu">
+					<i data-lucide="menu" aria-hidden="true"></i>
+				</button>
+				<ul id="doc-globalnav" class="doc-nav__list">
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="changelog.html">Changelog</a></li>
+					<li><a href="https://gatefold.celestialthemes.com/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Live demo<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+					<!-- Every template points at this one URL, for the life of the product.
+					     Routing by where the licence was bought happens there, on the server,
+					     so the address baked into copies already sold never has to change. -->
+					<li><a href="https://celestialthemes.com/support/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Support<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="doc-container doc-hero">
+			<!-- Version placeholder: this line is the only place it appears. -->
+			<span class="doc-badge">Gatefold Documentation 1.0</span>
+			<h1 class="doc-hero__title">Overlay Navigation</h1>
+		</div>
+
+	</header>
+
+
+	<!-- =========================================================== Main -->
+	<main class="doc-container doc-layout">
+
+		<!-- ---------- Sidebar ---------- -->
+		<aside class="doc-sidebar">
+			<button type="button" class="doc-sidebar__toggle" aria-expanded="false" aria-controls="doc-nav-list">
+					<span>Documentation pages</span>
+					<i data-lucide="chevron-down" class="doc-sidebar__toggle-icon" aria-hidden="true"></i>
+				</button>
+			<nav id="doc-nav-list" class="doc-sidebar__nav" aria-label="Documentation pages">
+				<ul>
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="carousel.html">Carousel</a></li>
+					<li><a href="overlay.html">Overlay</a></li>
+					<li><a href="overlay-nav.html" class="is-active" aria-current="page">Overlay Navigation</a></li>
+					<li><a href="styling.html">Styling &amp; Customisation</a></li>
+				</ul>
+			</nav>
+		</aside>
+
+		<!-- ---------- Content ---------- -->
+		<article class="doc-content cel-prose">
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="markup">HTML Markup</h2>
+
+					<p class="doc-intro">
+						Steps between the items inside an open overlay, without the overlay closing. The
+						items are <strong>nested inside one panel</strong> &mdash; they are not eight
+						sibling panels being swapped.
+					</p>
+
+					<hr>
+
+<pre class="language-markup"><code>&lt;div class="cel-overlay" data-cel-overlay-id="portfolio"&gt;
+
+  &lt;div class="cel-overlay-item" data-cel-overlay-item="portfolio-1"&gt;
+    &lt;div class="cel-overlay-media"&gt;&lt;img src="…" alt=""&gt;&lt;/div&gt;
+    &lt;div class="cel-overlay-body"&gt;
+      &lt;div class="cel-overlay-scroll"&gt;…&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="cel-overlay-nav"&gt;
+      &lt;button class="cel-overlay-prev"&gt;Prev&lt;/button&gt;
+      &lt;button class="cel-overlay-next"&gt;Next&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="cel-overlay-item" data-cel-overlay-item="portfolio-2"&gt; … &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;!-- A trigger may name the item to open on, not just the overlay. --&gt;
+&lt;button class="cel-overlay-trigger"
+        data-cel-overlay-id="portfolio"
+        data-cel-overlay-item="portfolio-3"&gt;Open the third&lt;/button&gt;</code></pre>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Hook</th>
+								<th>Where</th>
+								<th>Purpose</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>.cel-overlay-item</code></td>
+								<td>direct child of the panel</td>
+								<td>One step. Two or more turns navigation on; fewer and the module ignores the panel.</td>
+							</tr>
+							<tr>
+								<td><code>data-cel-overlay-item</code></td>
+								<td>on each item</td>
+								<td>Its id, used by triggers and reported in the event.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-overlay-prev</code> / <code>.cel-overlay-next</code></td>
+								<td>anywhere inside the panel</td>
+								<td>The controls. Delegated, so every item may carry its own copy at no cost.</td>
+							</tr>
+							<tr>
+								<td><code>data-cel-overlay-item</code></td>
+								<td>on a trigger</td>
+								<td>Optional. Opens the overlay on that item instead of the first.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="doc-callout doc-callout--info">
+						<i data-lucide="info" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<strong>Why one panel with eight items, rather than eight panels?</strong>
+							Because <code>overlay.js</code> holds the focus trap, the inert bookkeeping and
+							the Escape binding against one specific element, all of it private. Swapping
+							panels behind its back would leave every one of those pointing at the wrong node.
+							Nesting the items sidesteps the problem entirely.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="cel-overlay-nav-init">celOverlayNav.init()</h2>
+
+					<p class="doc-intro">
+						Collects the items in every overlay, binds one delegated listener per panel, and puts
+						the stack into a valid state before anything is seen.
+					</p>
+
+					<hr>
+
+					<h3>Initialization</h3>
+
+<pre class="language-javascript"><code>celOverlayNav.init();</code></pre>
+
+					<p>
+						Called for you on <code>DOMContentLoaded</code>, after <code>celOverlay.init()</code>,
+						at the bottom of <code>main.js</code>. Safe to call again: the per-panel listener is
+						marked and skipped, and the global ones are bound once. Each call resets every
+						overlay to its first item and replaces the previous options.
+					</p>
+
+					<h3>Custom Configuration</h3>
+
+					<p>
+						Pass an object to the call in <code>main.js</code>, for example
+						<code>celOverlayNav.init({ loop: false })</code>.
+					</p>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>loop</code></td>
+								<td><code>true</code></td>
+								<td>Past the last item, back to the first.</td>
+							</tr>
+							<tr>
+								<td><code>duration</code></td>
+								<td><code>0.5</code></td>
+								<td>Dissolve duration, in seconds.</td>
+							</tr>
+							<tr>
+								<td><code>ease</code></td>
+								<td><code>'power1.inOut'</code></td>
+								<td>Close to linear, on purpose &mdash; see the transition below.</td>
+							</tr>
+							<tr>
+								<td><code>imageScale</code></td>
+								<td><code>1.06</code></td>
+								<td>The arriving photograph settles out of this. Set to <code>1</code> for no movement at all.</td>
+							</tr>
+							<tr>
+								<td><code>keyboard</code></td>
+								<td><code>true</code></td>
+								<td>&larr; and &rarr; step while the overlay is open.</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="cel-overlay-nav-step">next() / prev() / to()</h2>
+
+					<hr>
+
+<pre class="language-javascript"><code>celOverlayNav.next();                  // the open overlay
+celOverlayNav.prev('portfolio');       // a named one
+celOverlayNav.to('portfolio-5');       // straight to an item
+celOverlayNav.to('portfolio-5', 'portfolio');</code></pre>
+
+					<p>
+						With no id, the module uses whichever overlay is open, falling back to the first one
+						it found.
+					</p>
+
+					<h3>Events</h3>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Event</th>
+								<th>Fired</th>
+								<th>Detail</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>cel:overlay-nav</code></td>
+								<td>on every activation, including the first</td>
+								<td><code>{ id, index, item }</code></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p>
+						This is the module's entire published surface. Anything that wants to follow the
+						active item listens for it and is told nothing else &mdash; which is exactly how the
+						<a href="carousel.html#init-overlay-carousel-sync" class="cel-underline">carousel stays in step</a>
+						without either script knowing about the other.
+					</p>
+
+					<h3>Behavior</h3>
+
+					<ul>
+						<li><strong>Hidden items are made <code>inert</code>, synchronously, before the fade.</strong> <code>visibility: hidden</code> does not remove an element from the box tree, so without this the eight items would all stay in the tab order.</li>
+						<li><strong>Focus follows the control you used.</strong> Where it should land is decided <em>before</em> anything is marked inert &mdash; marking an ancestor of the focused element inert blurs it, and by then there is nothing left to read.</li>
+						<li><strong>Both scrollers are reset</strong> on every step. Each item keeps its own scroll position, and arriving at a new article halfway down it is disorienting. Both, because which one is live depends on the breakpoint.</li>
+						<li><strong>The dialog's accessible name follows the item</strong>, or a screen reader would announce the first project's title for all eight.</li>
+						<li><strong>A trigger that names an item is handled in the capture phase</strong>, so the item is in place before the panel starts coming up &mdash; otherwise the overlay opens on whatever was last read and then jumps.</li>
+					</ul>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="transition">The Step Transition</h2>
+
+					<p class="doc-intro">
+						A one-sided dissolve. Only the arriving item changes opacity, and it does so on top
+						of a departing item that stays fully opaque and perfectly still.
+					</p>
+
+					<hr>
+
+					<h3>Why not a cross-fade</h3>
+
+					<p>
+						In a true cross-fade both items are at partial opacity at the same moment, so the
+						panel background shows through the pair of them and the middle of every step washes
+						out to a pale version of itself. Here the lower layer is opaque throughout: the
+						picture is only ever one image over another, never either of them over the ground.
+					</p>
+
+					<p>
+						The departing item is hidden only once it is <em>completely</em> covered. Hiding it
+						up front would drop the solid layer out from under the dissolve, which is the wash
+						this construction exists to avoid.
+					</p>
+
+					<h3>Why nothing moves sideways</h3>
+
+					<p>
+						Sliding the items sideways would show the seam between photograph and text twice,
+						a few pixels apart, for the length of every step. Both items always sit at the same
+						<code>x</code>, so the panel's layout never appears to shift.
+					</p>
+
+					<p>
+						The image scale is the one movement, and it stays inside a clipping box, so it never
+						moves any edge of the panel. It also runs <strong>1.8&times; longer than the dissolve</strong>
+						&mdash; ending together makes the step land twice, and letting the picture keep
+						settling after the text has arrived is what stops it feeling like a slide change.
+					</p>
+
+					<h3>Why the easing is nearly linear</h3>
+
+					<p>
+						A dissolve is a change of substance, not a move, and it reads best at an even rate.
+						A strongly eased one feels hesitant.
+					</p>
+
+					<div class="doc-callout doc-callout--info">
+						<i data-lucide="info" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<code>z-index</code> is set explicitly on both items rather than left to source
+							order &mdash; grid items take part in z-ordering without being positioned, and
+							source order would put the arriving item <em>underneath</em> whenever you step
+							backwards.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+		</article>
+
+	</main>
+
+
+	<!-- =========================================================== Footer -->
+	<footer class="doc-footer">
+		<div class="doc-container">
+			<p>Crafted by <a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=footer&amp;utm_campaign=gatefold" class="cel-underline">Celestial Themes</a>. Released under the MIT License.</p>
+			<p><a href="credits.html" class="cel-underline">Credits &amp; Licences</a></p>
+		</div>
+	</footer>
+
+	<button type="button" class="doc-totop" aria-label="Back to top">
+		<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+	</button>
+
+
+	<!-- Scripts -->
+	<script src="assets/js/prism.js"></script>
+	<script src="assets/js/lucide.js"></script>
+	<script src="assets/js/lenis.min.js"></script>
+	<script src="assets/js/docs.js"></script>
+</body>
+</html>

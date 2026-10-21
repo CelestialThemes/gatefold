@@ -1,0 +1,123 @@
+@use '../mixins/mixins' as mx;
+@use '../variables/variables' as *;
+
+// The panel's own, smaller type scale (18 → 24px, 15 → 20px): at 1200px a
+// slide is only about 292px wide. The ceilings match the document scale.
+$io-panel-title:   clamp(1.125rem, 1.6vw, 1.5rem);    // 18px → 24px
+$io-panel-desc:    clamp(0.9375rem, 1.35vw, 1.25rem); // 15px → 20px
+$io-panel-padding: clamp(0.875rem, 1.4vw, #{$base * 2});
+
+// The text height of a full panel: one title row, its margin and two
+// description rows. A minimum, so every card matches; longer text grows past it.
+$io-panel-text-height: calc(
+  #{$io-panel-title} * #{$line-height-h5}
+  + #{$base * 0.5}
+  + #{$io-panel-desc} * #{$line-height-base} * 2
+);
+
+/* =============== Info Over =============== */
+.cel-info-over-wrapper {
+  position: relative;
+  overflow: hidden;
+
+  // The wrapper clips the image, so it takes the image radius.
+  border-radius: $border-radius-image;
+
+  > img {
+    border-radius: $border-radius-image;
+  }
+
+  .io-stretched-link {
+    text-decoration: none;
+    color: inherit;
+    font-size: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 11;
+    }
+
+    // The ::after covers the whole slide, so a tap anywhere opens the project.
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cel-info-over {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+
+    .cel-info-over-inner {
+      pointer-events: auto;
+      padding: $io-panel-padding;
+      border-radius: $border-radius-card;
+      box-sizing: border-box;
+      transition: transform 0.22s ease, opacity 0.22s ease, background-color 0.22s ease;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      max-width: 90%;
+
+      // The panel reserves the height and centres its content in it.
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: calc(#{$io-panel-text-height} + #{$io-panel-padding} * 2);
+
+      // The light card: the content colours, not the page's.
+      &.io-inner-bg {
+        background-color: var(--cel-content-bg);
+        color: var(--cel-content-color);
+
+        h1, h2, h3, h4, h5, h6 { color: inherit; }
+      }
+
+      // One title row, at most two description rows, on the panel scale.
+      h1, h2, h3, h4, h5, h6 {
+        font-size: $io-panel-title;
+        line-height: $line-height-h5;
+        @include mx.trim-rows(1);
+      }
+
+      p {
+        font-size: $io-panel-desc;
+        @include mx.trim-rows(2);
+      }
+
+    }
+
+    /* Horizontal placement. Centre only: the panel is 88% of the card, so the
+       12% of slack left over moves it by 6% a side — about 17px on the 292px
+       slide of the four-column band, which is not a placement, it is a rounding
+       error. The vertical axis below is where the real range is. */
+    &.io-h-center {
+      justify-content: center;
+    }
+
+    /* Vertical placement (set one) */
+    &.io-v-top {
+      align-items: flex-start;
+
+      .cel-info-over-inner {
+        margin-top: $base;
+      }
+    }
+    &.io-v-middle {
+      align-items: center;
+    }
+    &.io-v-bottom {
+      align-items: flex-end;
+
+      .cel-info-over-inner {
+        margin-bottom: $base;
+      }
+    }
+
+  }
+}

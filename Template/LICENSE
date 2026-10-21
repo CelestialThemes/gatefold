@@ -1,0 +1,91 @@
+MIT License
+
+Copyright (c) 2026 Celestial Themes
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+-----------------------------------------------------------------------------
+SCOPE
+-----------------------------------------------------------------------------
+
+The licence above covers the parts of Gatefold written by Celestial Themes:
+
+  index.html, about.html
+  style.css, and its Sass sources
+  assets/js/main.js
+  assets/js/overlay.js
+  assets/js/overlay-nav.js
+  the documentation
+
+It does NOT cover the third-party components bundled alongside them. Each of
+those keeps its own licence, and each licence travels with the file it belongs
+to.
+
+
+-----------------------------------------------------------------------------
+THIRD-PARTY COMPONENTS
+-----------------------------------------------------------------------------
+
+GSAP 3.13.0
+  Standard "No Charge" GSAP License, last modified 30 May 2025
+  https://gsap.com/standard-license
+  Copyright (c) 2025 Webflow
+
+  This is NOT a permissive open-source licence, and it is the one component
+  here whose terms differ from the rest. Two things follow from it:
+
+    - Webflow licenses GSAP directly to any person or entity for use on any
+      website or web application. Anyone who receives a copy of Gatefold is
+      covered by that licence in their own right; no rights in GSAP are
+      granted or passed on by the MIT licence above.
+
+    - The banner comment at the top of assets/js/gsap.js is a required
+      proprietary notice. It must not be removed or altered, including by a
+      minifier during a build.
+
+Swiper 11.1.4
+  MIT License
+  Copyright (c) 2014-2024 Vladimir Kharlampidi
+  https://swiperjs.com
+
+Lucide 0.577.0
+  ISC License
+  Copyright (c) Lucide Contributors
+  https://lucide.dev
+
+Inter
+  SIL Open Font License, Version 1.1
+  Copyright (c) 2016 The Inter Project Authors
+  Full text: assets/fonts/inter/LICENSE.txt
+
+  The licence file must stay beside the font files. That is a condition of the
+  OFL, not a convention.
+
+
+-----------------------------------------------------------------------------
+DEMO CONTENT
+-----------------------------------------------------------------------------
+
+The images in assets/images/demo/portfolio/ are placeholders. They are sized and
+named so the layout works the moment you open index.html — swap them file for
+file with your own work.
+
+The photographs shown in the live demo are from Unsplash. They are NOT included
+in this download, and nothing in this licence grants any right to them.

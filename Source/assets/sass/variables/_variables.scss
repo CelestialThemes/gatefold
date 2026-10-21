@@ -1,0 +1,121 @@
+@use 'sass:map';
+@use 'sass:math';
+
+// =============== 0. Fluid helper =============== //
+// Fluid clamp(min → max) that scales continuously across a viewport range —
+// no breakpoint jumps. Pass px values; $min/$max and the range endpoints must
+// share the same unit. Lives here (base layer) so both variables and mixins can
+// use it without a circular @use.
+//   $h2-title: fluid(34px, 42px);           // default range 360→1200px
+@function fluid($min, $max, $wmin: 360px, $wmax: 1200px) {
+  $slope: math.div($max - $min, $wmax - $wmin);                    // unitless rise / run
+  $intercept: math.div(math.round(($min - $slope * $wmin) * 1000), 1000); // size at 0px width
+  $vw: math.div(math.round($slope * 100000), 1000);               // slope as vw, 3 decimals
+  @return clamp(#{$min}, calc(#{$intercept} + #{$vw}vw), #{$max});
+}
+
+// =============== 1. Fonts =============== //
+$font-base: 1rem;                                     // 16px — math base for the type scale
+$body-font-size: fluid(18px, 20px);                   // fluid 18 (phone) → 20px (desktop)
+$font-size-small: calc($font-base * 0.9375);          // 15px
+
+// Heading type scale, fluid from phone (min) to desktop (max) across 360 → 1200px.
+// The desktop sizes are a √2 scale from the 20px body: 20 · 28 · 40 · 56 · 80 · 113,
+// so every second step doubles. The phone sizes step by about 1.24, since √2
+// would reach 102px on a 360px screen.
+$h1-title: fluid(52px, 113px);
+$h2-title: fluid(40px, 80px);
+$h3-title: fluid(32px, 56px);
+$h4-title: fluid(27px, 40px);
+$h5-title: fluid(23px, 28px);
+$h6-title: $body-font-size;
+
+// Eyebrow — the line above a heading. 24px from 768px up; down to 19px on a
+// phone, so it never competes with the shrinking wordmark under it.
+$eyebrow-font-size:   fluid(19px, 24px, 360px, 768px);
+$eyebrow-line-height: 1.3333;  // 32px at 24px — unitless so it tracks the size
+
+// Heading Margins (em-based — scales with each heading's font size)
+$heading-margin-top:    0.75em;
+$heading-margin-bottom: 0.5em;
+$heading-margin-top-sm:    0.6em;  // h5, h6
+$heading-margin-bottom-sm: 0.3em;  // h5, h6
+$eyebrow-heading-margin-bottom: 1em;
+
+// Letter Spacing — tighter as type gets larger, assigned by size, not by rank.
+$letter-spacing-tight:   -0.02em;  // h4, around 40px
+$letter-spacing-tighter: -0.035em; // h2 and h3, 56–80px
+$letter-spacing-tightest: -0.045em; // h1 at 113px
+$letter-spacing-normal:  0;      // body
+$letter-spacing-wide:    0.04em; // uppercase nav and brand
+$letter-spacing-widest:  0.12em; // small tracked capitals — .cel-label
+
+// Paragraph Spacing (em-based — scales with body font size)
+$paragraph-margin: 1em;
+
+// Line Heights — tuned so the gap between lines stays about 9–10px at every
+// level: in Inter, gap ≈ (line-height − 0.97) × font-size. At the desktop sizes:
+//
+//   h1  113px x 1.05   gap  9.0px
+//   h2   80px x 1.10   gap 10.4px
+//   h3   56px x 1.15   gap 10.1px
+//   h4   40px x 1.20   gap  9.2px
+//   h5   28px x 1.30   gap  9.2px
+//   h6   20px x 1.50   gap 10.6px   (body rhythm)
+$line-height-base: 1.5;
+$line-height-h1: 1.05;
+$line-height-h2: 1.1;
+$line-height-h3: 1.15;
+$line-height-h4: 1.2;
+$line-height-h5: 1.3;
+$line-height-h6: $line-height-base;
+
+
+
+// =============== 2. Custom Fonts =============== //
+
+// Font Family — the system UI fonts as fallback, close to Inter's metrics.
+$font-primary: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+// Font Weights
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+$font-weight-black: 900;
+
+
+
+$grid-breakpoints: (
+  "xs": 0,
+  "sm": 576px,
+  "md": 768px,
+  "lg": 992px,
+  "xl": 1200px,
+  "xxl": 1440px,
+  "xxxl": 1600px
+);
+
+
+
+// =============== 4. Other Variables =============== //
+$base: 1rem;
+
+// Stacking. The carousel's own controls (10–12) sit in a separate context.
+$z-overlay: 1000;
+
+$border-radius-xs:   0.125rem;  // 2px - very small radius
+$border-radius-sm:   0.25rem;   // 4px  — inputs, small elements
+$border-radius-md:   0.5rem;    // 8px  — cards, containers
+$border-radius-lg:   1rem;      // 16px — modals, large panels
+$border-radius-xl:   1.5rem;    // 24px — pills, feature sections
+$border-radius-full: 50%;       // circles
+$border-radius-pill: 9999px;    // pill — fully-rounded ends (clamps to half the height)
+
+// The two radii you are most likely to change.
+$border-radius-card:  $border-radius-sm; // panels, tooltips, UI surfaces
+$border-radius-image: 0;                 // media frames — square by default
+
+$button-radius:     $border-radius-pill; // global button border-radius (pill)
+$button-min-height: 3.25rem;           // 52px — global button min-height
+$button-font-size:  $body-font-size;    // matches body text — fluid 18px → 20px
+
+$transition-base:   0.3s;              // global transition duration

@@ -1,0 +1,29 @@
+{
+  "name": "gatefold-template",
+  "version": "1.0.0",
+  "description": "Gatefold — free HTML portfolio carousel template",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://gatefold.celestialthemes.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CelestialThemes/gatefold.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CelestialThemes/gatefold/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "sass Source/assets/sass/style.scss Template/style.css --no-source-map --style=compressed && postcss Template/style.css --replace --no-map",
+    "watch": "onchange \"Source/assets/sass/**/*.scss\" -- npm run build"
+  },
+  "author": "Celestial Themes",
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "autoprefixer": "^10.5.0",
+    "onchange": "^7.1.0",
+    "postcss": "^8.5.15",
+    "postcss-cli": "^11.0.1",
+    "sass": "^1.70.0"
+  }
+}

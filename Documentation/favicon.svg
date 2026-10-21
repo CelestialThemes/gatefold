@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>Celestial Themes</title>
+  <!-- The fill attribute is the real value; the rule below only overrides it on
+       a dark tab strip, where #063CCB sits at 2.55:1 against the chrome and all
+       but disappears. #7FA3FF is the same hue at 75% lightness instead of 41%,
+       which reads at 4.9:1 on Chrome's lighter dark tab and 6.6:1 on its darker
+       one. Keeping the attribute matters: anything that rasterises this without
+       running CSS — the .ico and apple-touch-icon are built from this file —
+       still gets the brand blue. -->
+  <style>
+    @media (prefers-color-scheme: dark) { path { fill: #7FA3FF } }
+  </style>
+  <path d="M16 3Q18 14 29 16Q18 18 16 29Q14 18 3 16Q14 14 16 3Z" fill="#063CCB"/>
+</svg>

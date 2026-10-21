@@ -1,0 +1,5 @@
+# Left out of gatefold.zip (git archive): repository plumbing and the README
+# screenshot, which only the GitHub page needs.
+.github         export-ignore
+.gitattributes  export-ignore
+docs            export-ignore

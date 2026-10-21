@@ -1,0 +1,299 @@
+@use '../mixins/mixins' as mx;
+@use '../variables/variables' as *;
+
+/* =============== 5.0 OVERLAY =============== */
+// The dialog: a panel fixed to the top or bottom edge. overlay.js owns its
+// transform and the open/closed class; position and height live here, so the
+// height follows the breakpoints without a resize listener.
+//
+// The .cel-overlay-item pages inside it belong to overlay-nav.js, which is
+// how a step changes the content without the dialog closing.
+.cel-overlay {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: $z-overlay;
+
+  // Set by JS from the `fill` option; the fallback applies without the script.
+  height: var(--cel-overlay-fill, 80%);
+
+  background-color: var(--cel-overlay-bg);
+  color: var(--cel-content-color);
+
+  // Exactly one element scrolls at any width: .cel-overlay-scroll on desktop,
+  // the item itself below lg.
+  overflow: hidden;
+
+  // The subtitle under the 40 → 80px heading.
+  --cel-eyebrow-size: clamp(1.5rem, 2.5vw, 2.25rem);   // 24px → 36px
+
+  --cel-overlay-pad: clamp(#{$base * 1.5}, 3vw, #{$base * 3});
+
+  // Up to 82px, easing off at the low end of desktop so the text column
+  // stays readable.
+  @include mx.media-breakpoint-up(lg) {
+    --cel-overlay-pad: clamp(#{$base * 3}, 5vw, 82px);
+  }
+
+  // A one-cell grid used as a stack: every item sits in the same cell.
+  // minmax(0, …) so a long item scrolls instead of stretching the cell.
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+
+  // Closed: visibility, not display, so a transform can be set before it shows.
+  visibility: hidden;
+
+  &.is-visible {
+    visibility: visible;
+  }
+
+  // The panel takes focus on open so the dialog is announced; it is not a
+  // control, so no ring.
+  &:focus {
+    outline: none;
+  }
+
+  // Set by JS from the `direction` option.
+  &[data-cel-overlay-direction='bottom'] { bottom: 0; }
+  &[data-cel-overlay-direction='top']    { top: 0; }
+
+  @include mx.media-breakpoint-down(lg) {
+    height: 100%;
+  }
+}
+
+
+/* =============== 5.1 Overlay Item =============== */
+// One page of content. overlay-nav.js shows one at a time with inline
+// visibility and opacity; without that script all of them would show.
+.cel-overlay-item {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 0;
+
+  // Opaque, so the step's dissolve never lets the panel show through.
+  background-color: var(--cel-overlay-bg);
+
+  // Image and text split 50/50 (minmax(0, 1fr): a long word cannot widen a
+  // column). The meta bar sits beside the image here, above it on mobile.
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas:
+    'media meta'
+    'media body';
+
+  // Below lg the item is a column that scrolls as a whole, so the image keeps
+  // its own proportions. Flex with flex-shrink: 0 on every child, so nothing is
+  // squeezed; `order` puts the meta bar first.
+  @include mx.media-breakpoint-down(lg) {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+
+/* =============== 5.2 Overlay Media =============== */
+.cel-overlay-media {
+  grid-area: media;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    // For a subject near an edge: set --cel-media-focus on the wrapper.
+    object-position: var(--cel-media-focus, 50% 50%);
+  }
+
+  // The image's own 4:5 on a phone, uncropped.
+  @include mx.media-breakpoint-down(lg) {
+    order: 2;
+    flex: 0 0 auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+
+
+/* =============== 5.3 Overlay Meta =============== */
+// The counter and the close button.
+.cel-overlay-meta {
+  grid-area: meta;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $base;
+  padding: var(--cel-overlay-pad) var(--cel-overlay-pad) 0;
+
+  // Sticky on mobile, so the close button stays reachable while the item scrolls.
+  @include mx.media-breakpoint-down(lg) {
+    order: 1;
+    flex: 0 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding-block: $base;
+    background-color: var(--cel-overlay-bg);
+  }
+}
+
+
+/* =============== 5.4 Overlay Body =============== */
+// Desktop: the scrolling text, then the fixed prev/next.
+.cel-overlay-body {
+  grid-area: body;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  min-width: 0;
+  padding: $base * 1.5 var(--cel-overlay-pad) var(--cel-overlay-pad);
+  gap: $base * 1.5;
+
+  // Mobile: plain flow, at its full height (the item scrolls), with a fluid
+  // gap under the image.
+  @include mx.media-breakpoint-down(lg) {
+    order: 3;
+    flex: 0 0 auto;
+    display: block;
+    min-height: auto;
+    padding-top: clamp(#{$base * 3}, 8vw, #{$base * 5});
+  }
+}
+
+.cel-overlay-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $base;
+
+  // Trims the tracking after the last letter, so NEXT ends on the same line
+  // as the close button above.
+  > :last-child {
+    margin-right: -#{$letter-spacing-widest};
+  }
+
+  @include mx.media-breakpoint-down(lg) {
+    margin-top: $base * 2;
+  }
+}
+
+
+/* =============== 5.5 Overlay Scroll Area =============== */
+// Title, subtitle and text scroll together as one column.
+.cel-overlay-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;   // reaching the end must not scroll the page
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  // Mobile: not a scroller (the item is).
+  @include mx.media-breakpoint-down(lg) {
+    display: block;
+    overflow: visible;
+    min-height: auto;
+  }
+}
+
+// Centred with auto margins, not justify-content: with long content they
+// collapse to 0, where justify-content would push the top out of reach.
+.cel-overlay-content {
+  margin-block: auto;
+  max-width: 44rem;   // about 73 characters of body text
+
+  // A word too long for the column breaks instead of crossing the image.
+  overflow-wrap: break-word;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+  }
+
+  @include mx.media-breakpoint-down(lg) {
+    margin-block: 0;
+    max-width: none;
+  }
+}
+
+
+/* =============== 5.6 Overlay Buttons =============== */
+// Prev / next. A step that cannot be taken does not light up.
+.cel-overlay-nav button:hover:not(:disabled) {
+  color: var(--cel-ink);
+}
+
+
+/* =============== 5.7 Overlay Close =============== */
+// 44px touch target, 24px icon.
+.cel-overlay-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $base * 2.75;
+  height: $base * 2.75;
+
+  border-radius: $border-radius-full;
+  color: var(--cel-content-color);
+  transition: color $transition-base ease, transform $transition-base ease;
+
+  // Pulled out by the space around the icon, so the icon, not the box, lines
+  // up with the edge below it.
+  margin-right: -#{($base * 2.75 - $base * 1.5) * 0.5};
+
+  svg {
+    width: $base * 1.5;
+    height: $base * 1.5;
+  }
+
+  // The accent ring on the light panel.
+  &:focus-visible {
+    outline-color: var(--cel-primary);
+  }
+
+}
+
+.cel-overlay-close:hover {
+  color: var(--cel-primary);
+  transform: rotate(90deg);
+}
+
+// No spin under reduced motion; the colour change is enough.
+@media (prefers-reduced-motion: reduce) {
+  .cel-overlay-close:hover {
+    transform: none;
+  }
+}
+
+
+/* =============== 5.8 Overlay Scrollbar =============== */
+// Chrome and Safari use the ::-webkit-scrollbar block, Firefox the standard
+// properties; the @supports test keeps them from mixing. Only this scroller is
+// styled; the page scrollbar stays native.
+.cel-overlay-scroll {
+  --cel-scrollbar-width: 0.375rem;
+
+  &::-webkit-scrollbar {
+    width: var(--cel-scrollbar-width);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--cel-scrollbar-track);
+    border-radius: $border-radius-pill;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--cel-scrollbar-thumb);
+    border-radius: $border-radius-pill;
+  }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .cel-overlay-scroll {
+    scrollbar-width: thin;   // Firefox: thin or auto, no px width
+    scrollbar-color: var(--cel-scrollbar-thumb) var(--cel-scrollbar-track);
+  }
+}

@@ -1,0 +1,636 @@
+@use '../mixins/mixins' as mx;
+@use '../variables/variables' as *;
+
+/* =============== 2.0 MARKUP DEFAULTS =============== */
+
+
+/* =============== 2.1 Fonts =============== */
+body {
+	font-family: $font-primary;
+	font-size: $body-font-size;
+	line-height: $line-height-base;
+	letter-spacing: $letter-spacing-normal;
+}
+
+html,
+body {
+  color: var(--cel-body-color);
+  background-color: var(--cel-body-bg);
+}
+
+
+/* Headings */
+// Sizes are the fluid scale in _variables.scss, so no media queries here.
+// Tracking tightens as the type grows. Two weights: black for the display
+// levels (h1, h2), bold for the rest.
+h1, h2, h3, h4, h5, h6 {
+  color: var(--cel-heading-color);
+  font-weight: $font-weight-bold;
+  margin-block: $heading-margin-top $heading-margin-bottom;
+
+  // No top margin when it opens its container.
+  &:first-child {
+    margin-block-start: 0;
+  }
+}
+
+h1 {
+  font-size: $h1-title;              // fluid 52 → 113px
+  line-height: $line-height-h1;
+  letter-spacing: $letter-spacing-tightest;
+  font-weight: $font-weight-black;
+}
+
+h2 {
+  font-size: $h2-title;              // fluid 40 → 80px
+  line-height: $line-height-h2;
+  letter-spacing: $letter-spacing-tighter;
+  font-weight: $font-weight-black;
+}
+
+h3 {
+  font-size: $h3-title;              // fluid 32 → 56px
+  line-height: $line-height-h3;
+  letter-spacing: $letter-spacing-tighter;
+}
+
+h4 {
+  font-size: $h4-title;              // fluid 27 → 40px
+  line-height: $line-height-h4;
+  letter-spacing: $letter-spacing-tight;
+}
+
+// h5/h6 are near body size, so they take the tighter margins.
+h5 {
+  font-size: $h5-title;              // fluid 23 → 28px
+  line-height: $line-height-h5;
+  margin-block: $heading-margin-top-sm $heading-margin-bottom-sm;
+}
+
+h6 {
+  font-size: $h6-title;              // matches body — weight carries the emphasis
+  line-height: $line-height-h6;
+  margin-block: $heading-margin-top-sm $heading-margin-bottom-sm;
+}
+
+
+/* Eyebrow */
+// The line that introduces a heading, in sentence case. Works on any element.
+.cel-eyebrow {
+  display: block;
+
+  // Set per context with --cel-eyebrow-size (the overlay does).
+  font-size: var(--cel-eyebrow-size, #{$eyebrow-font-size});
+  line-height: $eyebrow-line-height;    // 32px at the 24px default
+  letter-spacing: $letter-spacing-normal;
+  margin-block: 0 $eyebrow-heading-margin-bottom;
+
+  // No colour of its own: it inherits.
+
+  // The eyebrow owns the gap to its heading; margins do not collapse in a grid.
+  + h1, + h2, + h3,
+  + h4, + h5, + h6 {
+    margin-block-start: 0;
+  }
+}
+
+
+/* Label */
+// Small tracked capitals in the accent colour: a counter ("02 / 08"), prev/next,
+// a meta line.
+.cel-label {
+  font-size: $font-size-small;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: var(--cel-primary);
+}
+
+
+/* =============== 2.2 Links =============== */
+a {
+  transition: all .3s;
+  text-decoration: none;
+  color: var(--cel-link-color);
+  &:hover {
+      text-decoration: underline;
+      color: var(--cel-link-hover-color);
+  }
+}
+
+
+/* =============== 2.3 Basic Html Tags =============== */
+p {
+  margin: $paragraph-margin 0;
+}
+
+label {
+	font-family: $font-primary;
+}
+
+small {
+	font-size: $font-size-small;
+}
+
+strong, b {
+  font-weight: $font-weight-bold;
+}
+
+em, i {
+  font-style: italic;
+}
+
+del, s {
+  text-decoration: line-through;
+}
+
+u {
+  text-decoration: underline;
+}
+
+blockquote {
+  padding: 0.5rem 0;
+  margin: $paragraph-margin 0;
+  font-style: normal;
+	font-size: $h5-title;
+}
+
+cite {
+	font-style: italic;
+}
+
+abbr[title] {
+  text-decoration: dotted underline;
+  text-decoration-color: var(--cel-muted-text);
+  cursor: help;
+}
+
+address {
+  font-style: normal;
+	margin-bottom: $paragraph-margin;
+}
+
+code {
+  padding: 0.2rem 0.4rem;
+  font-family: monospace;
+	font-size: $font-size-small;
+  background-color: var(--cel-pre-bg);
+}
+
+pre {
+  padding: $base;
+  overflow-x: auto;
+  font-family: monospace;
+	font-size: $font-size-small;
+  background-color: var(--cel-pre-bg);
+}
+
+sub, sup {
+	font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+sup {
+  top: -0.5rem;
+}
+
+sub {
+  bottom: -0.25rem;
+}
+
+figure {
+  margin: $paragraph-margin 0;
+}
+
+figcaption {
+  font-size: $font-size-small;
+  text-align: center;
+  margin-top: 0.5rem;
+  color: var(--cel-muted-text);
+}
+
+hr {
+  border: 0;
+	border-top-width: 1px;
+	border-top-style: solid;
+  border-top-color: var(--cel-soft-border);
+  margin: $base * 1.5 0;
+
+  // Modifiers: one for the colour, one for the line.
+  &.cel-hr-accent { border-top-color: var(--cel-hard-border); }
+  &.cel-hr-dashed { border-top-style: dashed; }
+}
+
+details {
+  margin-bottom: $base;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: $font-weight-bold;
+}
+
+audio, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+iframe {
+	border: 0 none;
+
+	@include mx.media-breakpoint-down(md) {
+		width: 100%;
+	}
+}
+
+mark {
+  background-color: var(--cel-mark-bg);
+}
+
+::selection {
+  background-color: var(--cel-primary);
+  color: var(--cel-on-primary);
+}
+
+
+/* =============== 2.4 Lists =============== */
+ul,
+ol {
+	margin: $paragraph-margin 0;
+	padding: 0;
+}
+
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+	margin-bottom: 0;
+}
+
+ul li,
+ol li {
+	margin: 0.35em 0 0.35em 1.25em;
+}
+
+ul li li,
+ol li li {
+	margin-left: 1.25em;
+}
+
+ul { 
+	list-style: disc outside;
+}
+
+ol {
+	list-style: decimal outside;
+}
+
+dl {
+	margin: $paragraph-margin 0;
+}
+
+dl dt {
+	margin: 1.25rem 0 0 0;
+	font-weight: $font-weight-bold;
+	text-decoration: underline;
+}
+
+dl dd {
+	margin: calc($base / 2) 0;
+	padding: 0;
+}
+
+
+/* =============== 2.5 Responsive Images =============== */
+img {
+	height: auto;
+	max-width: 100%;
+	position: relative;
+  vertical-align: middle;
+
+  &.cel-img-native {
+    max-width: fit-content;
+  }
+}
+
+img:not([src]):not([srcset]) {
+    visibility: hidden;
+}
+
+
+/* =============== 2.6 Buttons =============== */
+/* Button Base */
+%button-base {
+	display: inline-flex;
+  line-height: $line-height-base;
+  border-radius: $button-radius;
+	padding: $base * 0.6 ($base * 1.5 + 0.25rem);
+  text-align: center;
+  cursor: pointer;
+	justify-content: center;
+	align-items: center;
+	font-size: $button-font-size;
+	font-family: $font-primary;
+	font-weight: $font-weight-bold;
+	-webkit-tap-highlight-color: transparent;
+  transition: background-color $transition-base ease, color $transition-base ease, border-color $transition-base ease, box-shadow $transition-base ease;
+	min-height: $button-min-height;
+	vertical-align: middle;
+
+  &:disabled,
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// The <button> tag carries no appearance, only a reset: most buttons here are
+// controls (close, prev/next, bullets), not calls to action. The look lives on
+// the .cel-button classes below.
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:disabled,
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+
+
+/* Buttons — the call to action.
+   .cel-button is the default fill; the two variants below change only the
+   colour. Put the class on a <button> or an <a>; both get the same geometry. */
+.cel-button,
+.cel-button-primary,
+.cel-button-accent {
+	@extend %button-base;
+	// A transparent 2px border, so an outline variant has the same size.
+	border: 2px solid transparent;
+	width: auto;
+
+	&:focus-visible {
+		outline-width: 2px;
+		outline-style: solid;
+		outline-offset: 2px;
+	}
+}
+
+.cel-button {
+  background-color: var(--cel-btn-bg);
+  color: var(--cel-btn-color);
+
+  &:hover:not(:disabled) {
+    color: var(--cel-btn-color-hover);
+    background-color: var(--cel-btn-bg-hover);
+  }
+
+  &:active:not(:disabled) {
+    color: var(--cel-btn-color-hover);
+    background-color: var(--cel-btn-bg-hover);
+  }
+
+  &:focus-visible {
+    outline-color: var(--cel-btn-border-focus-visible);
+  }
+}
+
+/* Button Primary — filled "ink" navy CTA. The base's transparent border lets the
+   navy bg show through, so it reads as a clean fill with no visible edge. */
+.cel-button-primary {
+  background-color: var(--cel-btn-primary);
+  color: var(--cel-btn-primary-text);
+
+  &:hover:not(:disabled) {
+    color: var(--cel-btn-primary-text);
+    background-color: color-mix(in srgb, black 30%, var(--cel-btn-primary));
+  }
+
+  &:active:not(:disabled) {
+    color: var(--cel-btn-primary-text);
+    background-color: color-mix(in srgb, black 45%, var(--cel-btn-primary));
+  }
+
+  &:focus-visible {
+		outline-width: 2px;
+		outline-style: solid;
+    outline-offset: 2px;
+    outline-color: color-mix(in srgb, white 20%, var(--cel-btn-primary));
+  }
+}
+
+/* Button Accent — the red brand accent (--cel-primary) as a filled CTA. Use
+   when you want a bold, attention-grabbing button instead of the ink primary. */
+.cel-button-accent {
+  background-color: var(--cel-primary);
+  color: var(--cel-on-primary);
+
+  &:hover:not(:disabled) {
+    color: var(--cel-on-primary);
+    background-color: color-mix(in srgb, black 15%, var(--cel-primary));
+  }
+
+  &:active:not(:disabled) {
+    color: var(--cel-on-primary);
+    background-color: color-mix(in srgb, black 25%, var(--cel-primary));
+  }
+
+  &:focus-visible {
+		outline-width: 2px;
+		outline-style: solid;
+    outline-offset: 2px;
+    outline-color: color-mix(in srgb, white 20%, var(--cel-primary));
+  }
+}
+
+
+
+/* =============== 2.7 Helper Classes =============== */
+.cel-align-center {
+	text-align: center;
+}
+
+span.cel-align-center {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.cel-align-left {
+	text-align: left;
+}
+
+.cel-align-right {
+	text-align: right;
+}
+
+.cel-primary-color {
+  color: var(--cel-primary);
+}
+
+.cel-secondary-color {
+  color: var(--cel-secondary);
+}
+
+.cel-heading-underline {
+  @include mx.heading-underline();
+}
+
+.cel-heading-accent {
+  @include mx.heading-accent();
+}
+
+
+/* =============== 2.9 Visibility Helpers =============== */
+// Hides anything; !important beats component display rules (like Bootstrap's .d-none).
+.cel-hide-all {
+	display: none !important;
+}
+
+// Visually hidden but exposed to screen readers (aria-live regions, SR-only labels)
+.cel-visually-hidden {
+	@include mx.visually-hidden;
+}
+
+.cel-hide-mobile {
+	@include mx.media-breakpoint-down(md) {
+		display: none;
+	}
+}
+
+
+
+/* =============== 3.0 ARCHITECTURE =============== */
+// A kit for building further pages without writing CSS: a breakout grid,
+// column grids and spacers, all inside .cel-main-wrapper. The two shipped
+// pages do not use it.
+.cel-main-wrapper {
+	margin: 0 auto;
+	background-color: var(--cel-body-bg);
+	@include mx.generate-spacers();
+	@include mx.generate-grid-gaps();
+
+	// Breakout grid: children sit in the content column; .cel-popout,
+	// .cel-feature and .cel-full reach progressively wider.
+	.cel-content-wrapper {
+		--gap: clamp(1rem, 6vw, 3rem);
+		--full: minmax(var(--gap), 1fr);
+		--content: min(1320px, 100% - var(--gap) * 2);
+		--popout: minmax(0, 2rem);
+		--feature: minmax(0, 5rem);
+		display: grid;
+		grid-template-columns:
+			[full-start] var(--full)
+			[feature-start] var(--feature)
+			[popout-start] var(--popout)
+			[content-start] var(--content) [content-end]
+			var(--popout) [popout-end]
+			var(--feature) [feature-end]
+			var(--full) [full-end];
+	}
+
+	.cel-content-wrapper > * {
+		grid-column: content;
+	}
+
+	.cel-popout {
+		grid-column: popout;
+	}
+
+	.cel-feature {
+		grid-column: feature;
+	}
+
+	.cel-full {
+		grid-column: full;
+	}
+
+	.cel-2col {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+
+		@include mx.media-breakpoint-down(md) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.cel-3col {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: 3.5rem;
+
+		@include mx.media-breakpoint-down(md) {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+		}
+	}
+
+	.cel-4col {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		gap: 2rem;
+
+		@include mx.media-breakpoint-down(lg) {
+			grid-template-columns: 1fr 1fr;
+			gap: 1.5rem;
+		}
+
+		@include mx.media-breakpoint-down(sm) {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+	}
+
+	.cel-5col {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+		gap: 2rem;
+
+		@include mx.media-breakpoint-between(lg, xl) {
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			gap: 1.5rem;
+		}
+
+		@include mx.media-breakpoint-down(lg) {
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 1.5rem;
+		}
+
+		@include mx.media-breakpoint-down(md) {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@include mx.media-breakpoint-down(sm) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.cel-2col,
+	.cel-3col,
+	.cel-4col,
+	.cel-5col {
+		.cel-col-item {
+			display: block;
+		}
+	}
+}
+
+.cel-container {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.cel-no-margins {
+	margin: 0;
+}

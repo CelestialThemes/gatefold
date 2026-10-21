@@ -1,0 +1,302 @@
+@use '../mixins/mixins' as mx;
+@use '../variables/variables' as *;
+
+/* =============== 4.0 PAGE SHELL =============== */
+// Two nested grids, so <main> wraps both the hero and the carousel:
+//
+//   .cel-shell   rows: auto 1fr   → header, then everything else
+//     .cel-main  rows: 1fr auto   → hero takes the slack, carousel is intrinsic
+//
+// min-height, not height: with longer copy the page grows and scrolls instead
+// of clipping it. 100dvh keeps the carousel clear of the mobile URL bar.
+.cel-shell {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  // The page's left and right edge, shared by the header and the back control.
+  --cel-gutter: #{$base * 2};
+
+  @include mx.media-breakpoint-down(md) {
+    --cel-gutter: clamp(#{$base * 0.75}, 4vw, #{$base});
+  }
+}
+
+.cel-main {
+  display: grid;
+
+  // Plain 1fr (minmax(auto, 1fr)): the hero is never squeezed below its content.
+  grid-template-rows: 1fr auto;
+}
+
+
+/* =============== 4.1 Site Header =============== */
+.cel-site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $base;
+  padding: $base * 2.75 var(--cel-gutter);
+
+  // The labels never wrap, so the header can only overflow. Checked with no
+  // horizontal scroll from 320px up; longer labels need that check again.
+  @include mx.media-breakpoint-down(md) {
+    padding-block: $base * 1.25;
+  }
+}
+
+// The right-hand group (Home, About).
+.cel-site-nav {
+  display: flex;
+  align-items: center;
+
+  // 34px → 42px. The current-page dot sits in this gap.
+  gap: calc(clamp(#{$base * 2}, 4vw, #{$base * 2.5}) + 2px);
+}
+
+.cel-site-brand,
+.cel-site-link {
+  // 15px from 469px up, down to 12px on the narrowest phones.
+  font-size: fluid(12px, 15px, 375px, 469px);
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  color: var(--cel-heading-color);
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: none;
+    color: var(--cel-primary);
+  }
+}
+
+// The current page is marked with a red dot beside its label, from
+// aria-current. The label stays white: red text on the blue reads at 2.0:1.
+// The dot is positioned outside the flow, so the spacing never changes.
+.cel-site-link[aria-current='page'] {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 0.5em + 2px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    translate: 0 -50%;
+    background-color: var(--cel-primary);
+  }
+}
+
+
+/* =============== 4.2 Hero =============== */
+// Centred in the slack; once the content is taller there is no slack, and
+// nothing is pushed out of view.
+.cel-hero {
+  // Both read by .cel-back, to line it up with the mark.
+  --cel-hero-mark-size: clamp(2rem, 4vw, 3.25rem);   // 32px → 52px
+  --cel-hero-pad-top: #{$base * 2};
+
+  position: relative;   // containing block for .cel-back
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  padding-block: var(--cel-hero-pad-top) $base * 2;
+  padding-inline: $base * 1.5;
+}
+
+.cel-hero-mark {
+  display: block;
+  color: var(--cel-primary);
+  margin-block-end: $base * 2;
+
+  svg {
+    display: block;
+    width: var(--cel-hero-mark-size);
+    height: auto;   // the viewBox is square
+  }
+}
+
+
+/* =============== 4.2.1 Back Control =============== */
+// The way back to the index on the About page, in the left margin: on the
+// page gutter, level with the mark.
+.cel-back {
+  --cel-back-icon: clamp(1.5rem, 2.2vw, 2rem);   // 24px → 32px
+  --cel-back-target: #{$base * 2.75};            // the 44px touch minimum
+
+  position: absolute;
+
+  // Offsets for the icon, not the 44px box around it.
+  top: calc(var(--cel-hero-pad-top) + (var(--cel-hero-mark-size) - var(--cel-back-target)) / 2);
+  left: calc(var(--cel-gutter) - (var(--cel-back-target) - var(--cel-back-icon)) / 2);
+
+  width: var(--cel-back-target);
+  height: var(--cel-back-target);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--cel-body-color);
+  transition: color $transition-base ease, transform $transition-base ease;
+
+  svg {
+    width: var(--cel-back-icon);
+    height: var(--cel-back-icon);
+  }
+
+  &:hover {
+    color: var(--cel-primary);
+    transform: translateX(-0.25rem);
+  }
+}
+
+.cel-hero-tagline {
+  margin-block: 0 $base * 1.75;
+}
+
+// The wordmark is display type with its own scale: 160px at 1920, up to
+// 200px around 2500.
+.cel-hero-title {
+  font-size: fluid(56px, 200px, 360px, 2500px);
+  line-height: 0.95;
+  letter-spacing: $letter-spacing-tighter;
+  font-weight: $font-weight-black;
+  margin-block: 0 $base;
+}
+
+
+/* =============== 4.3 Carousel Stage =============== */
+// The full-bleed strip, flush to the bottom edge. Its height sizes the whole
+// carousel: the slides follow it with object-fit: cover.
+//
+// Sized from the viewport width, not height, so it holds still when the
+// mobile URL bar or docked dev tools change the height. The 38rem ceiling
+// keeps the 4:5 images from being cropped on wide screens.
+.cel-stage {
+  height: clamp(24rem, 30vw, 38rem);   // 384px → 608px
+  min-height: 0;
+
+  // Anchors the chain of percentage heights below (.swiper → wrapper → slide →
+  // img); without a definite height here they would size from the images.
+  > * {
+    height: 100%;
+    min-height: 0;
+  }
+
+  overflow: hidden;
+
+  // Two columns (768–991): a steeper factor that keeps each slot near 4:5.
+  @include mx.media-breakpoint-between(md, lg) {
+    height: clamp(28rem, 62vw, 38rem);    // 448px → 608px
+  }
+
+  // One column on a phone: the slide is as wide as the screen.
+  @include mx.media-breakpoint-down(md) {
+    height: clamp(22rem, 110vw, 30rem);   // 352px → 480px
+  }
+}
+
+
+/* =============== 4.4 Article Layout =============== */
+// A reading page: the hero takes only what it needs and the prose the rest,
+// so the text starts above the fold and a short page still reaches the bottom.
+.cel-main-article {
+  grid-template-rows: auto 1fr;
+
+  .cel-hero {
+    // Only the bottom grows; the top stays on --cel-hero-pad-top for .cel-back.
+    padding-block: var(--cel-hero-pad-top) clamp(#{$base * 3}, 6vw, #{$base * 6});
+  }
+}
+
+
+/* =============== 4.5 Prose =============== */
+// A single reading column. width: min() rather than max-width plus padding,
+// so the box is exactly the text measure and figures can hang off its edge.
+.cel-prose {
+  --cel-prose-width: 50rem;   // 800px
+
+  // How far a figure may reach past the column: half the leftover width, less
+  // a gutter. It floors at 0 on narrow windows. 100vw includes the scrollbar;
+  // the gutter absorbs that.
+  --cel-prose-bleed: max(0px, (100vw - var(--cel-prose-width)) / 2 - #{$base * 1.5});
+
+  width: min(var(--cel-prose-width), 100% - #{$base * 3});
+  margin-inline: auto;
+  padding-block-end: clamp(#{$base * 4}, 10vw, #{$base * 8});
+
+  // Contains the floated figures.
+  display: flow-root;
+
+  // A full line between paragraphs; the global 1em is narrower than the
+  // line gap and the column reads as one block.
+  p {
+    margin-block: 0 1.5em;
+  }
+
+  > :first-child { margin-block-start: 0; }
+  > :last-child  { margin-block-end: 0; }
+}
+
+
+/* =============== 4.6 Prose Figures =============== */
+// A picture that hangs out of the reading column, with the text wrapping
+// around it. It is a float because only a float makes the text wrap, so the
+// figure goes BEFORE the paragraph it sits beside.
+//
+// The footprint inside the column is fixed (18rem); the picture grows by
+// reaching further into the margin, so the text beside it keeps the same
+// line length at every width.
+.cel-prose-figure {
+  --cel-figure-inset: 18rem;                                // 288px out of the column
+  --cel-figure-pull:  min(12rem, var(--cel-prose-bleed));   // up to 192px outside it
+
+  width: calc(var(--cel-figure-inset) + var(--cel-figure-pull));   // up to 480px
+  margin-block: 0 $base * 1.5;
+  margin-inline: 0;   // browsers still default figure to 1em 40px
+
+  // The second figure always starts below the first, however short the text
+  // between them.
+  @include mx.media-breakpoint-up(lg) {
+    clear: both;
+  }
+
+  // Below lg: no float, full column width.
+  @include mx.media-breakpoint-down(lg) {
+    width: 100%;
+    margin-block: $base * 2.5;
+  }
+
+  // Aligned to the picture's own edge, overriding the centred figcaption in
+  // _core.scss. gray-20 measures 6.3:1 on the blue.
+  figcaption {
+    margin-block-start: $base * 0.75;
+    font-size: $font-size-small;
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-align: left;
+    color: var(--cel-muted-text);
+    text-wrap: balance;
+  }
+}
+
+.cel-prose-figure-left {
+  @include mx.media-breakpoint-up(lg) {
+    float: left;
+    margin-left: calc(var(--cel-figure-pull) * -1);
+    margin-right: $base * 2.5;
+  }
+}
+
+.cel-prose-figure-right {
+  @include mx.media-breakpoint-up(lg) {
+    float: right;
+    margin-right: calc(var(--cel-figure-pull) * -1);
+    margin-left: $base * 2.5;
+
+    figcaption { text-align: right; }
+  }
+}

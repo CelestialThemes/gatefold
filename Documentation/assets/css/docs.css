@@ -1,0 +1,1593 @@
+/* =============================================================================
+   Celestial Themes — Documentation
+   Plain-CSS design system. All design decisions are tokens in :root below —
+   re-theme the whole doc by editing those. Mobile-first; ~1 real breakpoint.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   0. Fonts (self-hosted)
+   -------------------------------------------------------------------------- */
+/* Geist — VARIABLE font (wght axis 100–900), SIL OFL 1.1, licence alongside the
+   files. One file per subset covers every weight, so intermediate values are
+   available (e.g. 450 for buttons), not just the named ones.
+
+   Two subsets rather than one, split by unicode-range: a browser downloads
+   latin-ext ONLY if the page actually contains a character from it. English
+   pages fetch 29 KB and never see the second file; a page with Romanian or any
+   other accented European text picks up 16 KB more on its own. */
+@font-face {
+  font-family: "Geist";
+  src: url("../fonts/geist/geist-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("../fonts/geist/geist-latin-ext-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                 U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+                 U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/ibmplexmono/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("../fonts/ibmplexmono/IBMPlexMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* -----------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Color */
+  --c-ink:          #170f3a;            /* darkest ink — outline-button hover */
+  /* Headings and body copy are the SAME ink by choice. The scheme used to run a
+     two-step relationship — headings #2a2350 at 14.4:1, body #4b4668 at 8.8:1 —
+     so rank was carried partly by colour. It is now carried by size and weight
+     alone, which is the stricter arrangement: it survives being printed, being
+     read at any zoom, and being reused at a size the palette never anticipated. */
+  --c-heading:      #231c46;            /* headings + emphasis — 15.8:1 on white */
+  --c-ink-2:        #231c46;            /* body copy + sidebar — the same ink */
+  --c-meta:         #6b6985;            /* desaturated mono meta text */
+  --c-bg:           #f6f5f9;            /* page ground — a tint, not white */
+
+  /* One step below the page, never a fixed value. It has to move with --c-bg or
+     the surfaces built on it stop being surfaces: against the tinted ground the
+     old #f6f6fb measured 1.008:1, which is not a colour difference, it is a
+     rounding error. This keeps the same rgb(-9, -9, -4) step the pair had when
+     the page was white. */
+  --c-bg-soft:      #e4e2ee;            /* 1.18:1 on the page — chip fill, table th, sidebar toggle */
+  /* The greys below were drawn against a white page. Tinting the ground to
+     #f6f5f9 took 8% off every one of them at a stroke — --c-border fell from
+     1.229:1 to 1.132:1 — which is why the rules, the table lines and the chip
+     outlines all went quiet at once. They are re-cut against the ground they
+     actually sit on now, and pushed past where they started rather than merely
+     back to it.
+     The pair is a ladder, and the order matters: a chip carries the fill AND the
+     border, so the border has to clear the fill (1.23:1) as well as the page. */
+  --c-border:       #cdcdd8;            /* 1.45:1 on the page — hr, table lines, chip + card outlines */
+  /* Links, active nav, focus ring, filled button. The old #2d7dff measured
+     3.52:1 as text on the page — under the 4.5:1 body-text floor — and 3.83:1
+     as white-on-fill in the button. This clears both.
+     --c-accent-ink is the pressed/hover step and had to move with it: against
+     the new accent the old value sat at 1.009:1, so the button would have looked
+     dead on hover. It keeps the same rgb(-14, -26, -41) drop the pair always
+     had, which restores the 1.46:1 step. */
+  --c-accent:       #2758f9;            /* 5.03:1 as text on the page, 5.45:1 white-on-fill */
+  --c-accent-ink:   #193ed0;            /* hover/pressed — 7.95:1 white-on-fill */
+  /* List bullets. Deliberately NOT re-cut with the page greys any more: it is a
+     glyph you are meant to read, not a hairline, so it answers to the non-text
+     floor of 3:1 rather than to the border ladder. 4.86:1, and still far below
+     the 14.6:1 of the body text it sits beside. Same value as --c-meta, kept as
+     its own token so a bullet can be retinted without moving the meta text. */
+  --c-marker:       #6b6985;            /* 4.86:1 on the page */
+  /* Was the hero pill. That is now plain text, so the only thing left wearing
+     this green is the "copied!" state of the code-block copy button — hence the
+     name is stale but the value is still doing a job. --c-badge-ink, the dark
+     green that sat ON the pill, has no consumer at all now. */
+  --c-badge:        #20cb9b;            /* copy-button success state */
+  /* The dark ground, written once. The three names under it are not redundant
+     spelling — they are the seams. Retinting every dark surface together is one
+     edit here; pulling one of them apart later (a lighter code block, say) means
+     replacing that line with its own value and touching nothing else. Repeat the
+     hex three times instead and the two operations become the same job. */
+  --c-dark:         #100e1a;
+  --c-header-bg:    var(--c-dark);
+  --c-footer-bg:    var(--c-dark);
+  /* Three steps of ink for the dark ground, brightest first. --c-on-dark-soft
+     was called --c-image-border, which described nothing it did. It carries the
+     plain text and links of the header and footer, and the hero badge, and it
+     belongs in this group rather than among the page greys. It is NOT re-cut
+     when those greys are — it sits on the dark, so darkening it moves it the
+     wrong way. Was #e0ddef (14.3:1) until 2026-09-15: close enough to white
+     that the hover step measured 1.33:1 and links stopped reading as links;
+     #c2bed2 makes that step 1.81:1. */
+  --c-on-dark:      #ffffff;                    /* 19.1:1 — link hover, logo, hero title */
+  --c-on-dark-soft: #c2bed2;                    /* 10.5:1 — header + footer text and links at rest, hero badge */
+  --c-on-dark-dim:  rgba(255, 255, 255, 0.6);   /*  7.2:1 — code-block copy button */
+
+  /* The rule on the dark ground. Only the header draws one today — the footer is
+     deliberately a single line of text with no divider — but this is named for
+     the surface rather than for the one component, so a second dark rule cannot
+     drift away from the first. A solid value replaces the translucent white that
+     was here: rgba(255,255,255,0.08) composited to roughly #23212c, 1.21:1,
+     which is a line you have to look for. */
+  --c-divider-dark: #3e3d45;
+
+  /* The release panel's ground. Its own token, not --c-bg-soft: that one has six
+     other consumers — the sidebar toggle, table headers, kbd, code chips, meta
+     text and the outline button's hover — and none of them asked to move.
+     This value is a compromise between two failures, and it was found by walking
+     the line between them rather than guessed:
+       #e4e2ee (= --c-bg-soft)  1.179:1 on the page — a plain surface, but it
+                                dragged every ink down to the 4.5:1 floor
+       #ecebf2                  1.091:1 — ink comfortable at 4.9:1, but the
+                                panel had stopped reading as a panel
+       #e8e7f0  <-- here        1.130:1, ink at 4.77:1: over the floor with room
+                                to spare, and a surface you see without hunting
+     Below about 1.10:1 a fill this close in hue stops registering as a box at
+     all, so that is the floor for this token, not a preference. */
+  --c-log-bg:       #e8e7f0;
+
+  /* Changelog group labels. Their own tokens rather than the callout accents,
+     because those were cut against pale grounds (#eef4ff, #e7f8f1…) and land
+     between 3.42:1 and 4.21:1 on the release panel's #e4e2ee — all four under
+     the 4.5:1 floor for 16px text.
+
+     Note what is NOT here: a colour for Fixed taken from --c-danger. Red means
+     danger in this stylesheet, and Fixed is the good news — it names what has
+     already been repaired. Red is also the only colour that can carry "breaking
+     change", which a changelog reaches at its first major version and which is
+     the one entry a reader must not skip. Orange says "this was broken" without
+     spending it. --c-log-breaking is cut and waiting for that day.
+
+     All four are at full saturation, pushed to the most chromatic value that
+     still clears 4.5:1 on the panel. The first cut of these was derived by
+     scaling the callout accents toward black, which holds the hue but drains the
+     chroma against a light ground — they read washed out, and the fix was
+     saturation, not lightness. Green gains the least (+8%) and always will: the
+     eye is most sensitive around 145°, so a green carries high luminance and has
+     to sit darker than any other hue to reach the same contrast.
+
+     Going brighter than this means going under 4.5:1. The values one stop up,
+     if that trade is ever wanted, are #d16200 / #00963f / #3370ff — around 3:1,
+     which is the floor for large text and for non-text, not for a 16px label. */
+  --c-log-added:    #007531;   /* 4.56:1 on the panel — hue 145, sat 100% */
+  --c-log-updated:  #0550ff;   /* 4.56:1 — hue 222, sat 100% */
+  --c-log-fixed:    #a34c00;   /* 4.56:1 — hue  28, sat 100%, orange not amber */
+  --c-log-breaking: #cd0700;   /* 4.52:1 — reserved, no consumer yet */
+
+  /* One thing these four deliberately do NOT have: separation from each other in
+     luminance. All are cut to the same contrast against the same panel, so any
+     two of them measure 1.00:1 apart and differ by hue alone — invisible to a
+     reader who cannot separate those hues. That is acceptable here only because
+     the label spells out which group it is; the colour repeats the word, it
+     never replaces it. Any future use of these tokens has to keep that true. */
+
+  /* Callout / alert variants — light tint + accent (used for text + icon + bar;
+     accents kept dark enough to stay AA-legible as body text on their tint) */
+  --c-info-bg:      #eef4ff;  --c-info-accent:    #2065d6;
+  --c-success-bg:   #e7f8f1;  --c-success-accent: #0a8a5b;
+  --c-warning-bg:   #fff6e3;  --c-warning-accent: #9a6400;
+  --c-danger-bg:    #fdecec;  --c-danger-accent:  #cc2d33;
+
+  /* Code — the same ground as the header and footer, so the document has one
+     dark rather than two that are nearly but not quite the same. The syntax
+     colours were checked against the move: every token shifted by 0.02:1 or
+     less, the lowest of them (keyword #f92672) still at 5.0:1. */
+  --c-code-bg:      var(--c-dark);
+  --c-code-fg:      #cfd0ea;
+
+  /* Type */
+  --font-sans:    "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --mono-tracking: -0.25px;     /* shared letter-spacing for all mono (badge, meta, code) */
+
+  /* Font weights (variable font, 100–900). Semantic aliases for the ones used.
+     NOTE: the @font-face descriptors above stay numeric — tokens are usage-only. */
+  --fw-regular:  400;   /* body copy, and h1 — see the headings block */
+  --fw-button:   450;
+  --fw-medium:   500;   /* UI: logo, buttons, active nav, headings, dt */
+  --fw-semibold: 600;   /* the active sidebar link */
+  --fw-bold:     700;   /* <strong> in copy: 500 sat too close to the 400 text to read as bold (2026-10-12) */
+
+  /* Line heights — only the ones that repeat; per-heading leadings stay inline. */
+  --lh-body:  1.5556;           /* body / lead — 28px at the 18px body size */
+  --lh-list:  1.4444;           /* 26px at 18px — list items, a step tighter than body so a wrapped item reads as one unit */
+  --lh-code:  1.6875;           /* 27px at 16px — code blocks */
+
+  /* UI text size — nav / sidebar links, default button. */
+  --fs-ui:    1.125rem;         /* 18px */
+
+  /* Heading scale — one modular scale: desktop ratio ~1.25, mobile ratio 1.2.
+     clamp(mobile, fluid 360→1280px, desktop). Line-heights set on the elements. */
+  /* h1 is the standard page title, 80px — the same h1 as the Celestial site. */
+  --fs-h1:    clamp(2.5rem,    1.5217rem + 4.3478vw, 5rem);   /* 40 → 80px */
+  --fs-h2:    clamp(2.125rem,  1.7337rem + 1.7391vw, 3.125rem); /* 34 → 50px */
+  --fs-h3:    clamp(1.875rem,  1.63rem + 1.09vw, 2.5rem);    /* 30 → 40px */
+  --fs-h4:    clamp(1.625rem,  1.48rem + 0.65vw, 2rem);      /* 26 → 32px */
+  --fs-h5:    clamp(1.375rem,  1.2283rem + 0.6522vw, 1.75rem); /* 22 → 28px */
+  --fs-h6:    clamp(1.25rem,   1.1522rem + 0.4348vw, 1.5rem);  /* 20 → 24px */
+  --fs-body:  1.125rem;         /* 18px, at every width */
+  --fs-small: 0.875rem;         /* 14px */
+
+  /* Spacing scale — every content margin derives from these (see §6).
+     Keeps the vertical rhythm systematic as new block types are added. */
+  --space-2xs: 0.5rem;   /*  8px — heading → its own content */
+  /* Kept deliberately despite having no consumer today: it is the 12px rung of
+     the spacing scale, and a scale with a hole in it invites a one-off value
+     the next time something needs to sit between 8 and 16. Not dead code. */
+  --space-xs:  0.75rem;  /* 12px — list-item gaps */
+  --space-sm:  1rem;     /* 16px — paragraph / inline rhythm */
+  --space-md:  1.5rem;   /* 24px — block margins: code, tables, lists */
+  --space-lg:  2rem;     /* 32px — example (h4) separation */
+  /* The subsection gap — the space above every h3, and above the <summary> of an
+     expandable block, which is matched to h3 on purpose. 56px was about 1.75x
+     the 32px heading it introduced, which is enough to be a gap but not enough
+     to read as a new part of the page; at 72px it is 2.25x, and an h3 stops
+     looking like it belongs to the block above it. */
+  --space-xl:  clamp(2.5rem, 1.717rem + 3.478vw, 4.5rem);   /* 40 → 72px */
+
+  /* Gap between list items (ul/ol) — its own lever, tune list density site-wide
+     from one place, independent of --space-xs. Mirrors the WP theme. */
+  /* Tuned so the WHITE between content list items matches the white between
+     sidebar links, which is the comparison the eye actually makes when the two
+     columns sit side by side.
+     They need different numbers to land in the same place. A sidebar link runs
+     at line-height 1.3 and a content item at 1.45, so the content item already
+     carries 2.7px more leading of its own; 14px of margin plus that leading
+     comes to 22.6px of white, against the sidebar's 8px padding either side plus
+     its own, 21.9px. Within a pixel of each other.
+     (It was 18px, chosen against the line BOX rather than against the white —
+     the wrong measure, and 4px too loose because of it.) */
+  --list-gap: 0.875rem;   /* 14px */
+
+  /* Layout */
+  --gutter:    clamp(1.5rem, 0.9rem + 2vw, 2.5rem);   /* mobile min 24px (was 20) — roomier side padding, LS-like */
+  /* Whole sections — the space above every h2. It moved with the subsection gap
+     rather than staying put: the two are read against each other, and leaving
+     this at 112px while h3 went to 72px would have taken the ratio from 2.0 to
+     1.56, which is where a section stops announcing itself. 128/72 = 1.78, and
+     the size difference between a 50px h2 and a 32px h3 carries the rest. */
+  --section-gap: clamp(5rem, 3.826rem + 5.217vw, 8rem);   /* 80 → 128px */
+  /* The OUTER width, gutters included — so the readable column it produces is
+     1390 − 2 × 40 = 1310px, the WordPress theme's --content-w. The theme puts
+     its gutters outside that column; .doc-container puts them inside, so the
+     token has to carry them. Was 1400px (a 1320px column) until 2026-09-15,
+     and 1250px before that.
+     Knock-on at full width: sidebar 420 + content 820 leave 1310 − 1240 = 70px
+     between them (was 80), and the sidebar's 32% share gives 419px, a pixel
+     under its cap. */
+  --container: 1390px;
+  --sidebar-w: 420px;
+  --content-w: 820px;
+  /* One radius for every rectangular surface — panels, code blocks, callouts,
+     chips, images. It was four (14 / 8 / 4 / hardcoded 5 and 3), but only the
+     4px was ever a system: it had eight consumers against one each for the
+     others. A code block and a release panel are the same object — a wide
+     surface holding mono text — so carrying different corners was the actual
+     inconsistency, not the value. The name keeps the -xs suffix because it is
+     referenced in eleven places; there is no scale left for it to be the
+     small end of. */
+  --radius-xs: 4px;
+  --radius-pill: 999px;
+
+  /* List markers — inline SVGs, recoloured per use via mask + background-color */
+  --spark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.5 6.5 17.5 11.5 24 12C17.5 12.5 12.5 17.5 12 24C11.5 17.5 6.5 12.5 0 12C6.5 11.5 11.5 6.5 12 0Z'/%3E%3C/svg%3E");
+  /* exact Lucide "check" geometry — used as a mask, so colour comes from background-color */
+  --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  /* exact Lucide "arrow-right" geometry — content list bullets. Same encoding as
+     --check above: stroked in black because a mask reads the alpha channel, so
+     the colour comes from background-color, not from the SVG. */
+  --arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E");
+}
+
+/* Mobile: tighten the list rhythm. The body size used to step down here as well,
+   from 20px to 18px; now that 18px is the size at every width there is nothing
+   left for it to step to, so only the micro-rhythm moves. */
+@media (max-width: 767.98px) {
+  :root {
+    --list-gap: 0.75rem;     /* 14px → 12px */
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   2. Reset + base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+/* Lenis adds these classes to the root while it runs (see docs.js), and the
+   browser's own smooth scroll has to stand down while it does: two smoothing
+   curves competing for the same scroll position fight each other, and an anchor
+   click lands twice. Under prefers-reduced-motion neither runs — Lenis is never
+   constructed, and section 12 puts scroll-behavior back to auto anyway.
+
+   lenis-smooth arrives on the first scroll rather than at load, which is also
+   how the website behaves; nothing depends on it before then, because the
+   anchor handler in docs.js cancels the click and scrolls through Lenis itself.
+
+   The website carries one more rule here that this file deliberately does not:
+     .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+   The sidebar is marked data-lenis-prevent so the wheel scrolls the column
+   instead of the page, but it must still hand the scroll back when it reaches
+   its end — see the note at .doc-sidebar__nav. contain is what stops that. */
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);            /* 28px at 18px */
+  color: var(--c-ink-2);       /* same ink as headings — rank comes from size and weight */
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;   /* long inline tokens (function names, paths) wrap, never overflow */
+
+  /* A page with little on it — a changelog with one release, a short reference —
+     used to leave the footer floating partway down the window with bare
+     background beneath it. The column is at least as tall as the window and the
+     footer takes up the slack (see .doc-footer).
+
+     dvh with a vh fallback: on a phone 100vh counts the browser chrome that
+     scrolls away, which would make the page taller than the window it is meant
+     to fit and leave it scrolling by a few pixels with nothing to scroll to. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+img, svg { display: block; max-width: 100%; height: auto; }
+
+a { color: var(--c-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Reusable animated underline — wipes in from the left on hover.
+   Opt in via the .cel-underline class OR by adding a selector to the groups
+   below. Tune per context: --ul-color (default accent), --ul-size (2px),
+   --ul-offset (distance below text, default -3px). */
+.cel-underline,
+.doc-nav__list a { position: relative; }
+.cel-underline:hover { text-decoration: none; }   /* the ::after is the underline — suppress the default */
+.cel-underline::after,
+.doc-nav__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: var(--ul-offset, -3px);
+  width: 100%;
+  height: var(--ul-size, 2px);
+  background: var(--ul-color, var(--c-accent));
+  transform: scaleX(0);
+  transform-origin: right;          /* exit: collapses toward the right (out left→right) */
+  transition: transform 0.35s ease;
+}
+.cel-underline:hover::after,
+.doc-nav__list a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;           /* enter: grows from the left */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  /* Medium, not SemiBold (2026-09-24, with the WP theme). <strong> is Bold
+     (--fw-bold), the active sidebar link SemiBold. */
+  font-weight: var(--fw-medium);
+  color: var(--c-heading);         /* same value as --c-ink-2; kept as its own token so headings can be retinted alone */
+
+  /* Tracking tightens as the type grows — the wider a letter is drawn, the more
+     air sits beside it. -0.03em from h2 up, -0.02em at h3, -0.01em below, where
+     tightening starts to cost legibility. The figures were measured off the
+     Figma export of the site at 1:1 and are shared with the theme, so a heading
+     reads the same in the documentation as on the site. */
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;       /* long function-name tokens wrap instead of overflowing */
+}
+
+/* h1 alone stays Regular. It is the largest thing on the page by a wide margin,
+   and weight and size do the same job — at 60px the size already carries the
+   hierarchy, so adding weight on top reads as shouting rather than as rank. */
+h1 { font-size: var(--fs-h1); line-height: 1.05; font-weight: var(--fw-regular); letter-spacing: -0.03em; }     /* 80 / 84 */
+h2 { font-size: var(--fs-h2); line-height: 1.16; letter-spacing: -0.03em; }     /* 50 / 58 */
+h3 { font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.02em; }      /* 40 / 48 */
+h4 { font-size: var(--fs-h4); line-height: 1.3125; }   /* 32 / 42 */
+h5 { font-size: var(--fs-h5); line-height: 1.2857; }   /* 28 / 36 */
+h6 { font-size: var(--fs-h6); line-height: 1.3333; }   /* 24 / 32 */
+
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* Selected text takes the link accent — the browser default is a system blue
+   that belongs to no palette here.
+
+   Solid, and the colour has to be declared alongside the background rather than
+   left alone. Body ink on this accent measures 2.90:1, under the 4.5:1 floor;
+   white on it measures 5.45:1 and clears it. White also holds on the dark
+   surfaces — header, footer, code blocks — so one pair covers the whole
+   document. Inside a code block it flattens the syntax colours for as long as
+   the selection lasts, which is what a selection is meant to do.
+
+   Transparent versions were tried and dropped — 40% and then 30%, via
+   color-mix. They keep the syntax colours and read better on paper (every ink
+   gains a point or two), but what has to be found is the highlight, not the text
+   in it, and a tint measures only 1.82:1 against the light ground and 1.40:1
+   inside a code block. Solid measures 5.03:1 and 3.50:1 against the same two.
+   The findable one wins.
+
+   ::selection only, no ::-moz-selection: Firefox has supported the standard
+   name since 62. Note they can never be combined into one selector list — an
+   unrecognised pseudo-element invalidates the entire list, taking the working
+   half down with it. */
+::selection {
+  background: var(--c-accent);
+  color: var(--c-on-dark);
+}
+
+.doc-container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* -----------------------------------------------------------------------------
+   3. Header (dark) — nav bar + page hero
+   -------------------------------------------------------------------------- */
+.doc-header {
+  background: var(--c-header-bg);
+  color: var(--c-on-dark-soft);   /* plain text; logo, nav hover + buttons set white */
+  overflow-x: clip;            /* contains the full-bleed bar divider */
+}
+
+.doc-header__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gutter);
+  padding-block: 2.75rem;      /* 36px → 44px */
+}
+/* Divider spans the full viewport, not just the 1280px content box */
+/* The rule under the header, inset to the text column rather than run edge to
+   edge. It used to break out of the container — width: 100vw, pulled back by
+   half its own width — so it crossed the whole window regardless of where the
+   content sat.
+   Still a pseudo-element rather than a border on the bar itself: .doc-header__bar
+   IS the container, so its border box includes the gutter, and a plain
+   border-bottom would overshoot the logo by --gutter on each side. Insetting the
+   pseudo-element by that same gutter is what lands it on the content edge — the
+   line now starts where the logo starts and ends where the nav ends. */
+.doc-header__bar::after {
+  content: "";
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  border-bottom: 1px solid var(--c-divider-dark);
+}
+
+.doc-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--c-on-dark);
+  font-weight: var(--fw-medium);
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+.doc-logo:hover { text-decoration: none; }
+
+.doc-logo img { width: auto; }
+.doc-logo__full { height: 3rem; }              /* full lockup — desktop/tablet */
+.doc-logo__mark { display: none; height: 2.5rem; }   /* C + star mark — shown on mobile */
+
+/* Global header nav: inline link(s) on desktop, hamburger dropdown on mobile */
+.doc-nav { position: relative; }
+.doc-navbtn {
+  display: none;                /* desktop shows the inline link instead */
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--c-on-dark);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.doc-navbtn svg { width: 1.5rem; height: 1.5rem; }
+
+.doc-nav__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+
+  /* 28px → 44px. The old gap was set when this list held one item and so never
+     had to separate anything; with two links side by side it read as one phrase.
+     44px is wider than the space inside either label, which is the threshold at
+     which two items stop looking like one. */
+  gap: 2.75rem;
+}
+.doc-nav__list a {
+  color: var(--c-on-dark-soft);
+  font-size: var(--fs-ui);         /* 18px */
+  line-height: 1.25;
+  transition: color 0.2s ease;
+}
+
+/* The links that leave the documentation — the live demo and support. The
+   arrow says so before
+   reader has to guess from the label — inline-flex so it sits on the text
+   baseline rather than being a block after it. */
+.doc-nav__ext {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.doc-nav__ext svg {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+.doc-nav__list a:hover { color: var(--c-on-dark); text-decoration: none; }
+/* underline: opted in via the reusable group in §2 */
+
+/* The title grew from 60px to 70px, and the block around it had not been
+   re-spaced since — a bigger headline in the same box reads as crowded rather
+   than as bigger. Both paddings go up by 32px at the desktop end, and the floors
+   move with them so the change is not only felt on wide screens.
+   56 → 88px above, 72 → 104px below. Still asymmetric, and deliberately so: the
+   space under the title carries the eye into the page, the space above it only
+   separates the block from the header rule. */
+/* Left-aligned, unlike the site's heroes, which are centred. The rule is that a
+   hero sits on the axis of the content below it: here that is a sidebar and a
+   prose column, and a centred title floated over the gap between them. The
+   left edge is where a reader scanning the docs looks for it, and it lines up
+   with the logo and the nav. */
+.doc-hero {
+  padding-top: clamp(3.5rem, 2.718rem + 3.478vw, 5.5rem);      /* 56 → 88px */
+  padding-bottom: clamp(4rem, 3.022rem + 4.348vw, 6.5rem);     /* 64 → 104px */
+}
+.doc-hero__title {
+  /* Size, leading, weight and tracking: the h1 itself (--fs-h1, 40 → 80px). */
+  color: var(--c-on-dark);
+}
+/* A standfirst above the title, not a pill under it. It was a filled turquoise
+   capsule, which made a label that says the same thing on all ten pages the
+   loudest object in the hero. Sitting above the title in plain mono at
+   --c-on-dark-dim (7.2:1) it does the job a kicker is supposed to do: it is read
+   first, then got out of the way. The mono family and tracking come from the
+   shared .doc-badge, .doc-meta rule further down. */
+.doc-badge {
+  display: block;
+
+  /* 16px was set against a 60px title. At 70px the kicker started sitting on top
+     of the headline instead of introducing it, so the gap goes to 28px — close
+     to the eyebrow's own 24px line box, which is the distance at which the two
+     read as separate lines of the same block rather than as one crowded stack. */
+  margin-bottom: 1.75rem;      /* 28px */
+
+  color: var(--c-on-dark-soft);
+}
+
+/* Mobile/tablet header: icon-only mark + compact bar + hamburger dropdown (<992px) */
+@media (max-width: 991.98px) {
+  .doc-header__bar { padding-block: 1.75rem; }   /* room around the logo/nav row */
+  .doc-logo__full { display: none; }
+  .doc-logo__mark { display: block; }
+  .doc-badge { margin-top: 1.35rem; }
+
+  .doc-navbtn { display: inline-flex; }
+  .doc-nav__list {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.85rem);
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-width: 12rem;
+    padding: 0.4rem;
+    background: var(--c-accent);   /* the theme blue, as the site: white 5.45:1, links at rest 4.71:1 */
+    border-radius: var(--radius-xs);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+    z-index: 60;
+  }
+  .doc-nav__list.is-open { display: flex; }
+  .doc-nav__list a {
+    display: block;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-xs);
+    font-size: 1.0625rem;
+  }
+  /* The two external links have to stay flex containers here. The rule above is
+     (0,1,1) and .doc-nav__ext is only (0,1,0), so `display: block` wins — and
+     since the global `img, svg` rule makes every icon display: block, the arrow
+     then became a block-level child and dropped onto its own line.
+     flex rather than inline-flex: a dropdown row still wants to fill the width so
+     the padding and the hover background cover it. align-items and gap come from
+     .doc-nav__ext, which nothing else contests. */
+  .doc-nav__list a.doc-nav__ext { display: flex; }
+
+  /* --c-on-dark-soft is only 3:1 on the blue: links rest at 90% white, and the
+     hover and the page you are on go full white on a light wash. */
+  .doc-nav__list a { color: rgb(255 255 255 / 0.9); }
+  .doc-nav__list a:hover,
+  .doc-nav__list a[aria-current="page"] { color: var(--c-on-dark); background: rgb(255 255 255 / 0.12); }
+  .doc-nav__list a::after { display: none; }   /* dropdown uses bg hover, not the underline */
+}
+
+/* -----------------------------------------------------------------------------
+   4. Layout — sidebar + content
+   -------------------------------------------------------------------------- */
+.doc-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+  padding-block: clamp(4rem, 2.5rem + 4vw, 6rem);   /* mobile min 64px (was 48) */
+}
+@media (min-width: 992px) {
+  .doc-layout {
+    /* sidebar 420 + content 820 (both cap there); whatever the container has
+       left over becomes the gap between them, via space-between — 80px at the
+       full container width. On narrower desktops the content shrinks (minmax
+       min 0) so nothing overflows.
+       820px runs roughly 91 characters of body copy a line. That is well past
+       the 45–75 that reads comfortably, and it is a deliberate choice: this
+       column mostly carries code blocks and six-column parameter tables, which
+       wanted the width more than the paragraphs wanted the restraint. If the
+       prose ever needs reining in without narrowing the column, cap the
+       paragraphs alone — `.cel-prose p { max-width: 46rem; }` — and leave the
+       tables and code full width. */
+    /* The sidebar is a SHARE of the container that caps at 420px, not a fixed
+       420px. Fixed, it kept its full width while the content shrank under it, so
+       the split slid from 34/66 at 1440 to 46/54 at 1024 — at that width the
+       navigation was taking almost as much room as the documentation.
+       32% is not a guess: 420 / 1320 is the ratio the design already lands on at
+       the full container, so this holds the approved proportion at every width
+       instead of changing it. The cap keeps the two identical from 1366 up.
+       The cost, accepted: below ~1100 the longest labels wrap to two lines
+       ("Page Transitions & Lifecycle System" needs 328px of text width). A
+       wrapped nav label is a smaller problem than a nav column that outweighs
+       the page. */
+    grid-template-columns: min(32%, var(--sidebar-w)) minmax(0, var(--content-w));
+    justify-content: space-between;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   5. Sidebar nav (collapsible dropdown on mobile, sticky list on desktop)
+   -------------------------------------------------------------------------- */
+.doc-sidebar__toggle {
+  display: none;                 /* shown only on mobile */
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  color: var(--c-ink);
+  background: var(--c-bg-soft);
+  border: none;
+  border-radius: var(--radius-xs);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+}
+/* Lucide chevron — symmetric, so it stays centred when it flips open/closed */
+.doc-sidebar__toggle-icon {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform 0.2s ease;
+}
+.doc-sidebar__toggle[aria-expanded="true"] .doc-sidebar__toggle-icon { transform: rotate(180deg); }
+
+.doc-sidebar__nav ul {
+  list-style: none;
+  padding: 0;
+  /* 1px. At 2px this stopped being a rule and started being a bar — it competed
+     with the accent marker that is supposed to be the only heavy thing in the
+     column. The marker below is what carries weight now. */
+  border-left: 1px solid var(--c-border);
+}
+.doc-sidebar__nav li { position: relative; }
+/* PAGE LINKS — the outer level. Three things separate this level from the
+   sections nested under it, because no one of them was enough on its own:
+   weight (500 against their 400), vertical white (25.9px against their 19.7px,
+   measured white-to-white) and the indent step. Before, the only differences
+   were 2px of size and 8px of indent, and the column read as 24 equal rows
+   rather than as ten pages with sections under one of them.
+
+   The 0.625rem block padding used to be 0.5rem, which put this column's white
+   at 21.9px — deliberately equal to the content lists' 21.9px. That pairing is
+   now broken by 4px on purpose: matching the content column mattered less than
+   separating the two levels inside this one. If the sidebar ever loses its
+   nested contents list, put it back to 0.5rem and the two columns line up
+   again. */
+.doc-sidebar__nav a {
+  display: block;
+  padding: 0.75rem 0 0.75rem 1.25rem;
+  color: var(--c-ink-2);         /* matches body copy; active/hover use accent */
+  font-size: var(--fs-body);
+  font-weight: var(--fw-medium);
+  line-height: 1.3;
+}
+.doc-sidebar__nav a:hover { color: var(--c-accent); text-decoration: none; }
+/* SemiBold, not Medium. Medium is what every page link now carries, so the
+   active one needs the step above it — otherwise weight says nothing here and
+   the accent and the star are carrying the mark alone. */
+.doc-sidebar__nav a.is-active { color: var(--c-accent); font-weight: var(--fw-semibold); }
+
+/* On-page contents, built by docs.js under the active page's link.
+   Indented to the same 1.25rem the page links use, so a section reads as a child
+   of its page rather than as another page. One step down in size and back to the
+   body ink, because the page it belongs to is the thing that should stay marked. */
+.doc-toc {
+  list-style: none;
+  margin: 0.25rem 0 0.75rem;
+  padding: 0;
+}
+
+/* This is a <ul> inside .doc-sidebar__nav, so the rule up there gives it a rule
+   of its own — a second grey vertical hard against the sidebar's, reading as one
+   line of double thickness. The nested list wants no rule at all: the sidebar
+   already draws one and the marker below lands on it.
+
+   The selector is qualified with .doc-sidebar__nav on purpose. `.doc-toc` alone
+   is (0,1,0) and `.doc-sidebar__nav ul` is (0,1,1) — one class plus a tag beats
+   one class, so the plain version silently lost and the doubled line stayed.
+   Anything overriding that rule has to carry two classes. */
+.doc-sidebar__nav .doc-toc { border-left: 0; }
+
+.doc-toc a {
+  display: block;
+
+  /* Positioned for the current-section marker below, which is an absolute bar
+     rather than a border. A border would have to change width between states,
+     and a wider border shifts the text it sits next to — the label would jog
+     sideways as you scrolled past it. */
+  position: relative;
+
+  /* 36px against the 20px a page link uses — a 16px step, doubled from the 8px
+     it was. At 8px the indent was there but not legible as a level; the eye
+     needs roughly the width of a word-space at this size before it reads two
+     starts as two different columns rather than as one ragged one.
+     Room is not a constraint: the longest label here is "Canvas Overlays –
+     Configuration Map" at ~258px, and the sidebar is 420px wide. */
+  padding: 0.5rem 0 0.5rem 2.25rem;
+
+  /* Regular, and it has to be declared HERE. `.doc-sidebar__nav a` is (0,1,1)
+     and so is this rule — equal specificity, so this one wins only on the
+     properties it actually declares. It did not declare font-weight, so the
+     page links' Medium reached these too and the weight axis separating the two
+     levels did not exist at all. */
+  font-weight: var(--fw-regular);
+
+  /* 16px / 24px. Not --fs-small (14px) any more: at eleven or eighteen entries
+     this list is read, not glanced at. The 2px it still gives away to the 18px
+     page links above, plus the 8px indent, is what keeps a section subordinate —
+     the indent does most of that work, so the type does not have to. */
+  font-size: 1rem;
+  line-height: 1.5;
+
+  /* Body ink, the same as the page links above it. It was a muted
+     grey — but with eleven entries on a page like this one, the contents stops
+     being a footnote and becomes the thing you navigate by, and it has to read
+     as text you can use. The 14px against their 18px is what keeps a section
+     subordinate to its page; colour was doing that job twice. */
+  color: var(--c-ink-2);
+
+  /* Colour only. border-color was in here too, left over from when the marker
+     was a border — there is no border on this element any more. */
+  transition: color 0.15s ease;
+}
+.doc-toc a:hover { color: var(--c-accent); text-decoration: none; }
+
+/* The section you are actually looking at. A left bar rather than a colour swap
+   alone: with up to eighteen entries the eye needs something it can find without
+   reading, and the bar lands on the same rule the sidebar already draws.
+
+   2px over a 1px rule, not 1px over 1px. The rule is structure and wants to be
+   quiet; the marker is a pointer and has to be found at a glance from the far
+   side of the column. left: -1px covers the rule's own pixel and puts the other
+   one just inside it. */
+.doc-toc a.is-current { color: var(--c-accent); }
+.doc-toc a.is-current::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--c-accent);
+}
+
+/* Ten pages plus eighteen sections comes to roughly 970px, which is taller than
+   most screens — so the sticky column gets its own scroll rather than having its
+   bottom disappear under the fold. */
+@media (min-width: 992px) {
+  .doc-sidebar__nav {
+    /* 4rem, matching the 2rem sticky offset above and below, so the column never
+       runs past the viewport it is pinned inside. */
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+
+    /* No overscroll-behavior: contain here. It was wrong: contain stops the
+       scroll chaining to the page, so reaching the end of the sidebar with the
+       pointer over it froze the whole document instead of carrying on. That
+       behaviour belongs to a modal or a drawer, which owns the screen while it
+       is open — a sidebar is part of the page and has to hand the scroll back. */
+
+    /* A thin, quiet scrollbar. The default one is wide enough to look like the
+       column is broken rather than scrollable. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--c-border) transparent;
+
+    /* The padding/margin pair exists because of the line above it. overflow-y:
+       auto cannot clip only one axis — the spec turns an overflow-x of visible
+       into auto alongside it — so the moment this became a scroll container it
+       started cutting the active marker, which is deliberately positioned at
+       left: -0.65rem to centre itself on the rule.
+       Widening the box 12px to the left and pulling it back by the same 12px
+       gives the marker room inside the scrollport without moving anything on
+       screen by a single pixel. */
+    padding-left: 0.75rem;
+    margin-left: -0.75rem;
+  }
+}
+.doc-sidebar__nav a.is-active::before {
+  content: "";
+  position: absolute;
+  /* -8.5px. The li's padding box starts just right of the rule, so the rule
+     occupies x = -1 → 0 and its centre is -0.5px; the mask box is 16px wide, so
+     its left edge has to sit 8px before that. Was -0.65rem, cut when the rule
+     was 2px — and it was 1.4px off even then. Re-derive this if the rule's
+     width ever changes again. */
+  left: -0.53125rem;
+  top: 0.75rem;                  /* link padding-top — track it if that changes */
+  width: 1em;                    /* same as the content list bullets */
+  height: 1.3em;                 /* link line-height → mask centres on first line */
+  background-color: var(--c-accent);
+  -webkit-mask: var(--spark) center / 1em 1em no-repeat;
+  mask: var(--spark) center / 1em 1em no-repeat;
+}
+
+@media (min-width: 992px) {
+  .doc-sidebar { position: sticky; top: 2rem; align-self: start; }
+}
+@media (max-width: 991.98px) {
+  .doc-sidebar__toggle { display: flex; }
+  .doc-sidebar__nav { display: none; }
+  .doc-sidebar__nav.is-open { display: block; }
+  .doc-sidebar { margin-bottom: var(--space-sm); }
+
+  /* The open list is a panel of the toggle's own grey and radius, 2px under
+     it, so the two read as one control — the same dropdown the theme's FAQ
+     uses. The panel is the edge now, so the rule goes, and with it the two
+     markers that sat on it (the page's spark, the section's bar): the accent
+     colour alone marks where you are. */
+  .doc-sidebar__nav {
+    margin-top: 2px;
+    padding-block: 0.5rem;
+    border-radius: var(--radius-xs);
+    background: var(--c-bg-soft);
+  }
+  .doc-sidebar__nav ul { border-left: 0; }
+
+  /* Pages: 10px above and below — 20px of white between two, a 43px touch
+     target — and 20px in, on the toggle label's edge. */
+  .doc-sidebar__nav a { padding: 0.625rem 1.25rem; }
+
+  /* Sections keep their own rhythm and their 36px indent, 16px deeper than
+     the page they belong to. */
+  .doc-sidebar__nav .doc-toc a { padding: 0.5rem 1.25rem 0.5rem 2.25rem; }
+
+  .doc-sidebar__nav a.is-active::before,
+  .doc-toc a.is-current::before { display: none; }
+}
+
+/* -----------------------------------------------------------------------------
+   6. Content
+   -------------------------------------------------------------------------- */
+/* PROSE LAYER — `.cel-prose` is the content wrapper (the <article> carries it).
+   All long-form typography below targets BARE elements (p, ul, table, blockquote…)
+   so any rich content drops in already styled, no per-element classes.
+   WordPress port: map `.cel-prose` → `.entry-content` (or @extend it) and bare
+   Gutenberg tags inherit everything. `.function-section` stays ONLY for the
+   doc's section structure (max-width + section-gap + legacy <hr> hide). */
+.doc-content { min-width: 0; }   /* let code blocks scroll instead of blowing out the grid */
+
+.function-section { max-width: 52rem; }
+.function-section + .function-section { margin-top: var(--section-gap); }
+
+/* Jumping from the contents list must not park a heading flush against the top
+   edge — it reads as if the page were cut off, and it lands the heading right on
+   the scrollspy's trigger line where a pixel either way decides the highlight.
+   2rem of clearance gives the eye a margin and the spy 64px of slack below its
+   96px line. */
+.function-section > h2[id] { scroll-margin-top: 2rem; }
+
+/* Long-form documentation uses a COMPRESSED heading rhythm — in the narrow
+   content column the 40/50px display steps are too big for every subsection.
+   So content shifts down one step: function title = h2 (50), subsection
+   (h3: HTML Markup, Parameters, Behavior…) = h4 step (32), example
+   (h4: "Forced Mobile Tabs"…) = h5 step (24). The global h1–h6 display scale
+   stays intact for the hero and any future display use; markup outline is
+   untouched (h1 hero → h2 → h3 → h4). */
+.cel-prose h2 { margin-bottom: var(--space-sm); }
+.cel-prose h3 { font-size: var(--fs-h4); line-height: 1.3125; margin: var(--space-xl) 0 var(--space-sm); }
+.cel-prose h4 { font-size: var(--fs-h5); line-height: 1.2857; margin: var(--space-lg) 0 var(--space-2xs); }
+.cel-prose h5 { font-size: var(--fs-h6); line-height: 1.3333; margin: var(--space-md) 0 var(--space-2xs); }
+.cel-prose h6 { margin: var(--space-md) 0 var(--space-2xs); }
+.cel-prose p  { margin: 0 0 var(--space-sm); }
+.cel-prose strong { color: var(--c-heading); font-weight: var(--fw-bold); }   /* emphasis: heading ink + Bold 700 */
+
+/* Lead copy under each section title, closed with a hairline (LS-style structure) */
+.doc-intro {
+  font-size: var(--fs-body);                 /* inherits body ink */
+  padding-bottom: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--c-border);
+}
+
+/* The old two-line decoration + <hr> separators aren't part of the new design */
+.function-section hr { display: none; }
+
+/* Lists with the celestial diamond marker */
+.cel-prose ul { list-style: none; padding: 0; margin: var(--space-md) 0; }
+/* `>` so nested lists inside an <ol><li> don't inherit the ol-li padding
+   (equal-specificity clash that pushed the bullet onto the text) */
+.cel-prose ul > li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: var(--list-gap);    /* shared list rhythm — tune via --list-gap */
+  line-height: var(--lh-list);       /* tighter than body so wrapped items read as one unit */
+}
+.cel-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1em;
+  height: calc(var(--lh-list) * 1em); /* = li line-height, so the mask centres on the first line */
+  background-color: var(--c-marker);
+  -webkit-mask: var(--arrow) left center / 1em 1em no-repeat;
+  mask: var(--arrow) left center / 1em 1em no-repeat;
+}
+/* Checklist variant — same list styling, Lucide check instead of the arrow.
+   Recolour with --check-color (defaults to accent), e.g. a green "done" list. */
+.cel-prose ul.doc-checklist > li::before {
+  background-color: var(--check-color, var(--c-accent));
+  -webkit-mask-image: var(--check);
+  mask-image: var(--check);
+}
+.cel-prose ol { padding-left: 1.4rem; margin: var(--space-md) 0; }
+.cel-prose ol > li { margin-bottom: var(--list-gap); padding-left: 0.3rem; line-height: var(--lh-list); }
+
+/* -----------------------------------------------------------------------------
+   6b. Other long-form content elements
+   (scoped to .cel-prose now; for the WP port, rescope to .entry-content)
+   -------------------------------------------------------------------------- */
+/* Blockquote */
+.cel-prose blockquote {
+  margin: var(--space-md) 0;
+  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-md);
+  border-left: 3px solid var(--c-accent);
+  color: var(--c-ink-2);
+  font-size: 1.5rem;             /* 24px */
+  font-weight: var(--fw-regular);
+  line-height: 1.4167;           /* ~34px */
+}
+/* 24px → 22px on phones, as the theme's lead (--fs-lead) — the quote shrinks with it. */
+@media (max-width: 767.98px) {
+  .cel-prose blockquote { font-size: 1.375rem; }
+}
+.cel-prose blockquote > :last-child { margin-bottom: 0; }
+.cel-prose blockquote cite,
+.cel-prose blockquote footer {
+  display: block;
+  margin-top: var(--space-2xs);
+  font-style: normal;
+  font-size: var(--fs-small);
+  color: var(--c-meta);
+}
+
+/* Definition list */
+.cel-prose dl { margin: var(--space-md) 0; }
+.cel-prose dt { font-weight: var(--fw-medium); color: var(--c-heading); }
+.cel-prose dt:not(:first-child) { margin-top: var(--space-sm); }
+.cel-prose dd { margin: var(--space-2xs) 0 0 var(--space-md); color: var(--c-ink-2); }
+
+/* Figure + caption */
+.cel-prose figure { margin: var(--space-md) 0; }
+.cel-prose figure img { border-radius: var(--radius-xs); }
+.cel-prose figcaption {
+  margin-top: var(--space-2xs);
+  font-size: var(--fs-small);
+  color: var(--c-meta);
+  text-align: center;
+}
+.cel-prose caption {
+  caption-side: bottom;
+  margin-top: var(--space-2xs);
+  font-size: var(--fs-small);
+  color: var(--c-meta);
+  text-align: left;
+}
+
+/* Inline elements */
+.cel-prose mark {
+  background: var(--c-warning-bg);
+  color: var(--c-heading);
+  padding: 0.05em 0.3em;
+  border-radius: var(--radius-xs);
+}
+.cel-prose small { font-size: var(--fs-small); color: var(--c-meta); }
+.cel-prose sub,
+.cel-prose sup { font-size: 0.72em; line-height: 0; }   /* no impact on line height */
+.cel-prose sup { vertical-align: super; }
+.cel-prose sub { vertical-align: sub; }
+.cel-prose abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: help;
+}
+.cel-prose cite { font-style: italic; color: var(--c-ink-2); }
+.cel-prose kbd {
+  font-family: var(--font-mono);
+  font-size: 1rem;               /* 16px, same as inline code — mono is one size */
+  letter-spacing: var(--mono-tracking);
+  color: var(--c-heading);
+  background: var(--c-bg-soft);
+  border: 1px solid var(--c-border);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-xs);
+  padding: 0.1em 0.45em;
+}
+
+/* -----------------------------------------------------------------------------
+   7. Code blocks (Prism re-theme — see token overrides at the bottom)
+   -------------------------------------------------------------------------- */
+.cel-prose pre[class*="language-"] {
+  background: var(--c-code-bg);
+  color: var(--c-code-fg);
+  font-family: var(--font-mono);
+  font-size: 1rem;              /* 16px */
+  line-height: var(--lh-code);  /* 27px */
+  margin: var(--space-md) 0;
+  padding: 1.4rem 1.6rem;
+  border-radius: var(--radius-xs);
+  overflow-x: auto;
+  tab-size: 2;
+}
+/* THE mono rule — every IBM Plex Mono element that is not code goes through it:
+   family, weight, style, size, leading, tracking. 16/24 Medium, always; do not
+   restate a size on top of it. Where a label needs to recede, change its colour.
+   .doc-mono is the handle for anything mono without a class of its own.
+   Mirrors the WP theme's mono() mixin and its .cel-mono class. */
+.doc-mono,
+.doc-badge,
+.doc-meta,
+.doc-release-date {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-medium);
+  font-style: normal;
+  font-size: 1rem;
+  /* Its own number rather than --lh-body. These are 16px, not 18px, so they were
+     only ever borrowing the body ratio — and once that ratio was retuned for the
+     18/28 pair it would have dragged them from 24px to 24.9px for no reason. */
+  line-height: 1.5;              /* 24px */
+  letter-spacing: var(--mono-tracking);
+}
+/* Mono for CODE only — family + tracking; each keeps its own size/leading. */
+.cel-prose code {
+  font-family: var(--font-mono);
+  letter-spacing: var(--mono-tracking);
+}
+.cel-prose :not(pre) > code { font-weight: var(--fw-medium); }   /* inline code chip */
+
+/* Copy-to-clipboard: JS wraps each <pre> in .doc-codeblock and adds the button.
+   The block margin moves to the wrapper so the button aligns to the code, not
+   the margin gap. (No-JS: <pre> keeps its own margin and simply has no button.) */
+.doc-codeblock { position: relative; margin: var(--space-md) 0; }
+.cel-prose .doc-codeblock pre[class*="language-"] { margin: 0; }
+/* When a code block directly follows a heading, it hugs it — the heading's own
+   bottom margin sets the gap (consistent with heading→content elsewhere). */
+.cel-prose :is(h2, h3, h4, h5, h6) + .doc-codeblock,
+.cel-prose :is(h2, h3, h4, h5, h6) + pre[class*="language-"] { margin-top: 0; }
+.doc-copybtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--c-on-dark-dim);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.doc-copybtn:hover { color: var(--c-on-dark); background: rgba(255, 255, 255, 0.14); }
+.doc-copybtn svg { width: 1.05rem; height: 1.05rem; }
+.doc-copybtn__check { display: none; }
+.doc-copybtn.is-copied { color: var(--c-badge); border-color: rgba(32, 203, 155, 0.45); }
+.doc-copybtn.is-copied .doc-copybtn__copy { display: none; }
+.doc-copybtn.is-copied .doc-copybtn__check { display: inline-flex; }
+
+/* Neutralise the light-theme text-shadow Prism adds (unreadable on dark) */
+.cel-prose pre[class*="language-"],
+.cel-prose code[class*="language-"],
+.cel-prose pre[class*="language-"] * { text-shadow: none !important; }
+
+/* inline code */
+.cel-prose :not(pre) > code {
+  font-size: 1rem;             /* 16px */
+  line-height: 1.5;            /* 24px — see .doc-badge above for why not --lh-body */
+  color: var(--c-ink-2);       /* body copy ink — --c-ink is darker still and was too heavy for the chips */
+
+  /* Fill only, no outline. The fill alone carries the chip at 1.18:1 against the
+     page, which is where an inline code chip normally sits.
+     The padding absorbs the 1px the border used to occupy — 0.12em + 1px is
+     0.18em at 16px, 0.4em + 1px is 0.46em — so the text keeps exactly the air it
+     had and the chip does not shrink around it. */
+  background: var(--c-bg-soft);
+  border-radius: var(--radius-xs);
+  padding: 0.18em 0.46em;
+}
+
+/* -----------------------------------------------------------------------------
+   8. Tables
+   -------------------------------------------------------------------------- */
+.cel-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-md) 0 var(--space-lg);
+  font-size: var(--fs-body);
+}
+/* Vertical padding sets the distance between ROWS — 20px top and bottom means
+   40px between the last line of one row and the first of the next, against the
+   28px between two lines inside a wrapped cell. That ratio is the whole point:
+   at the previous 16px it was 32 against 28, a margin of 14%, so a description
+   that ran to two lines read as loosely as the rows around it. 1.43 puts the row
+   break clearly above the line break.
+   It does not need to reach the 0.69-of-a-line the bullet lists use, because a
+   table row also has a rule under it doing part of the separating.
+   The header keeps its lighter bottom padding: it sits directly on that rule, so
+   equal padding would look bottom-heavy. */
+.cel-prose table th {
+  text-align: left;
+  font-weight: var(--fw-medium);
+  color: var(--c-heading);
+  background: var(--c-bg-soft);
+  border-bottom: 1px solid var(--c-border);
+  padding: 1.25rem 0.85rem 1rem;
+}
+.cel-prose table td {
+  border-bottom: 1px solid var(--c-border);
+  padding: 1.25rem 0.85rem;
+  vertical-align: top;
+}
+@media (max-width: 767.98px) {
+  .cel-prose table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+
+/* -----------------------------------------------------------------------------
+   9. Details / Notes panels
+   -------------------------------------------------------------------------- */
+.cel-doc-details {
+  margin: var(--space-md) 0;
+}
+.cel-doc-details summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--c-heading);
+
+  /* A <summary> is a subsection title of the same rank as "Behavior" or
+     "Parameters", so it takes the content h3 whole — and "whole" means all four
+     properties, not just the two that are obvious. <summary> is not an h1–h6
+     tag, so it never picked up the global heading rule: it was arriving at
+     SemiBold's size and leading but Medium's weight and no tracking at all. At
+     32px, -0.01em is -0.32px per character, which is why it read wider and
+     softer than the h3 next to it. */
+  font-weight: var(--fw-semibold);
+  letter-spacing: -0.01em;
+  font-size: var(--fs-h4);       /* match the content h3 ("Behavior", etc.) */
+  line-height: 1.3125;           /* 42px — same as .cel-prose h3 */
+  margin-top: var(--space-xl);   /* same subsection gap as h3 (collapses with the block margin) */
+}
+/* Every summary in the docs is written as <summary><strong>…</strong></summary>,
+   which is why setting SemiBold on the summary above changed nothing: the text
+   is not in the summary, it is in a <strong> inside it, and `.cel-prose strong`
+   sets font-weight: 500 on its own — a declaration on the element itself always
+   beats an inherited one, whatever the specificity of the rule that produced it.
+   `inherit` opts back out, so the strong takes the summary's weight.
+   Three summaries (media-content.html) use <strong> for a real lead-in — "…Elegant…
+   – Smooth and graceful" — and this is right for those too: the whole line is a
+   title, and the emphasis inside it was never meant to be a second weight. */
+.cel-doc-details summary strong { font-weight: inherit; }
+
+.cel-doc-details summary::-webkit-details-marker { display: none; }
+/* Lucide square-chevron-down (injected by docs.js). The 180deg turn below is
+   what produces square-chevron-up when the panel is open — see the note in
+   docs.js for why that is exact rather than approximate. Anything replacing this
+   icon must be symmetric about its centre, or the rotation stops being a swap
+   and starts being a mistake. */
+.cel-doc-details__icon {
+  flex: none;
+
+  /* A fixed 32px, not the 0.85em it was. em tied the icon to --fs-h4, which is a
+     clamp() — so the icon was 22.1px at the mobile end, 27.2px at the desktop
+     end, and some fraction like 24.94px at every width in between. An SVG drawn
+     on a 24-unit grid at a size that never settles on a whole pixel is what was
+     making it look soft; the strokes were landing between pixels and being
+     antialiased across two. */
+  width: 2rem;
+  height: 2rem;
+
+  /* 1.5, not the 2 Lucide ships. At 32px the viewBox scales by 32/24 = 1.3333,
+     so a stroke of 2 renders at 2.667px: centred on the square's edge at x=4 it
+     spans 2.67→5.33 and bleeds a third of a pixel into the neighbour on each
+     side. That fringe is what reads as blur. 1.5 renders at exactly 2.00px,
+     spanning 3.0→5.0 — two whole pixels, no fringe.
+     It works because the square itself lands on whole pixels: 3, 18 and 21 all
+     multiply by 1.3333 into 4, 24 and 28. The chevron inside is diagonal and
+     stays antialiased, as a diagonal does at any size — but the straight edges
+     of the square are what the eye reads as sharp or soft.
+     Change the icon size and this number has to change with it: it is only right
+     because 1.5 × (32/24) happens to be a whole number. */
+  stroke-width: 1.5;
+
+  color: var(--c-accent);
+  transition: transform 0.25s ease;
+}
+.cel-doc-details[open] .cel-doc-details__icon { transform: rotate(180deg); }
+/* The gap down to the panel content. Given to the SUMMARY as a bottom margin,
+   not to whatever follows it as a top margin — that difference is the whole fix.
+   The old rule set margin-top on the next element and so replaced whatever that
+   element wanted, which meant a list after a summary got 16px while the same
+   list after an h3 got 24px: an h3 declares 16px, a ul declares 24px, and
+   adjacent margins collapse to the larger of the two.
+   Written this way the summary declares 16px exactly as an h3 does and collapsing
+   settles the rest, so every kind of content lands where it lands after a
+   heading — 24px for a list or a code block, 16px for a paragraph, which
+   declares no top margin of its own. */
+.cel-doc-details summary { margin-bottom: var(--space-sm); }
+.cel-doc-details > :last-child { margin-bottom: 0; }
+
+/* -----------------------------------------------------------------------------
+   9b. Callout / alert boxes  (.doc-callout--info|success|warning|danger)
+   -------------------------------------------------------------------------- */
+.doc-callout {
+  display: flex;
+  align-items: flex-start;          /* icon pinned to the top (centres on the first line) */
+  gap: 0.75rem;
+  margin: var(--space-md) 0;
+  padding: 1.35rem 1.1rem;
+  background: var(--cl-bg);
+  border-left: 3px solid var(--cl-accent);
+  border-radius: var(--radius-xs);
+  color: var(--cl-accent);          /* whole text + icon take the variant colour */
+}
+/* margin-top ≈ (line-height − icon)/2 so it sits centred on the first line */
+.doc-callout__icon { flex: none; width: 1.35rem; height: 1.35rem; margin-top: 0.3rem; }
+.doc-callout p { margin: 0; min-width: 0; }
+.doc-callout strong { color: inherit; }   /* keep emphasis in the variant colour */
+
+.doc-callout--info    { --cl-bg: var(--c-info-bg);    --cl-accent: var(--c-info-accent); }
+.doc-callout--success { --cl-bg: var(--c-success-bg); --cl-accent: var(--c-success-accent); }
+.doc-callout--warning { --cl-bg: var(--c-warning-bg); --cl-accent: var(--c-warning-accent); }
+.doc-callout--danger  { --cl-bg: var(--c-danger-bg);  --cl-accent: var(--c-danger-accent); }
+
+/* -----------------------------------------------------------------------------
+   9bb. Release notes  (.doc-release, on the changelog page)
+   -------------------------------------------------------------------------- */
+/* A release note is a log, not prose, so it is set like one: monospace on a
+   raised panel, with the markdown markers a CHANGELOG file would carry drawn in
+   by CSS rather than typed into the content. The markup stays clean lists; only
+   the presentation borrows the flavour.
+
+   Geometry is deliberately the code block's — same 16/27 mono, same padding,
+   same radius — so the two kinds of "machine text" on this site read as one
+   family rather than as two unrelated boxes. The surface is --c-bg-soft instead
+   of the dark ground because this is meant to be scanned, not studied. */
+/* Half the gap the rest of the site puts between sections. --section-gap is
+   clamp(5rem, …, 8rem) and lands on 128px at the full container — a number cut
+   for 50px h2 headings with prose under them. Here the heading is 32px and the
+   body is a compact panel, and at 128px the releases stop reading as a list and
+   start reading as unrelated islands. Scoped to this page rather than changed at
+   the token, because everywhere else the 128px is still right. */
+.doc-changelog .function-section + .function-section { margin-top: 4rem; }
+
+.doc-release {
+  margin: var(--space-md) 0 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--c-log-bg);
+
+  /* 4px, not the 14px a code block uses. A code block is a slab you read inside;
+     this is a record you scan past, and the softer corner was making it float
+     away from the heading it belongs to. */
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 1rem;               /* 16px */
+  line-height: var(--lh-code);   /* 27px */
+  letter-spacing: var(--mono-tracking);
+}
+
+/* The version line. An h3 rather than an h2 so it sits closer in size to the log
+   under it, with the group labels demoted to h4 to stay nested beneath it.
+   Its own margins, because `.cel-prose h3` declares 40–72px on top: between two
+   releases that collapses harmlessly into the section gap, but the first release
+   on the page sits inside a grid item, where nothing collapses through, and it
+   would push the whole log down for no reason. Zero on top matches how an h2
+   opened a section on every other page. */
+.cel-prose .doc-release-version { margin: 0 0 var(--space-sm); }
+
+/* The group labels — Fixed / Added / Updated. An h4 by rank, but it must not
+   take the prose h4's display step in here, so every inherited type property is
+   restated.
+
+   Qualified with .doc-release for weight, not for readability: `.cel-prose h4`
+   is (0,1,1) and a bare `.doc-release__group` is (0,1,0), so the single-class
+   version loses and the label arrives at 24px with a 56px margin above it. Two
+   classes clear it. */
+.doc-release .doc-release__group {
+  margin: var(--space-md) 0 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--fw-medium);
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: var(--log-hue, var(--c-heading));
+}
+.doc-release > .doc-release__group:first-child { margin-top: 0; }
+
+/* The colour arrives through a custom property, not through a colour
+   declaration. A modifier written as `.doc-release__group--added { color: … }`
+   is (0,1,0) and would lose to the (0,2,0) rule above; a custom property set on
+   the same element is simply read by it, and the cascade fight never happens. */
+.doc-release__group--added   { --log-hue: var(--c-log-added); }
+.doc-release__group--updated { --log-hue: var(--c-log-updated); }
+.doc-release__group--fixed   { --log-hue: var(--c-log-fixed); }
+
+/* The ## stays neutral while the word takes the hue: the marker is structure,
+   the word is the thing being classified. Tinting both washes the whole line and
+   the distinction stops reading as deliberate.
+
+   The empty string after the slash is alternative text, and it is the reason
+   this marker is allowed to sit at 4.30:1 on the panel — under the 4.5:1 floor.
+   Generated content IS announced by screen readers, so without it a listener
+   hears "hash hash Fixed" seven times on this page. Declaring the alternative as
+   empty removes it from the accessibility tree, which makes it decoration in
+   fact and not just in intent — and WCAG exempts pure decoration from the
+   contrast requirement. The two halves of that argument only hold together;
+   drop the alt text and the colour needs fixing after all.
+   Browsers without support fall back to exactly the previous behaviour. */
+.doc-release__group::before { content: "## " / ""; color: var(--c-marker); }
+
+/* The list overrides need `ul > li`, not `li`. `.cel-prose ul > li` is (0,2,1)
+   and would beat a plain `.doc-release li` at (0,1,1) — the arrow marker and the
+   2rem indent would both survive. Matched specificity plus later source order is
+   what actually wins here. */
+.doc-release ul { margin: 0; padding: 0; list-style: none; }
+.doc-release ul > li {
+  margin-bottom: 0;              /* the 27px leading is the rhythm, as in a code block */
+  padding-left: 1.25rem;
+  line-height: inherit;
+  color: var(--c-ink-2);
+}
+/* Replaces the masked arrow with a typed hyphen. The mask has to be switched off
+   explicitly — dropping the mask-image alone leaves the sized, coloured box. */
+.doc-release ul > li::before {
+  content: "-";
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  -webkit-mask: none;
+  mask: none;
+  color: var(--c-marker);
+}
+
+/* The date beside a version number. Mono, so it reads as metadata rather than
+   a second half of the title — the type comes from the mono rule above, which
+   is why this was the one place still setting its own 18px. */
+.doc-release-date {
+  margin-left: 0.75rem;
+  color: var(--c-meta);
+  white-space: nowrap;
+}
+
+/* -----------------------------------------------------------------------------
+   9c. Buttons  (.doc-btn  +  --filled|--outline  +  --sm)
+   -------------------------------------------------------------------------- */
+.doc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 54px;                  /* default = large */
+  padding: 0 2rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);               /* 18px */
+  font-weight: var(--fw-button);                  /* between Regular and Medium (needs the variable font) */
+  line-height: 1.2;
+  white-space: nowrap;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.doc-btn,
+.doc-btn:hover { text-decoration: none; }
+.doc-btn svg { width: 1.15rem; height: 1.15rem; }
+
+/* size */
+.doc-btn--sm { min-height: 44px; padding: 0 1.6rem; }
+
+/* filled (primary) */
+.doc-btn--filled {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-on-dark);
+}
+.doc-btn--filled:hover {
+  background: var(--c-accent-ink);
+  border-color: var(--c-accent-ink);
+  color: var(--c-on-dark);
+}
+
+/* outline (secondary) */
+.doc-btn--outline {
+  background: transparent;
+  border-color: var(--c-ink-2);
+  color: var(--c-heading);
+}
+.doc-btn--outline:hover { background: var(--c-bg-soft); border-color: var(--c-ink); color: var(--c-ink); }
+
+/* row helper for laying out a group of buttons */
+.doc-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+  margin: var(--space-md) 0;
+}
+
+/* -----------------------------------------------------------------------------
+   9d. Mono meta text  (.doc-meta) — desaturated, IBM Plex Mono
+   -------------------------------------------------------------------------- */
+.doc-meta {
+  color: var(--c-meta);             /* size/leading/weight from the standardised mono block */
+}
+.doc-meta--row {                     /* space-separated inline items */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+}
+
+/* -----------------------------------------------------------------------------
+   10. Footer + back-to-top
+   -------------------------------------------------------------------------- */
+.doc-footer {
+  /* Takes whatever height the page did not use, which is what holds it against
+     the bottom of a short page. Pushing the footer rather than stretching main
+     with flex: 1 is deliberate: main is a grid, and stretching it would change
+     the height its sticky sidebar is measured against. */
+  margin-top: auto;
+
+  padding-block: 3rem;
+  background: var(--c-footer-bg);
+  color: var(--c-on-dark-soft);
+  font-size: var(--fs-body);
+}
+.doc-footer a { color: var(--c-on-dark-soft); transition: color 0.18s ease; }
+.doc-footer a:hover { color: var(--c-on-dark); }
+
+/* Two items now — the credit line and the licences link — so the container has
+   to place them rather than let them stack as blocks. space-between pins one to
+   each end on a wide screen; wrap drops the licences link onto its own line on a
+   narrow one, where side-by-side would crush both. */
+.doc-footer .doc-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+.doc-footer p { margin: 0; }
+
+.doc-totop {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 2.25rem;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  border: 1px solid var(--c-border);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.25s, transform 0.25s, visibility 0.25s, border-color 0.2s, color 0.2s;
+  box-shadow: 0 6px 22px rgba(26, 18, 64, 0.12);
+  z-index: 50;
+}
+.doc-totop.is-visible { opacity: 1; visibility: visible; transform: none; }
+.doc-totop:hover { border-color: var(--c-accent); color: var(--c-accent); }
+
+/* -----------------------------------------------------------------------------
+   11. Prism token re-theme (dark code block)
+   -------------------------------------------------------------------------- */
+.cel-prose .token.comment,
+.cel-prose .token.prolog,
+.cel-prose .token.doctype,
+.cel-prose .token.cdata { color: #6b6788; font-style: italic; }
+.cel-prose .token.punctuation { color: #9b9ac0; }
+.cel-prose .token.property,
+.cel-prose .token.tag,
+.cel-prose .token.symbol,
+.cel-prose .token.deleted { color: #e06c91; }
+.cel-prose .token.boolean,
+.cel-prose .token.number,
+.cel-prose .token.constant { color: #c678dd; }
+.cel-prose .token.selector,
+.cel-prose .token.attr-name,
+.cel-prose .token.string,
+.cel-prose .token.char,
+.cel-prose .token.inserted { color: #56b6c2; }
+.cel-prose .token.operator,
+.cel-prose .token.entity,
+.cel-prose .token.url { color: #abb2bf; }
+.cel-prose .token.atrule,
+.cel-prose .token.attr-value,
+.cel-prose .token.keyword { color: #c678dd; }
+.cel-prose .token.function,
+.cel-prose .token.class-name { color: #e5c07b; }
+.cel-prose .token.regex,
+.cel-prose .token.important,
+.cel-prose .token.variable { color: #d19a66; }
+
+/* -----------------------------------------------------------------------------
+   12. Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: 0.01ms !important; }
+}

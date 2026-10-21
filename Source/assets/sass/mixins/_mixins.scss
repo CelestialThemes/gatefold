@@ -1,0 +1,135 @@
+@use 'sass:map';
+@use '../variables/variables' as *;
+
+$spacer-keys: xs, sm, md, lg, xl;
+
+// Fluid viewport range in rem (≈360→1200px at a 16px root). Used for rem-based
+// fluid() spacing so the vw math stays unit-consistent; mirrors the type scale.
+$fluid-wmin: 22.5rem;
+$fluid-wmax: 75rem;
+
+$spacer-values-mobile: (
+  xs: 0.25rem,
+  sm: 0.5rem,
+  md: 0.75rem,
+  lg: 1rem,
+  xl: 2rem
+);
+
+$spacer-values-desktop: (
+  xs: 0.5rem,
+  sm: 1rem,
+  md: 1.5rem,
+  lg: 2rem,
+  xl: 4rem
+);
+
+
+/* =============== 3. Media Breakpoints and Grid =============== */
+// max-width queries subtract 0.02px, so `down` and `between` never overlap `up`
+// at the exact breakpoint.
+@mixin media-breakpoint-down($breakpoint) {
+  $max: map.get($grid-breakpoints, $breakpoint);
+  @media (max-width: ($max - 0.02px)) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-up($breakpoint) {
+  @media (min-width: map.get($grid-breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-between($min-breakpoint, $max-breakpoint) {
+  $min: map.get($grid-breakpoints, $min-breakpoint);
+  $max: map.get($grid-breakpoints, $max-breakpoint);
+  @media (min-width: $min) and (max-width: ($max - 0.02px)) {
+    @content;
+  }
+}
+
+
+/* =============== Vertical Spacers =============== */
+@mixin generate-spacers($prefix: 'cel-spacer') {
+  @each $key in $spacer-keys {
+    .#{$prefix}-#{$key} {
+      width: 100%;
+      height: fluid(
+        map.get($spacer-values-mobile, $key),
+        map.get($spacer-values-desktop, $key),
+        $fluid-wmin, $fluid-wmax
+      );
+    }
+  }
+}
+
+
+/* =============== Section Padding =============== */
+$section-padding-keys: xs, sm, md, lg, xl;
+
+$section-padding-mobile: (
+  xs: 1.5rem,
+  sm: 2.5rem,
+  md: 4rem,
+  lg: 6rem,
+  xl: 8rem
+);
+
+$section-padding-desktop: (
+  xs: 2rem,
+  sm: 4rem,
+  md: 6rem,
+  lg: 9rem,
+  xl: 12rem
+);
+
+@mixin generate-grid-gaps($prefix: 'cel-gap') {
+  @each $key in $spacer-keys {
+    .#{$prefix}-#{$key} {
+      gap: fluid(
+        map.get($spacer-values-mobile, $key),
+        map.get($spacer-values-desktop, $key),
+        $fluid-wmin, $fluid-wmax
+      );
+    }
+  }
+}
+
+
+// Clamp text to $rows lines with an ellipsis (a maximum, not a fixed height).
+@mixin trim-rows($rows) {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $rows;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); // legacy fallback
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =============== Heading Accents =============== */
+@mixin heading-underline($color: var(--cel-secondary), $thickness: 2px, $offset: calc(0.09em + 10px)) {
+  text-decoration: underline;
+  text-decoration-color: $color;
+  text-decoration-thickness: $thickness;
+  text-underline-offset: $offset;
+  text-decoration-skip-ink: none;
+  line-height: calc(1em + 14px);
+}
+
+@mixin heading-accent() {
+  font-weight: $font-weight-extrabold;
+  font-style: italic;
+}

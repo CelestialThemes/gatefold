@@ -1,0 +1,37 @@
+# Release — every version tag (v1.0.0, v1.1.0…) gets a GitHub Release with
+# gatefold.zip attached.
+#
+# The zip is built from this repository's own content (git archive), so the
+# download is exactly what you see here. Files marked export-ignore in
+# .gitattributes (this workflow, the README screenshot) are left out of it.
+#
+# Why a release asset and not the green Code → Download ZIP button: GitHub
+# counts downloads of release assets, permanently; the button is counted
+# nowhere. The asset name stays gatefold.zip on every release, so links to
+# releases/latest/download/gatefold.zip never break.
+
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build gatefold.zip
+        run: git archive --format=zip --prefix=gatefold/ -o gatefold.zip "$GITHUB_REF_NAME"
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" gatefold.zip \
+            --title "Gatefold ${GITHUB_REF_NAME#v}" \
+            --notes "What changed: https://gatefold.celestialthemes.com/documentation/changelog.html · Live demo: https://gatefold.celestialthemes.com/"

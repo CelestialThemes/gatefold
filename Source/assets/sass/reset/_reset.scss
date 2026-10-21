@@ -1,0 +1,106 @@
+/* =============== Browser Resets =============== */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+
+  /* No scrollbar-gutter: stable — on this full-bleed layout it would leave an
+     empty strip down the right edge. */
+}
+
+/* Remove default margin in favour of better control in authored CSS */
+body, h1, h2, h3, h4, p,
+figure, blockquote, dl, dd {
+  margin-block-end: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1, h2, h3, h4,
+button, input, label {
+  line-height: 1.25;
+}
+
+/* Balance text wrapping on headings */
+h1, h2,
+h3, h4 {
+  text-wrap: balance;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input, button,
+textarea, select {
+  font: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* Honour a request for reduced motion, everywhere, in one place.
+
+   The alternative is a guard inside every component that animates, which means
+   each new component is a chance to forget — and in a template that anyone can
+   extend, that is not a chance worth taking. This is the one rule that cannot be
+   left out by accident.
+
+   0.01ms rather than 0s: several browsers skip transitionend/animationend
+   entirely at zero duration, and any script waiting on those events would stall
+   with its cleanup never running. A hundredth of a millisecond is instant to the
+   eye but still fires the event.
+
+   !important because it has to beat component rules and non-important inline
+   styles alike; a preference this explicit is not something a component gets to
+   overrule. Note it only neutralises CSS motion — GSAP tweens are JS and opt in
+   separately, via motionDur() in main.js and overlay.js. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

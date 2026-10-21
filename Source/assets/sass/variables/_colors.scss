@@ -1,0 +1,115 @@
+/* =============== COLOR TOKENS =============== */
+//
+// Every colour in the template, as custom properties on :root. Tints are mixed
+// at runtime with color-mix() (see .browserslistrc for the support floor).
+//
+//   Tier 1 Brand      — the colours that define the template's identity
+//   Tier 2 Palette    — raw primitives, no meaning attached
+//   Tier 3 Semantic   — meaning attached; references Tier 1/2, never a literal
+//   Tier 4 Component  — one component's private token; only when Tier 3 won't do
+//
+// Components use Tier 3/4, so the palette stays swappable. To recolour the
+// template, edit Tier 1 and the few Tier 3 tokens that don't derive from it.
+//
+// ==================================================
+
+:root {
+  color-scheme: light;
+
+  /* --- Tier 1: Brand --- */
+  // Ink is the page ground, and the text colour on the light surfaces above
+  // it. Primary is the red accent: it marks things, it does not carry text.
+  --cel-ink:       #063ccb;
+  --cel-primary:   #e63946;
+  --cel-secondary: #ffe292;
+
+  /* --- Tier 2: Palette — black & white --- */
+  --cel-white:      #fff;
+  --cel-black:      #040404;
+  --cel-black-pure: #000;
+
+  /* --- Tier 2: Palette — gray ramp --- */
+  // Complete on purpose: Tier 3 picks from it.
+  --cel-gray-10:  #f4f4f4;
+  --cel-gray-20:  #e0e0e0;
+  --cel-gray-30:  #c6c6c6;
+  --cel-gray-40:  #a8a8a8;
+  --cel-gray-50:  #8d8d8d;
+  --cel-gray-60:  #6f6f6f;
+  --cel-gray-70:  #525252;
+  --cel-gray-80:  #383838;
+  --cel-gray-90:  #262626;
+  --cel-gray-100: #181818;
+
+  /* --- Tier 2: Palette — named accents --- */
+  --cel-red:    #c62828;
+  --cel-yellow: #fec630;
+  --cel-orange: #e65100;
+  --cel-pink:   #ee436b;
+  --cel-green:  #2db355;
+  --cel-blue:   #1565c0;
+  --cel-purple: #5e2ae8;
+
+  /* --- Tier 3: Semantic — page surfaces & text --- */
+  // Two surfaces, each with its own text colour: white on the ink page, ink
+  // on the white card. Both measure 8.35:1.
+  --cel-body-bg:       var(--cel-ink);
+  --cel-body-color:    var(--cel-white);
+  --cel-heading-color: var(--cel-body-color);
+
+  --cel-content-bg:    var(--cel-white);
+  --cel-content-color: var(--cel-ink);
+
+  // 6.3:1 on the ink; gray-40 would be 3.5:1, gray-50 2.5:1.
+  --cel-muted-text:    var(--cel-gray-20);
+
+  /* --- Tier 3: Semantic — foreground on a colored fill --- */
+  --cel-on-primary: var(--cel-white); // on a --cel-primary fill
+  --cel-on-dark:    var(--cel-white); // on photography or a dark overlay
+
+  /* --- Tier 3: Semantic — surfaces over media --- */
+  // For UI laid over photographs, where the backdrop is unknown.
+  --cel-content-bg-dark: var(--cel-black);
+  --cel-media-scrim:     color-mix(in srgb, transparent 20%, var(--cel-black-pure));
+
+  /* --- Tier 3: Semantic — links --- */
+  // The body colour, underlined (8.35:1). Red on the ink would be 2.0:1.
+  --cel-link-color:       var(--cel-body-color);
+  --cel-link-hover-color: var(--cel-secondary);
+
+  /* --- Tier 3: Semantic — borders --- */
+  --cel-soft-border: var(--cel-gray-20);
+  --cel-hard-border: var(--cel-gray-30);
+
+  /* --- Tier 3: Semantic — buttons --- */
+  // --cel-btn-primary is the navy fill of .cel-button-primary, separate from
+  // the red --cel-primary that .cel-button-accent uses.
+  --cel-btn-primary:              #313159;
+  --cel-btn-primary-text:         var(--cel-white);
+  --cel-btn-color:                var(--cel-btn-primary);
+  --cel-btn-color-hover:          var(--cel-gray-90);
+  --cel-btn-border-focus-visible: var(--cel-gray-30);
+  --cel-btn-bg:                   var(--cel-gray-10);
+  --cel-btn-bg-hover:             var(--cel-gray-20);
+
+  /* --- Tier 3: Semantic — code blocks --- */
+  --cel-pre-bg: var(--cel-gray-10);
+
+  /* --- Tier 4: Component — overlay surface --- */
+  // A warm sheet, its own token so it can differ from the white card. Ink on
+  // it measures 7.26:1.
+  --cel-overlay-bg: #f2efe7;
+
+  /* --- Tier 4: Component — overlay scroll area --- */
+  // Mixed from ink, so the scrollbar follows the brand colour.
+  --cel-scrollbar-track: color-mix(in srgb, var(--cel-ink) 12%, transparent);
+  --cel-scrollbar-thumb: color-mix(in srgb, var(--cel-ink) 35%, transparent);
+
+  /* --- Tier 4: Component — carousel controls over media --- */
+  // A filled disc, legible over any photograph.
+  --cel-media-control-bg:    var(--cel-white);
+  --cel-media-control-color: var(--cel-ink);
+
+  /* --- Tier 4: Component — <mark> highlighter --- */
+  --cel-mark-bg: #ffd000;
+}

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Overlay — Gatefold Documentation</title>
+
+	<!-- Favicon. The Celestial Themes star, shared with the templates. favicon.svg
+	     carries a prefers-color-scheme rule so the mark lightens on a dark tab
+	     strip, where the brand blue measures 2.55:1 against the chrome. -->
+	<link rel="icon" href="./favicon.ico" sizes="32x32">
+	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+	<!-- Matches --c-dark, the header background, so the browser chrome runs
+	     straight into the page instead of stopping at a coloured seam. Not the
+	     accent: theme-color paints the bar ABOVE the header, and the header is
+	     what it has to continue. -->
+	<meta name="theme-color" content="#100E1A">
+
+	<!-- Styles (fonts are self-hosted via @font-face in docs.css) -->
+	<link rel="stylesheet" href="assets/css/prism.css">
+	<link rel="stylesheet" href="assets/css/docs.css">
+</head>
+
+<body>
+
+	<!-- =========================================================== Header -->
+	<header class="doc-header">
+
+		<div class="doc-container doc-header__bar">
+			<a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=logo&amp;utm_campaign=gatefold" class="doc-logo" aria-label="Celestial Themes home">
+				<img src="assets/images/logo.svg" alt="Celestial Themes" class="doc-logo__full">
+				<img src="assets/images/logo-mobile.svg" alt="Celestial Themes" class="doc-logo__mark">
+			</a>
+
+			<nav class="doc-nav" aria-label="Documentation">
+				<button type="button" class="doc-navbtn" aria-expanded="false" aria-controls="doc-globalnav" aria-label="Open menu">
+					<i data-lucide="menu" aria-hidden="true"></i>
+				</button>
+				<ul id="doc-globalnav" class="doc-nav__list">
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="changelog.html">Changelog</a></li>
+					<li><a href="https://gatefold.celestialthemes.com/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Live demo<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+					<!-- Every template points at this one URL, for the life of the product.
+					     Routing by where the licence was bought happens there, on the server,
+					     so the address baked into copies already sold never has to change. -->
+					<li><a href="https://celestialthemes.com/support/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Support<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="doc-container doc-hero">
+			<!-- Version placeholder: this line is the only place it appears. -->
+			<span class="doc-badge">Gatefold Documentation 1.0</span>
+			<h1 class="doc-hero__title">Overlay</h1>
+		</div>
+
+	</header>
+
+
+	<!-- =========================================================== Main -->
+	<main class="doc-container doc-layout">
+
+		<!-- ---------- Sidebar ---------- -->
+		<aside class="doc-sidebar">
+			<button type="button" class="doc-sidebar__toggle" aria-expanded="false" aria-controls="doc-nav-list">
+					<span>Documentation pages</span>
+					<i data-lucide="chevron-down" class="doc-sidebar__toggle-icon" aria-hidden="true"></i>
+				</button>
+			<nav id="doc-nav-list" class="doc-sidebar__nav" aria-label="Documentation pages">
+				<ul>
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="carousel.html">Carousel</a></li>
+					<li><a href="overlay.html" class="is-active" aria-current="page">Overlay</a></li>
+					<li><a href="overlay-nav.html">Overlay Navigation</a></li>
+					<li><a href="styling.html">Styling &amp; Customisation</a></li>
+				</ul>
+			</nav>
+		</aside>
+
+		<!-- ---------- Content ---------- -->
+		<article class="doc-content cel-prose">
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="markup">HTML Markup</h2>
+
+					<p class="doc-intro">
+						A panel that slides in from the top or bottom edge and behaves as a modal dialog
+						while it is open. A trigger and a panel are paired by one shared id; nothing else
+						connects them.
+					</p>
+
+					<hr>
+
+<pre class="language-markup"><code>&lt;!-- Anything can be a trigger, as long as it carries the id. --&gt;
+&lt;button class="cel-overlay-trigger" data-cel-overlay-id="portfolio"&gt;
+  Open
+&lt;/button&gt;
+
+&lt;div class="cel-overlay" data-cel-overlay-id="portfolio"&gt;
+  &lt;div class="cel-overlay-item"&gt;
+
+    &lt;div class="cel-overlay-media"&gt;
+      &lt;img src="assets/images/demo/portfolio/portfolio-1-1024w.webp" alt=""&gt;
+    &lt;/div&gt;
+
+    &lt;div class="cel-overlay-meta"&gt;
+      &lt;span class="cel-label"&gt;01 / 08&lt;/span&gt;
+      &lt;button class="cel-overlay-close" type="button" aria-label="Close"&gt;
+        &lt;i data-lucide="x"&gt;&lt;/i&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div class="cel-overlay-body"&gt;
+      &lt;div class="cel-overlay-scroll"&gt;
+        &lt;div class="cel-overlay-content"&gt;
+          &lt;h2&gt;Title&lt;/h2&gt;
+          &lt;p&gt;Body copy.&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Hook</th>
+								<th>Where</th>
+								<th>Purpose</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>data-cel-overlay-id</code></td>
+								<td>trigger and panel</td>
+								<td>The pairing. Any number of triggers may share one id.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-overlay-trigger</code></td>
+								<td>the control</td>
+								<td>Clicking it opens the panel with the matching id.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-overlay</code></td>
+								<td>the panel</td>
+								<td>The dialog itself.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-overlay-close</code></td>
+								<td>inside the panel</td>
+								<td>Closes the panel it sits in. No id needed &mdash; it looks upward.</td>
+							</tr>
+							<tr>
+								<td><code>data-cel-overlay-direction</code></td>
+								<td>the panel</td>
+								<td>Written by the script, read by CSS. Do not set it by hand.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="doc-callout doc-callout--info">
+						<i data-lucide="info" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							The overlay knows nothing about what it contains. Anything that has to react
+							&mdash; a gallery stepping through items, analytics, a video that should pause
+							&mdash; listens for the events below instead of being wired into this module.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="cel-overlay-init">celOverlay.init()</h2>
+
+					<p class="doc-intro">
+						Binds every trigger and close button on the page, and puts every closed panel into
+						the correct ARIA state before anything is clicked.
+					</p>
+
+					<hr>
+
+					<h3>Initialization</h3>
+
+<pre class="language-javascript"><code>celOverlay.init();</code></pre>
+
+					<p>
+						Called for you on <code>DOMContentLoaded</code>, at the bottom of
+						<code>main.js</code>. Triggers and close buttons are marked once and skipped on a
+						second call, so re-running it after inserting markup binds only the new controls.
+						Pass the same options again when you do: each call replaces the previous ones.
+					</p>
+
+					<h3>Custom Configuration</h3>
+
+					<p>
+						Anything passed to <code>init()</code> becomes the default for every panel on the
+						page &mdash; edit the call in <code>main.js</code>. A single panel can still
+						override it &mdash; see
+						<a href="#cel-overlay-open-close" class="cel-underline">open()</a>.
+					</p>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>direction</code></td>
+								<td><code>'bottom'</code></td>
+								<td>Edge the panel enters from. <code>'top'</code> or <code>'bottom'</code>.</td>
+							</tr>
+							<tr>
+								<td><code>fill</code></td>
+								<td><code>'90%'</code></td>
+								<td>Height on desktop. CSS forces full height on small screens. Gatefold passes <code>calc(100% - var(--cel-header-h))</code>, so the panel stops exactly at the bottom of the site header and the visible band is the header itself, balanced at any window height.</td>
+							</tr>
+							<tr>
+								<td><code>duration</code></td>
+								<td><code>0.6</code></td>
+								<td>Open duration, in seconds.</td>
+							</tr>
+							<tr>
+								<td><code>ease</code></td>
+								<td><code>'power3.out'</code></td>
+								<td>Open easing.</td>
+							</tr>
+							<tr>
+								<td><code>closeDuration</code></td>
+								<td><code>0.45</code></td>
+								<td>Close duration. Shorter than the open on purpose.</td>
+							</tr>
+							<tr>
+								<td><code>closeEase</code></td>
+								<td><code>'power2.in'</code></td>
+								<td>Close easing.</td>
+							</tr>
+							<tr>
+								<td><code>closeOnEscape</code></td>
+								<td><code>true</code></td>
+								<td>Escape closes the panel.</td>
+							</tr>
+							<tr>
+								<td><code>closeOnOutsideClick</code></td>
+								<td><code>true</code></td>
+								<td>A click outside closes the panel.</td>
+							</tr>
+							<tr>
+								<td><code>lockScroll</code></td>
+								<td><code>true</code></td>
+								<td>Prevents the page behind from scrolling.</td>
+							</tr>
+							<tr>
+								<td><code>trapFocus</code></td>
+								<td><code>true</code></td>
+								<td>Traps Tab inside the panel and marks the rest of the page inert.</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="cel-overlay-open-close">celOverlay.open() / close()</h2>
+
+					<p class="doc-intro">
+						Open or close a panel from your own code, by id.
+					</p>
+
+					<hr>
+
+<pre class="language-javascript"><code>celOverlay.open('portfolio');
+celOverlay.close('portfolio');
+
+// Per-panel overrides, merged over whatever init() was given
+celOverlay.open('portfolio', { direction: 'top', fill: '100%' });</code></pre>
+
+					<h3>Events</h3>
+
+					<p>
+						Both are dispatched on the panel element and bubble, so you can listen on the panel
+						or on <code>document</code>.
+					</p>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Event</th>
+								<th>Fired</th>
+								<th>Detail</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>cel:overlay-open</code></td>
+								<td>as the entrance begins</td>
+								<td><code>{ id }</code></td>
+							</tr>
+							<tr>
+								<td><code>cel:overlay-close</code></td>
+								<td>after the exit completes</td>
+								<td><code>{ id }</code></td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3>Behavior</h3>
+
+					<ul>
+						<li><strong>Opening a second panel closes the first.</strong> One overlay is open at a time.</li>
+						<li><strong>Re-opening mid-close cancels the exit</strong> and brings the panel back, rather than finishing the close and starting a fresh open. The scroll lock and the handlers are still live at that point, so nothing is locked or bound twice.</li>
+						<li><strong>Focus returns</strong> to whatever was focused before the panel opened.</li>
+						<li><strong>Direction and height go to CSS</strong>, not to inline styles &mdash; an inline height would beat the media query that makes the panel full-height on small screens.</li>
+						<li><strong>Reduced motion</strong> collapses the durations to zero rather than skipping the tween, so the completion callbacks still run and the state stays consistent.</li>
+					</ul>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="accessibility">Scroll Lock, Inert and Focus Trap</h2>
+
+					<p class="doc-intro">
+						Three things the overlay does to the rest of the page while it is open. They are what
+						make it a dialog rather than a box that happens to sit on top.
+					</p>
+
+					<hr>
+
+					<h3>Scroll lock</h3>
+
+					<p>
+						The page behind cannot scroll. Two details matter more than they look:
+					</p>
+
+					<ul>
+						<li><strong>The lock is counted, not a boolean.</strong> A close overlapping an open must not unlock the page while something still needs it locked. The count is clamped at zero so a stray extra unlock cannot desync every pair that follows.</li>
+						<li><strong>The scrollbar's width is measured and given back as padding.</strong> Hiding the scrollbar reclaims its width and the page jumps sideways by exactly that much. On macOS and iOS the scrollbar is an overlay and takes no width, so the measurement is 0 and nothing is added.</li>
+					</ul>
+
+					<h3>Inert background</h3>
+
+					<p>
+						Everything outside the panel becomes unfocusable, unclickable and invisible to
+						assistive technology. The script walks from the panel up to <code>&lt;body&gt;</code>
+						marking every sibling on the way, and remembers exactly what it marked &mdash; so
+						closing reverts those and nothing else. An element some other code made inert stays
+						inert.
+					</p>
+
+					<p>
+						The background is made reachable again as the exit <em>starts</em>, not when it
+						finishes: the page behind should respond the moment the panel is on its way out.
+					</p>
+
+					<h3>Focus trap</h3>
+
+					<ul>
+						<li><strong>The panel itself takes focus, not its first control.</strong> A screen reader then announces the dialog rather than &ldquo;Close, button&rdquo; with no context, and no focus ring appears around the close button for someone who arrived by mouse.</li>
+						<li><strong>The focusable list is rebuilt on every Tab</strong>, so content revealed after opening is included and anything hidden meanwhile is skipped.</li>
+						<li><strong>Inert elements are excluded explicitly</strong>, which is not the same test as visibility. An inert element is still laid out, so it passes a visibility check, but the browser skips it when Tab is actually pressed. Left in the list, the trap would compute a first or last control that can never be reached.</li>
+						<li><strong>Shift+Tab from the panel</strong> goes to the end of the dialog. There is nowhere else for it to go &mdash; the rest of the page is inert.</li>
+					</ul>
+
+					<div class="doc-callout doc-callout--success">
+						<i data-lucide="circle-check" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<code>role="dialog"</code>, <code>aria-modal</code>, <code>aria-hidden</code> and
+							the triggers' <code>aria-expanded</code> are all maintained for you. Closed panels
+							are given <code>aria-hidden</code> at init rather than after the first open.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+		</article>
+
+	</main>
+
+
+	<!-- =========================================================== Footer -->
+	<footer class="doc-footer">
+		<div class="doc-container">
+			<p>Crafted by <a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=footer&amp;utm_campaign=gatefold" class="cel-underline">Celestial Themes</a>. Released under the MIT License.</p>
+			<p><a href="credits.html" class="cel-underline">Credits &amp; Licences</a></p>
+		</div>
+	</footer>
+
+	<button type="button" class="doc-totop" aria-label="Back to top">
+		<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+	</button>
+
+
+	<!-- Scripts -->
+	<script src="assets/js/prism.js"></script>
+	<script src="assets/js/lucide.js"></script>
+	<script src="assets/js/lenis.min.js"></script>
+	<script src="assets/js/docs.js"></script>
+</body>
+</html>
