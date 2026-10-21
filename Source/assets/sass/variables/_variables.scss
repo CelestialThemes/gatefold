@@ -100,6 +100,8 @@ $grid-breakpoints: (
 $base: 1rem;
 
 // Stacking. The carousel's own controls (10–12) sit in a separate context.
+// The header's menus open over the hero and the carousel, under the overlay.
+$z-nav: 900;
 $z-overlay: 1000;
 
 $border-radius-xs:   0.125rem;  // 2px - very small radius

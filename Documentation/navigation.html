@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Header, Footer &amp; Scroll — Gatefold Documentation</title>
+
+	<!-- Favicon. The Celestial Themes star, shared with the templates. favicon.svg
+	     carries a prefers-color-scheme rule so the mark lightens on a dark tab
+	     strip, where the brand blue measures 2.55:1 against the chrome. -->
+	<link rel="icon" href="./favicon.ico" sizes="32x32">
+	<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+	<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+	<!-- Matches --c-dark, the header background, so the browser chrome runs
+	     straight into the page instead of stopping at a coloured seam. Not the
+	     accent: theme-color paints the bar ABOVE the header, and the header is
+	     what it has to continue. -->
+	<meta name="theme-color" content="#100E1A">
+
+	<!-- Styles (fonts are self-hosted via @font-face in docs.css) -->
+	<link rel="stylesheet" href="assets/css/prism.css">
+	<link rel="stylesheet" href="assets/css/docs.css">
+</head>
+
+<body>
+
+	<!-- =========================================================== Header -->
+	<header class="doc-header">
+
+		<div class="doc-container doc-header__bar">
+			<a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=logo&amp;utm_campaign=gatefold" class="doc-logo" aria-label="Celestial Themes home">
+				<img src="assets/images/logo.svg" alt="Celestial Themes" class="doc-logo__full">
+				<img src="assets/images/logo-mobile.svg" alt="Celestial Themes" class="doc-logo__mark">
+			</a>
+
+			<nav class="doc-nav" aria-label="Documentation">
+				<button type="button" class="doc-navbtn" aria-expanded="false" aria-controls="doc-globalnav" aria-label="Open menu">
+					<i data-lucide="menu" aria-hidden="true"></i>
+				</button>
+				<ul id="doc-globalnav" class="doc-nav__list">
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="changelog.html">Changelog</a></li>
+					<li><a href="https://gatefold.celestialthemes.com/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Live demo<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+					<!-- Every template points at this one URL, for the life of the product.
+					     Routing by where the licence was bought happens there, on the server,
+					     so the address baked into copies already sold never has to change. -->
+					<li><a href="https://celestialthemes.com/support/?utm_source=docs&amp;utm_medium=nav&amp;utm_campaign=gatefold" class="doc-nav__ext" target="_blank" rel="noopener">Support<i data-lucide="arrow-up-right" aria-hidden="true"></i></a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="doc-container doc-hero">
+			<!-- Version placeholder: this line is the only place it appears. -->
+			<span class="doc-badge">Gatefold Documentation 1.1</span>
+			<h1 class="doc-hero__title">Header, Footer &amp; Scroll</h1>
+		</div>
+
+	</header>
+
+
+	<!-- =========================================================== Main -->
+	<main class="doc-container doc-layout">
+
+		<!-- ---------- Sidebar ---------- -->
+		<aside class="doc-sidebar">
+			<button type="button" class="doc-sidebar__toggle" aria-expanded="false" aria-controls="doc-nav-list">
+					<span>Documentation pages</span>
+					<i data-lucide="chevron-down" class="doc-sidebar__toggle-icon" aria-hidden="true"></i>
+				</button>
+			<nav id="doc-nav-list" class="doc-sidebar__nav" aria-label="Documentation pages">
+				<ul>
+					<li><a href="index.html">Overview</a></li>
+					<li><a href="navigation.html" class="is-active" aria-current="page">Header, Footer &amp; Scroll</a></li>
+					<li><a href="carousel.html">Carousel</a></li>
+					<li><a href="overlay.html">Overlay</a></li>
+					<li><a href="overlay-nav.html">Overlay Navigation</a></li>
+					<li><a href="styling.html">Styling &amp; Customisation</a></li>
+				</ul>
+			</nav>
+		</aside>
+
+		<!-- ---------- Content ---------- -->
+		<article class="doc-content cel-prose">
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="markup">HTML Markup</h2>
+
+					<p class="doc-intro">
+						The menu in the header. From 992px up it is a row of links, and an item with entries
+						under it opens a <strong>dropdown</strong>. Below 992px the links fold into a
+						<strong>panel under the header</strong>, opened by a menu button, and a dropdown
+						expands in place.
+					</p>
+
+					<hr>
+
+<pre class="language-markup"><code>&lt;header class="cel-site-header"&gt;
+  &lt;a class="cel-site-brand" href="…"&gt;Your name&lt;/a&gt;
+
+  &lt;button class="cel-nav-toggle" type="button" aria-expanded="false"
+          aria-controls="cel-site-menu" aria-label="Menu"&gt;
+    &lt;span class="cel-nav-toggle-open"&gt;&lt;i data-lucide="menu" aria-hidden="true"&gt;&lt;/i&gt;&lt;/span&gt;
+    &lt;span class="cel-nav-toggle-close"&gt;&lt;i data-lucide="x" aria-hidden="true"&gt;&lt;/i&gt;&lt;/span&gt;
+  &lt;/button&gt;
+
+  &lt;nav class="cel-site-nav" aria-label="Main"&gt;
+    &lt;ul class="cel-site-menu" id="cel-site-menu"&gt;
+      &lt;li&gt;&lt;a class="cel-site-link" href="./index.html" aria-current="page"&gt;Home&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a class="cel-site-link" href="./about.html"&gt;About&lt;/a&gt;&lt;/li&gt;
+
+      &lt;li class="cel-has-sub"&gt;
+        &lt;button class="cel-site-link cel-site-parent" type="button"&gt;
+          Resources &lt;i data-lucide="chevron-down" aria-hidden="true"&gt;&lt;/i&gt;
+        &lt;/button&gt;
+        &lt;ul class="cel-sub-menu"&gt;
+          &lt;li&gt;&lt;a href="…"&gt;Documentation&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="…"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Hook</th>
+								<th>Where</th>
+								<th>Purpose</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>.cel-nav-toggle</code></td>
+								<td>in the header, before the nav</td>
+								<td>The menu button, shown below 992px. Its <code>aria-controls</code> names the list.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-site-menu</code></td>
+								<td>the list inside the nav</td>
+								<td>The links: a row from 992px, the panel's rows below.</td>
+							</tr>
+							<tr>
+								<td><code>aria-current="page"</code></td>
+								<td>on a link</td>
+								<td>Marks the page you are on with the red dot. One per page, set by hand.</td>
+							</tr>
+							<tr>
+								<td><code>.cel-has-sub</code></td>
+								<td>on an item</td>
+								<td>An item with a dropdown: a <code>.cel-site-parent</code> button, then a <code>.cel-sub-menu</code> list.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="doc-callout doc-callout--info">
+						<i data-lucide="info" class="doc-callout__icon" aria-hidden="true"></i>
+						<p>
+							<strong>Why does a button, not a link, open a dropdown?</strong> A link that also
+							opens a list means two things on one tap, and a touch screen has no hover to tell
+							them apart. The button only opens; every destination is a link inside the list. To
+							add a page, add an <code>&lt;li&gt;</code>; to drop the dropdown, delete the
+							<code>.cel-has-sub</code> item &mdash; nothing else needs changing.
+						</p>
+					</div>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="cel-nav-init">celNav.init()</h2>
+
+					<p class="doc-intro">
+						Binds the menu button, every dropdown, and the ways they close.
+					</p>
+
+					<hr>
+
+					<h3>Initialization</h3>
+
+<pre class="language-javascript"><code>celNav.init();</code></pre>
+
+					<p>
+						Called for you on <code>DOMContentLoaded</code>, right after the icons are drawn, at
+						the bottom of <code>main.js</code>. The script is <code>assets/js/nav.js</code> and
+						needs nothing else. Safe to call again: a nav already bound is skipped.
+					</p>
+
+					<h3>Custom Configuration</h3>
+
+					<p>
+						Pass an object to the call in <code>main.js</code>, for example
+						<code>celNav.init({ closeDelay: 300 })</code>.
+					</p>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>breakpoint</code></td>
+								<td><code>992</code></td>
+								<td>Width in px from which the menu is a row. Keep it equal to the <code>lg</code> breakpoint in <code>_variables.scss</code>, where the CSS switches.</td>
+							</tr>
+							<tr>
+								<td><code>closeDelay</code></td>
+								<td><code>150</code></td>
+								<td>Milliseconds a dropdown opened by hover waits before closing, so the pointer can reach the list.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3>Behavior</h3>
+
+					<ul>
+						<li><strong>A dropdown opens on click, tap and Enter</strong>; with a mouse, also on hover. One opened by hover closes when the pointer leaves; one opened by a click stays until you click elsewhere, press Escape or Tab out of it. One is open at a time.</li>
+						<li><strong>Escape closes the innermost thing open</strong> &mdash; the dropdown first, then the panel &mdash; and hands focus back to the button that opened it.</li>
+						<li><strong>A tap outside the open panel only closes it.</strong> It does not also follow a link or open a photograph lying under the panel's edge.</li>
+						<li><strong>Nothing of the menu stays open under an overlay</strong>, or across the breakpoint when a window is resized.</li>
+						<li><strong>The buttons say their state</strong> with <code>aria-expanded</code>; each dropdown button names its list with <code>aria-controls</code>, filled in by the script.</li>
+					</ul>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="styling">Styling</h2>
+
+					<p class="doc-intro">
+						The dropdowns and the phone panel share one surface, set by two tokens in
+						<code>_colors.scss</code>.
+					</p>
+
+					<hr>
+
+<pre class="language-css"><code>:root {
+  --cel-menu-bg:    var(--cel-overlay-bg);   /* the overlay's warm sheet */
+  --cel-menu-color: var(--cel-ink);          /* ink on it: 7.26:1 */
+}</code></pre>
+
+					<p>
+						By default the menu wears the overlay's sheet, so a menu and a project detail read as
+						one material. They are separate tokens, so either can change without the other. The
+						pointer's highlight swaps the two colours; the page you are on gets a faint wash of
+						the ink.
+					</p>
+
+					<p>
+						The styles live in <code>Source/assets/sass/components/_nav.scss</code>. The header
+						itself, the brand and the link type are in <code>_shell.scss</code>.
+					</p>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="footer">Footer</h2>
+
+					<p class="doc-intro">
+						One line of small print at the foot of the About page: the copyright on the left,
+						the licence on the right.
+					</p>
+
+					<hr>
+
+<pre class="language-html"><code>&lt;/main&gt;
+
+&lt;footer class="cel-site-footer"&gt;
+  &lt;p&gt;&lt;small&gt;&amp;copy; 2026 Gatefold by &lt;a href="…"&gt;Celestial Themes&lt;/a&gt;.&lt;/small&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;small&gt;Free and open source under the &lt;a href="…" rel="license"&gt;MIT License&lt;/a&gt;.&lt;/small&gt;&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+
+					<ul>
+						<li><strong>It goes after <code>&lt;main&gt;</code>, inside <code>.cel-shell</code></strong>, not inside <code>&lt;main&gt;</code> or an <code>&lt;article&gt;</code>. There it is the page&rsquo;s <em>contentinfo</em> landmark, which screen readers list next to the header and the main content.</li>
+						<li><strong><code>&lt;small&gt;</code> marks the text as small print</strong>, the element HTML has for a copyright. The footer keeps it at the body size.</li>
+						<li><strong><code>rel="license"</code></strong> on the licence link says what the link is, for browsers and search engines.</li>
+						<li><strong>Two paragraphs, side by side from 768px</strong> and stacked below. Add a third and it joins the row.</li>
+						<li><strong>The carousel page has none</strong>: its strip is flush with the bottom of the screen. A footer there would sit under the strip; the shell already has a row for it, so the markup is all it takes.</li>
+					</ul>
+
+					<p>
+						White text, as on the rest of the page. The links are underlined, so they read as
+						links in text of the same colour, and turn red under the pointer, as in the header.
+						The styles are <code>.cel-site-footer</code> in <code>_shell.scss</code>.
+					</p>
+
+				</div><!-- end of function-section -->
+
+
+				<div class="function-section"><!-- start function-section -->
+
+					<h2 id="smooth-scroll">Smooth Scroll</h2>
+
+					<p class="doc-intro">
+						Lenis smooths the mouse wheel on the About page, with the settings
+						celestialthemes.com runs. The carousel page scrolls natively.
+					</p>
+
+					<hr>
+
+					<h3>Initialization</h3>
+
+<pre class="language-html"><code>&lt;script src="assets/js/lenis.js"&gt;&lt;/script&gt;
+&lt;script src="assets/js/smooth-scroll.js"&gt;&lt;/script&gt;</code></pre>
+
+					<p>
+						A page opts in by loading these two files before <code>main.js</code>, which then
+						calls <code>celSmoothScroll.init()</code> on <code>DOMContentLoaded</code>. A page
+						without them scrolls the way the browser does. To smooth another page, copy the two
+						tags from <code>about.html</code>.
+					</p>
+
+					<h3>Custom Configuration</h3>
+
+					<p>
+						Pass an object to the call in <code>main.js</code>, for example
+						<code>celSmoothScroll.init({ lerp: 0.08 })</code>.
+					</p>
+
+					<table class="doc-table">
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>lerp</code></td>
+								<td><code>0.1</code></td>
+								<td>How fast the page catches up with the wheel. Lower is smoother and slower.</td>
+							</tr>
+							<tr>
+								<td><code>wheelMultiplier</code></td>
+								<td><code>1</code></td>
+								<td>Distance per wheel step.</td>
+							</tr>
+							<tr>
+								<td><code>smoothWheel</code></td>
+								<td><code>true</code></td>
+								<td>Smooth the mouse wheel and the trackpad.</td>
+							</tr>
+							<tr>
+								<td><code>syncTouch</code></td>
+								<td><code>false</code></td>
+								<td>Leave touch screens to their own scrolling, which is what a phone user expects.</td>
+							</tr>
+							<tr>
+								<td><code>minDuration</code></td>
+								<td><code>1</code></td>
+								<td>Seconds a short jump to a <code>#link</code> takes.</td>
+							</tr>
+							<tr>
+								<td><code>maxDuration</code></td>
+								<td><code>3</code></td>
+								<td>Seconds a jump across the whole page takes. Distances in between scale.</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<h3>Behavior</h3>
+
+					<ul>
+						<li><strong>Off under <code>prefers-reduced-motion</code></strong>: Lenis never starts and the page scrolls natively.</li>
+						<li><strong>Links to an <code>#id</code> on the same page glide there</strong>, and stop short by the target&rsquo;s <code>scroll-margin-top</code>. Links to other pages, a bare <code>#</code>, new tabs and modified clicks stay with the browser.</li>
+						<li><strong>It moves the real window scroll</strong>, not a wrapper, so <code>position: sticky</code>, deep links and <code>window.scrollY</code> keep working.</li>
+						<li><strong>Paused while an overlay is open</strong>; the overlay&rsquo;s panel scrolls on its own. Mark any other scrolling box with <code>data-lenis-prevent</code> for the same.</li>
+						<li><strong><code>celSmoothScroll.lenis</code></strong> is the running instance, or <code>null</code>, for calls such as <code>celSmoothScroll.lenis.scrollTo(0)</code>.</li>
+					</ul>
+
+				</div><!-- end of function-section -->
+
+		</article>
+
+	</main>
+
+
+	<!-- =========================================================== Footer -->
+	<footer class="doc-footer">
+		<div class="doc-container">
+			<p>Crafted by <a href="https://celestialthemes.com/?utm_source=docs&amp;utm_medium=footer&amp;utm_campaign=gatefold" class="cel-underline">Celestial Themes</a>. Released under the MIT License.</p>
+			<p><a href="credits.html" class="cel-underline">Credits &amp; Licences</a></p>
+		</div>
+	</footer>
+
+	<button type="button" class="doc-totop" aria-label="Back to top">
+		<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+	</button>
+
+
+	<!-- Scripts -->
+	<script src="assets/js/prism.js"></script>
+	<script src="assets/js/lucide.js"></script>
+	<script src="assets/js/lenis.min.js"></script>
+	<script src="assets/js/docs.js"></script>
+</body>
+</html>

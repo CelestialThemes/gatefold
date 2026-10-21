@@ -100,6 +100,13 @@
   // it measures 7.26:1.
   --cel-overlay-bg: #f2efe7;
 
+  /* --- Tier 4: Component — menu surface --- */
+  // The header dropdowns and the phone menu panel. The overlay's sheet by
+  // default, so a menu and a detail read as one material; a pair of its own,
+  // so either can change without the other.
+  --cel-menu-bg:    var(--cel-overlay-bg);
+  --cel-menu-color: var(--cel-ink);
+
   /* --- Tier 4: Component — overlay scroll area --- */
   // Mixed from ink, so the scrollbar follows the brand colour.
   --cel-scrollbar-track: color-mix(in srgb, var(--cel-ink) 12%, transparent);

@@ -4,15 +4,16 @@
 /* =============== 4.0 PAGE SHELL =============== */
 // Two nested grids, so <main> wraps both the hero and the carousel:
 //
-//   .cel-shell   rows: auto 1fr   → header, then everything else
-//     .cel-main  rows: 1fr auto   → hero takes the slack, carousel is intrinsic
+//   .cel-shell   rows: auto 1fr auto → header, everything else, footer
+//     .cel-main  rows: 1fr auto      → hero takes the slack, carousel is intrinsic
 //
+// A page without a footer (the carousel page) leaves the last row empty.
 // min-height, not height: with longer copy the page grows and scrolls instead
 // of clipping it. 100dvh keeps the carousel clear of the mobile URL bar.
 .cel-shell {
   min-height: 100dvh;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
 
   // The page's left and right edge, shared by the header and the back control.
   --cel-gutter: #{$base * 2};
@@ -31,27 +32,21 @@
 
 
 /* =============== 4.1 Site Header =============== */
+// Positioned and stacked so its menus (components/_nav.scss) open over the
+// hero and the carousel. Below 992px the links fold into a panel, so the bar
+// holds only the brand and the menu button and cannot overflow.
 .cel-site-header {
+  position: relative;
+  z-index: $z-nav;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $base;
   padding: $base * 2.75 var(--cel-gutter);
 
-  // The labels never wrap, so the header can only overflow. Checked with no
-  // horizontal scroll from 320px up; longer labels need that check again.
   @include mx.media-breakpoint-down(md) {
     padding-block: $base * 1.25;
   }
-}
-
-// The right-hand group (Home, About).
-.cel-site-nav {
-  display: flex;
-  align-items: center;
-
-  // 34px → 42px. The current-page dot sits in this gap.
-  gap: calc(clamp(#{$base * 2}, 4vw, #{$base * 2.5}) + 2px);
 }
 
 .cel-site-brand,
@@ -298,5 +293,45 @@
     margin-left: $base * 2.5;
 
     figcaption { text-align: right; }
+  }
+}
+
+
+/* =============== 4.7 Site Footer =============== */
+// One line of small print at the foot of a reading page: the copyright and the
+// licence. Left and right from 768px up, stacked below. The carousel page has
+// none: its strip is flush to the bottom of the screen.
+.cel-site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: $base * 0.25 $base * 2;
+  padding: $base * 3 var(--cel-gutter);
+  color: var(--cel-body-color);
+
+  p {
+    margin: 0;
+  }
+
+  // <small> marks it as small print; the type stays at the body size.
+  small {
+    font-size: inherit;
+  }
+
+  // Underlined at rest, so they read as links in text of the same white; the
+  // pointer turns them red, as in the header, and changes nothing else.
+  a {
+    color: var(--cel-link-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+
+    &:hover {
+      color: var(--cel-primary);
+    }
+  }
+
+  @include mx.media-breakpoint-down(md) {
+    flex-direction: column;
   }
 }

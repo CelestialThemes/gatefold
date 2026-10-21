@@ -24,9 +24,23 @@
 
       <header class="cel-site-header">
         <a class="cel-site-brand" href="https://celestialthemes.com/catalog/gatefold/?utm_source=demo&amp;utm_medium=header&amp;utm_campaign=gatefold">Celestial Themes</a>
-        <nav class="cel-site-nav">
-          <a class="cel-site-link" href="./index.html">Home</a>
-          <a class="cel-site-link" href="./about.html" aria-current="page">About</a>
+        <button class="cel-nav-toggle" type="button" aria-expanded="false" aria-controls="cel-site-menu" aria-label="Menu">
+          <span class="cel-nav-toggle-open"><i data-lucide="menu" aria-hidden="true"></i></span>
+          <span class="cel-nav-toggle-close"><i data-lucide="x" aria-hidden="true"></i></span>
+        </button>
+        <nav class="cel-site-nav" aria-label="Main">
+          <ul class="cel-site-menu" id="cel-site-menu">
+            <li><a class="cel-site-link" href="./index.html">Home</a></li>
+            <li><a class="cel-site-link" href="./about.html" aria-current="page">About</a></li>
+            <li class="cel-has-sub">
+              <button class="cel-site-link cel-site-parent" type="button">Resources <i data-lucide="chevron-down" aria-hidden="true"></i></button>
+              <ul class="cel-sub-menu">
+                <li><a href="https://gatefold.celestialthemes.com/documentation/">Documentation</a></li>
+                <li><a href="https://gatefold.celestialthemes.com/documentation/changelog.html">Changelog</a></li>
+                <li><a href="https://github.com/CelestialThemes/gatefold">GitHub</a></li>
+              </ul>
+            </li>
+          </ul>
         </nav>
       </header>
 
@@ -69,13 +83,13 @@
             <figcaption>Object no. 5. Lit itself, obligingly.</figcaption>
           </figure>
 
-          <p>There is a persistent rumour that you need some background before any of this is allowed to work on you. You do not. A painting has no idea what you know. It sits there being blue at you whether or not you can name the century, and the blue lands either way — which is either deeply democratic or slightly lazy of the painting, depending on your mood.</p>
+          <p>There is a persistent rumour that you need some background before any of this is allowed to work on you. <strong>You do not.</strong> A painting has no idea what you know. It sits there being blue at you whether or not you can name the century, and the blue lands either way — which is either deeply democratic or slightly lazy of the painting, depending on your mood.</p>
 
           <p>The gallery makes it harder than it needs to be. White walls, quiet floors, and a small card carrying the title, the year, and the words <em>mixed media</em> doing an enormous amount of unpaid work. Somewhere behind that card is a person who spent eleven months on this and would very much like to know what you thought. The card will not mention it.</p>
 
           <p>The distance between what somebody meant and what you actually took away is not a fault in the system. It is the system. A photograph made at six in the morning because the light was briefly doing something extraordinary can arrive in your head as a memory of a holiday you never went on, and that is not a mistranslation. That is the second half of the work, and you are the one doing it.</p>
 
-          <p>You are also allowed to dislike things. Confidently, out loud, in front of the artist if the moment truly calls for it. Taste is not an exam you can fail, and anyone insisting a piece is <em>important</em> is usually describing a spreadsheet rather than the thing on the wall. Some of the most expensive art ever sold is, on any honest afternoon, a bit boring.</p>
+          <p><strong>You are also allowed to dislike things.</strong> Confidently, out loud, in front of the artist if the moment truly calls for it. <strong>Taste is not an exam you can fail</strong>, and anyone insisting a piece is <em>important</em> is usually describing a spreadsheet rather than the thing on the wall. Some of the most expensive art ever sold is, on any honest afternoon, a bit boring.</p>
 
           <figure class="cel-prose-figure cel-prose-figure-right">
             <img src="assets/images/demo/portfolio/portfolio-7-1024w.webp"
@@ -100,10 +114,21 @@
 
       </main>
 
+      <!-- Outside <main>, so it is the page's contentinfo landmark. <small> is
+           the element for small print such as a copyright. -->
+      <footer class="cel-site-footer">
+        <p><small>&copy; 2026 Gatefold by <a href="https://celestialthemes.com/?utm_source=demo&amp;utm_medium=footer&amp;utm_campaign=gatefold">Celestial Themes</a>.</small></p>
+        <p><small>Free and open source under the <a href="https://github.com/CelestialThemes/gatefold/blob/main/LICENSE" rel="license">MIT License</a>.</small></p>
+      </footer>
+
     </div><!-- End of cel-shell -->
 
-    <!-- No GSAP or Swiper here: this page has no carousel. Lucide draws the back arrow. -->
+    <!-- No GSAP or Swiper here: this page has no carousel. Lucide draws the
+         back arrow; Lenis smooths the scroll through the reading column. -->
+    <script src="assets/js/lenis.js"></script>
+    <script src="assets/js/smooth-scroll.js"></script>
     <script src="assets/js/lucide.js"></script>
+    <script src="assets/js/nav.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>

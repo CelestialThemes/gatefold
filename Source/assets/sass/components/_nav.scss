@@ -1,0 +1,212 @@
+@use '../mixins/mixins' as mx;
+@use '../variables/variables' as *;
+
+/* =============== 4.1.1 Site Navigation =============== */
+// The menu in the header. From 992px up it is a row of links, and an item
+// with entries under it is a button that drops a panel. Below 992px the row
+// becomes a panel of its own under the header, opened by .cel-nav-toggle, and
+// a dropdown becomes a row that expands in place. Behaviour: assets/js/nav.js.
+//
+// Both surfaces use the menu tokens (--cel-menu-bg, --cel-menu-color).
+
+.cel-site-menu {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // 34px → 42px. The current-page dot sits in this gap.
+  gap: calc(clamp(#{$base * 2}, 4vw, #{$base * 2.5}) + 2px);
+}
+
+// The prose list rule (ul li: 7px above and below, 25px in) is for running
+// text; a menu's items sit on the menu's own spacing.
+.cel-site-menu li,
+.cel-sub-menu li {
+  margin: 0;
+}
+
+.cel-has-sub {
+  position: relative;
+}
+
+// A dropdown's button wears the link's type (.cel-site-link) and a chevron.
+.cel-site-parent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375em;
+
+  svg {
+    width: 1.1em;
+    height: 1.1em;
+    transition: rotate 0.2s ease;
+  }
+
+  &[aria-expanded='true'] svg {
+    rotate: 180deg;
+  }
+}
+
+// The entries: the menu sheet, ink type, the label's tracked capitals at a
+// fixed 15px. The page you are on gets a faint wash; the pointer, a solid one.
+.cel-sub-menu {
+  margin: 0;
+  padding: $base * 0.5;
+  list-style: none;
+
+  a {
+    display: block;
+    padding: $base * 0.75 $base;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-wide;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--cel-menu-color);
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &[aria-current='page'] {
+      background-color: color-mix(in srgb, var(--cel-menu-color) 8%, transparent);
+    }
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: none;
+      color: var(--cel-menu-bg);
+      background-color: var(--cel-menu-color);
+    }
+  }
+}
+
+// The menu button exists only below 992px.
+.cel-nav-toggle {
+  display: none;
+}
+
+
+/* --- From 992px: a row, and panels that drop from it --- */
+@include mx.media-breakpoint-up(lg) {
+  .cel-sub-menu {
+    --cel-sub-offset: #{$base * 1.25};   // 20px under the button
+
+    position: absolute;
+    top: calc(100% + var(--cel-sub-offset));
+    right: -$base;           // the panel's padding plus the entry's: its text lines up with the button's end
+    min-width: 15rem;
+    background-color: var(--cel-menu-bg);
+    border-radius: $border-radius-card;
+    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.25);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -0.5rem;
+    transition: opacity 0.2s ease, translate 0.2s ease, visibility 0s linear 0.2s;
+
+    // A bridge over the gap, so the pointer can travel from the button to the
+    // panel without leaving the item.
+    &::before {
+      content: '';
+      position: absolute;
+      inset: auto 0 100%;
+      height: var(--cel-sub-offset);
+    }
+  }
+
+  .cel-has-sub.is-open > .cel-sub-menu {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition: opacity 0.2s ease, translate 0.2s ease, visibility 0s;
+  }
+}
+
+
+/* --- Below 992px: one panel under the header --- */
+@include mx.media-breakpoint-down(lg) {
+  // 44px touch target, the icon on the page gutter.
+  .cel-nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $base * 2.75;
+    height: $base * 2.75;
+    margin-inline-end: -$base * 0.625;
+    color: var(--cel-heading-color);
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    // Menu when closed, a cross when open. Both flex boxes: as inline boxes
+    // the icon would sit on the text baseline, raised by the descender space.
+    .cel-nav-toggle-open  { display: inline-flex; }
+    .cel-nav-toggle-close { display: none; }
+
+    &[aria-expanded='true'] {
+      .cel-nav-toggle-open  { display: none; }
+      .cel-nav-toggle-close { display: inline-flex; }
+    }
+  }
+
+  .cel-site-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% - #{$base * 0.5});
+    right: var(--cel-gutter);
+    width: min(20rem, 100% - var(--cel-gutter) * 2);
+    padding: $base * 0.5;
+    background-color: var(--cel-menu-bg);
+    border-radius: $border-radius-card;
+    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.25);
+
+    &.is-open { display: block; }
+  }
+
+  .cel-site-menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  // Rows, with room on the left for the current-page dot.
+  .cel-site-nav .cel-site-link {
+    display: flex;
+    width: 100%;
+    padding: $base * 0.75 $base * 0.75 $base * 0.75 $base * 2;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-small;
+    color: var(--cel-menu-color);
+
+    &:hover {
+      color: var(--cel-menu-color);
+      background-color: color-mix(in srgb, var(--cel-menu-color) 8%, transparent);
+    }
+
+    &[aria-current='page']::before {
+      left: $base;
+      right: auto;
+      translate: -50% -50%;
+    }
+  }
+
+  .cel-site-parent {
+    justify-content: space-between;
+  }
+
+  // A dropdown expands in place, its entries indented under the button: one
+  // step (16px) further in than the button's label.
+  .cel-sub-menu {
+    display: none;
+    padding: 0 0 $base * 0.25 $base;
+
+    a {
+      padding-inline-start: $base * 2;
+    }
+  }
+
+  .cel-has-sub.is-open > .cel-sub-menu {
+    display: block;
+  }
+}

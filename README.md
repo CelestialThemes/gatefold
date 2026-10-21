@@ -43,11 +43,15 @@ Made by [Celestial Themes](https://celestialthemes.com/catalog/?utm_source=githu
   outside click close it, and the page underneath cannot scroll.
 - **Prev/next between overlays** — steps from one item to the next without the
   panel closing, with a one-sided dissolve. Arrow keys work while it is open.
+- **A header menu that fits a phone** — a row of links with dropdowns from
+  992px up; below that, a panel under the header behind a menu button. Escape,
+  a click outside and an opening overlay all close it.
 - **A hover panel over each slide** — bound from 992px up and properly torn
   down below it, so it never sticks open on a touch screen.
-- **Two pages** — the carousel index and an about page with a reading column and
-  floated pull-out figures.
-- **A four-tier colour token system** — 51 colour tokens as custom properties.
+- **Two pages** — the carousel index and an about page with a reading column,
+  floated pull-out figures, smooth scrolling (Lenis, off under reduced motion) and
+  a footer.
+- **A four-tier colour token system** — 53 colour tokens as custom properties.
   Retheming means editing three brand values and a handful of semantic ones.
 - **Documented in full** — every attribute, option and event.
 
@@ -142,7 +146,7 @@ Template/          what you deploy
   index.html
   about.html
   style.css        compiled — commit it
-  assets/js/       main.js, overlay.js, overlay-nav.js + vendor
+  assets/js/       main.js, nav.js, smooth-scroll.js, overlay.js, overlay-nav.js + vendor
   assets/fonts/    Inter, self-hosted
   assets/images/   placeholders
   LICENSE
@@ -159,6 +163,7 @@ Documentation/     the docs site, open Documentation/index.html
 |---|---|---|
 | GSAP | 3.13.0 | Standard "No Charge" GSAP License |
 | Swiper | 11.1.4 | MIT |
+| Lenis | 1.1.20 | MIT |
 | Lucide | 0.577.0 | ISC |
 | Inter | — | SIL OFL 1.1 |
 

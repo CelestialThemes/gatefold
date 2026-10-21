@@ -7,7 +7,7 @@ Template URI: https://celestialthemes.com
 Description: Gatefold – Free HTML Portfolio Carousel Template
 Author: Celestial Themes
 Author URI: https://celestialthemes.com
-Version: 1.0
+Version: 1.1
 ==================================================
 
 Main stylesheet. Imports base, layout and component
@@ -34,6 +34,8 @@ IMPORTANT:
 
 	1.1 BROWSER RESETS                                → _reset.scss
 
+	    Lenis smooth scroll base rules
+
 	--------------------------------------------------
 
 	2.0 MARKUP DEFAULTS                               → _core.scss
@@ -53,8 +55,11 @@ IMPORTANT:
 	4.0 PAGE SHELL                                    → _shell.scss
 
 	    Site Header
+	    Site Navigation                               → _nav.scss
 	    Hero
 	    Carousel Stage
+	    Article Layout, Prose, Prose Figures
+	    Site Footer
 
 	--------------------------------------------------
 
@@ -84,6 +89,7 @@ IMPORTANT:
 
 // ── 4.0 Page Shell ──
 @use "components/shell";
+@use "components/nav";
 
 // ── 5.0 Overlay ──
 @use "components/overlay";

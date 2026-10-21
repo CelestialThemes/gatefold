@@ -24,9 +24,23 @@
 
       <header class="cel-site-header">
         <a class="cel-site-brand" href="https://celestialthemes.com/catalog/gatefold/?utm_source=demo&amp;utm_medium=header&amp;utm_campaign=gatefold">Celestial Themes</a>
-        <nav class="cel-site-nav">
-          <a class="cel-site-link" href="./index.html" aria-current="page">Home</a>
-          <a class="cel-site-link" href="./about.html">About</a>
+        <button class="cel-nav-toggle" type="button" aria-expanded="false" aria-controls="cel-site-menu" aria-label="Menu">
+          <span class="cel-nav-toggle-open"><i data-lucide="menu" aria-hidden="true"></i></span>
+          <span class="cel-nav-toggle-close"><i data-lucide="x" aria-hidden="true"></i></span>
+        </button>
+        <nav class="cel-site-nav" aria-label="Main">
+          <ul class="cel-site-menu" id="cel-site-menu">
+            <li><a class="cel-site-link" href="./index.html" aria-current="page">Home</a></li>
+            <li><a class="cel-site-link" href="./about.html">About</a></li>
+            <li class="cel-has-sub">
+              <button class="cel-site-link cel-site-parent" type="button">Resources <i data-lucide="chevron-down" aria-hidden="true"></i></button>
+              <ul class="cel-sub-menu">
+                <li><a href="https://gatefold.celestialthemes.com/documentation/">Documentation</a></li>
+                <li><a href="https://gatefold.celestialthemes.com/documentation/changelog.html">Changelog</a></li>
+                <li><a href="https://github.com/CelestialThemes/gatefold">GitHub</a></li>
+              </ul>
+            </li>
+          </ul>
         </nav>
       </header>
 
@@ -570,6 +584,7 @@
     <script src="assets/js/gsap.js"></script>
     <script src="assets/js/swiper.js"></script>
     <script src="assets/js/lucide.js"></script>
+    <script src="assets/js/nav.js"></script>
     <script src="assets/js/overlay.js"></script>
     <script src="assets/js/overlay-nav.js"></script>
     <script src="assets/js/main.js"></script>

@@ -356,11 +356,14 @@
 
 
   /* =============== Bootstrap =============== */
-  // Settings go here: initCarouselSwiper({ … }), initInfoOverHover({ … }),
-  // celOverlay.init({ … }) and celOverlayNav.init({ … }) each take an object
-  // that overrides their defaults.
+  // Settings go here: celSmoothScroll.init({ … }), celNav.init({ … }),
+  // initCarouselSwiper({ … }), initInfoOverHover({ … }), celOverlay.init({ … })
+  // and celOverlayNav.init({ … }) each take an object that overrides their
+  // defaults.
   document.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) lucide.createIcons();
+    if (window.celSmoothScroll) celSmoothScroll.init();
+    if (window.celNav) celNav.init();
     initCarouselSwiper();
     initInfoOverHover();
     initHeaderHeight();
