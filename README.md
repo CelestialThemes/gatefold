@@ -15,10 +15,13 @@ that steps between those overlays without closing the panel.
      are shields.io badges and the space around them is a <br> each side.
      The docs link points at the HOSTED copy on purpose: GitHub does not render
      HTML from a repository, it shows the source, so a relative link to
-     Documentation/index.html would give visitors a wall of markup. -->
+     Documentation/index.html would give visitors a wall of markup.
+     Download goes through the site (counted there, then on to the release
+     file, which GitHub counts too): the green Code → Download ZIP button is
+     counted nowhere. -->
 <br>
 
-<a href="https://gatefold.celestialthemes.com/?utm_source=github&utm_medium=readme&utm_campaign=gatefold"><img src="https://img.shields.io/badge/Live%20demo%20%E2%86%92-063ccb?style=for-the-badge" alt="Live demo" height="36"></a>&nbsp;&nbsp;<a href="https://gatefold.celestialthemes.com/documentation/?utm_source=github&utm_medium=readme&utm_campaign=gatefold"><img src="https://img.shields.io/badge/Documentation%20%E2%86%92-313159?style=for-the-badge" alt="Documentation" height="36"></a>
+<a href="https://celestialthemes.com/download/gatefold/?via=github"><img src="https://img.shields.io/badge/Download%20%E2%86%93-e63946?style=for-the-badge" alt="Download" height="36"></a>&nbsp;&nbsp;<a href="https://gatefold.celestialthemes.com/?utm_source=github&utm_medium=readme&utm_campaign=gatefold"><img src="https://img.shields.io/badge/Live%20demo%20%E2%86%92-063ccb?style=for-the-badge" alt="Live demo" height="36"></a>&nbsp;&nbsp;<a href="https://gatefold.celestialthemes.com/documentation/?utm_source=github&utm_medium=readme&utm_campaign=gatefold"><img src="https://img.shields.io/badge/Documentation%20%E2%86%92-313159?style=for-the-badge" alt="Documentation" height="36"></a>
 
 <br>
 
@@ -192,4 +195,4 @@ the support, and it is complete.
 
 If you have found a bug, open an issue. For anything else, or for the templates
 that do come with support, see
-[celestialthemes.com/support](https://celestialthemes.com/support).
+[celestialthemes.com/support](https://celestialthemes.com/support/?utm_source=github&utm_medium=readme&utm_campaign=gatefold).

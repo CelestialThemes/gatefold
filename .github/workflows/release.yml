@@ -15,6 +15,14 @@ name: Release
 on:
   push:
     tags: ['v*']
+  # The safety net: Actions → Release → Run workflow, giving the tag, for the
+  # day a tag push does not start this run (it happened once, on the very first
+  # push into the empty repository).
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag to release, e.g. v1.1.0
+        required: true
 
 permissions:
   contents: write
@@ -22,16 +30,20 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.TAG }}
 
       - name: Build gatefold.zip
-        run: git archive --format=zip --prefix=gatefold/ -o gatefold.zip "$GITHUB_REF_NAME"
+        run: git archive --format=zip --prefix=gatefold/ -o gatefold.zip "$TAG"
 
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" gatefold.zip \
-            --title "Gatefold ${GITHUB_REF_NAME#v}" \
+          gh release create "$TAG" gatefold.zip \
+            --title "Gatefold ${TAG#v}" \
             --notes "What changed: https://gatefold.celestialthemes.com/documentation/changelog.html · Live demo: https://gatefold.celestialthemes.com/"
